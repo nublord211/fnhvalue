@@ -16,284 +16,177 @@ interface FilterState {
 
 // Sample data for demonstration with all new fields
 const SAMPLE_ITEMS: Item[] = [
-  { 
-    id: "1", 
-    name: "Shadow Phoenix", 
-    tier: "secret", 
-    value: 500, 
-    ac: 999,
-    era: "Season 5",
-    releaseDate: "2024-03-15",
+  {
+    id: "1",
+    name: "Bling Freddy",
+    tier: "exclusive",
+    value: 67,
+    ac: 67,
+    era: "Season 1",
+    releaseDate: "2022-03-15",
     skills: [
-      { name: "Fire Blast", description: "Unleashes a powerful blast of fire dealing massive damage" },
-      { name: "Shadow Step", description: "Teleport through shadows to evade attacks" },
-      { name: "Rebirth", description: "Rise from the ashes with full health once per battle" }
+      { name: "Golden Glow", description: "Emits a blinding flash of golden light" },
+      { name: "Midas Touch", description: "Turns enemies into solid gold temporarily" }
     ],
     demand: "extreme",
-    updates: ["Value increased from 450 to 500", "Added new skill: Rebirth"],
-    glitchedVal: 750,
-    glitchedAC: 1200,
-    cursedVal: 650,
-    cursedAC: 1100,
-    gcVal: 950,
-    gcAC: 1500
+    updates: ["Value adjusted from 125 to 67", "Added golden particle effects"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
   },
-  { 
-    id: "2", 
-    name: "Void Walker", 
-    tier: "sacred", 
-    value: 350, 
-    ac: 750,
-    era: "Season 4",
-    releaseDate: "2023-11-20",
+  {
+    id: "2",
+    name: "Springtrap 2026",
+    tier: "sacred",
+    value: 67,
+    ac: 67,
+    era: "Season 2",
+    releaseDate: "2022-07-20",
     skills: [
-      { name: "Void Shift", description: "Phase through dimensions to avoid damage" },
-      { name: "Dark Matter", description: "Create a zone of dark matter that slows enemies" }
+      { name: "Spring Lock", description: "Traps enemy in a devastating mechanical grip" }
+    ],
+    demand: "extreme",
+    updates: ["Model rework", "Added new animation set"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
+  },
+  {
+    id: "3",
+    name: "Nightmare Tidal King",
+    tier: "sacred",
+    value: 67,
+    ac: 67,
+    era: "Season 3",
+    releaseDate: "2023-01-10",
+    skills: [
+      { name: "Tidal Wave", description: "Summons a massive wave that crashes the battlefield" },
+      { name: "Nightmare Surge", description: "Enemies in range are paralyzed with fear" },
+      { name: "Abyssal Grasp", description: "Tentacles rise from below to trap foes" }
+    ],
+    demand: "extreme",
+    updates: ["Glitched variant introduced", "Value increased from 50 to 67"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
+  },
+  {
+    id: "4",
+    name: "Dragon MXES",
+    tier: "sacred",
+    value: 67,
+    ac: 67,
+    era: "Season 4",
+    releaseDate: "2023-06-05",
+    skills: [
+      { name: "Dragon's Breath", description: "Scorching flames reduce enemy armor" },
+      { name: "MXES Protocol", description: "Digital corruption spreads to enemies" }
     ],
     demand: "high",
-    updates: ["Glitched AC adjusted"],
-    glitchedVal: 520,
-    glitchedAC: 950,
-    cursedVal: 480,
-    cursedAC: 900,
-    gcVal: 700,
-    gcAC: 1200
+    updates: ["Glitched serials #3 and #4 added", "Demand increased from moderate to high"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
   },
-  { 
-    id: "3", 
-    name: "Crystal Queen", 
-    tier: "exclusive", 
-    value: 280, 
-    ac: 620,
-    era: "Season 3",
-    releaseDate: "2023-06-10",
-    skills: [
-      { name: "Crystal Shield", description: "Create a protective barrier of crystals" },
-      { name: "Refraction", description: "Reflect incoming projectiles back at attackers" }
-    ],
-    demand: "decent",
-    glitchedVal: 420,
-    glitchedAC: 800,
-    cursedVal: 380,
-    cursedAC: 750,
-    gcVal: 560,
-    gcAC: 1000
-  },
-  { 
-    id: "4", 
-    name: "Fire Dragon", 
-    tier: "mythic", 
-    value: 200, 
-    ac: 500,
-    era: "Season 2",
-    releaseDate: "2023-02-14",
-    skills: [
-      { name: "Flame Breath", description: "Breathe a cone of devastating fire" },
-      { name: "Wing Gust", description: "Create powerful gusts that push enemies back" },
-      { name: "Inferno", description: "Engulf the area in flames" }
-    ],
-    demand: "moderate",
-    updates: ["Cursed variant discontinued"],
-    glitchedVal: 300,
-    glitchedAC: 650,
-    cursedOff: true
-  },
-  { 
-    id: "5", 
-    name: "Golden Knight", 
-    tier: "legendary", 
-    value: 150, 
-    ac: 400,
-    era: "Season 1",
-    releaseDate: "2022-09-01",
-    skills: [
-      { name: "Golden Strike", description: "A powerful strike imbued with golden energy" }
-    ],
-    demand: "decent",
-    cursedVal: 220,
-    cursedAC: 550
-  },
-  { 
-    id: "6", 
-    name: "Storm Mage", 
-    tier: "epic", 
-    value: 100, 
-    ac: 300,
-    era: "Season 2",
-    releaseDate: "2023-01-20",
-    skills: [
-      { name: "Lightning Bolt", description: "Strike enemies with a bolt of lightning" },
-      { name: "Thunder Clap", description: "Create a deafening thunder that stuns nearby enemies" }
-    ],
-    demand: "moderate"
-  },
-  { 
-    id: "7", 
-    name: "Ocean Guardian", 
-    tier: "rare", 
-    value: 75, 
-    ac: 200,
-    era: "Season 1",
-    releaseDate: "2022-08-15",
-    demand: "none"
-  },
-  { 
-    id: "8", 
-    name: "Forest Scout", 
-    tier: "uncommon", 
-    value: 40, 
-    ac: 100,
-    era: "Season 1",
-    releaseDate: "2022-07-01",
-    demand: "none"
-  },
-  { 
-    id: "9", 
-    name: "Stone Golem", 
-    tier: "common", 
-    value: 15, 
-    ac: 50,
-    era: "Season 1",
-    releaseDate: "2022-06-15",
-    demand: "none"
-  },
-  { 
-    id: "10", 
-    name: "Emerald Serpent", 
-    tier: "secret", 
-    value: 480, 
-    ac: 950, 
-    glitchedOff: true,
+  {
+    id: "5",
+    name: "Midnight Motorist",
+    tier: "sacred",
+    value: 67,
+    ac: 67,
     era: "Season 5",
+    releaseDate: "2023-10-18",
+    skills: [
+      { name: "Midnight Drive", description: "Dashes through shadows, untargetable" },
+      { name: "Motor Roar", description: "Deafening engine noise stuns enemies" }
+    ],
+    demand: "extreme",
+    updates: ["Serial #0 discovered", "Glitched variant reworked"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
+  },
+  {
+    id: "6",
+    name: "Bloomtrap",
+    tier: "secret",
+    value: 67,
+    ac: 67,
+    era: "Season 6",
     releaseDate: "2024-02-28",
     skills: [
-      { name: "Venom Strike", description: "Inject deadly venom that damages over time" },
-      { name: "Coil", description: "Constrict an enemy, immobilizing them" }
+      { name: "Pollen Cloud", description: "Toxic pollen damages over time" },
+      { name: "Vine Snare", description: "Thorny vines root enemies in place" },
+      { name: "Flourish", description: "Heals based on nearby enemy count" }
     ],
     demand: "high",
-    updates: ["Glitched variant discontinued", "Base value increased"],
-    cursedVal: 620,
-    cursedAC: 1100,
-    gcVal: 800,
-    gcAC: 1350
+    updates: ["Second glitched serial added", "Visual overhaul"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
   },
-  { 
-    id: "11", 
-    name: "Dark Overlord", 
-    tier: "sacred", 
-    value: 320, 
-    ac: 700,
-    era: "Season 4",
-    releaseDate: "2023-10-31",
+  {
+    id: "7",
+    name: "Clowntrap",
+    tier: "sacred",
+    value: 67,
+    ac: 67,
+    era: "Season 7",
+    releaseDate: "2024-07-14",
     skills: [
-      { name: "Shadow Realm", description: "Trap enemies in a realm of shadows" },
-      { name: "Dominate", description: "Take control of an enemy for a short time" }
+      { name: "Laughing Gas", description: "Enemies become confused and attack randomly" },
+      { name: "Carnival Trap", description: "Summons a merry-go-round that pulls enemies inward" }
+    ],
+    demand: "high",
+    updates: ["Glitched supply increased", "Value decreased from 42 to 67"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
+  },
+  {
+    id: "8",
+    name: "Mad Hatter Vanny",
+    tier: "sacred",
+    value: 67,
+    ac: 67,
+    era: "Season 8",
+    releaseDate: "2024-12-01",
+    skills: [
+      { name: "Tea Party", description: "Forces enemies to sit and sip tea, disabling them" },
+      { name: "Hat Trick", description: "Pulls random buffs or debuffs from a magical hat" },
+      { name: "Madness", description: "Attack speed increases as health decreases" }
     ],
     demand: "extreme",
-    glitchedVal: 480,
-    glitchedAC: 900,
-    cursedVal: 450,
-    cursedAC: 850,
-    gcVal: 640,
-    gcAC: 1100
-  },
-  { 
-    id: "12", 
-    name: "Neon Phantom", 
-    tier: "exclusive", 
-    value: 260, 
-    ac: 580, 
-    glitchedOff: true,
-    era: "Season 3",
-    releaseDate: "2023-07-04",
-    skills: [
-      { name: "Phase Out", description: "Become intangible for a short duration" },
-      { name: "Neon Flash", description: "Blind enemies with a burst of neon light" }
-    ],
-    demand: "decent",
-    cursedVal: 350,
-    cursedAC: 720
-  },
-  { 
-    id: "13", 
-    name: "Inferno Beast", 
-    tier: "mythic", 
-    value: 180, 
-    ac: 450,
-    era: "Season 2",
-    releaseDate: "2023-03-15",
-    skills: [
-      { name: "Magma Pool", description: "Create a pool of magma that burns enemies" },
-      { name: "Heat Wave", description: "Emit a wave of intense heat" }
-    ],
-    demand: "high",
-    glitchedVal: 270,
-    glitchedAC: 600,
-    cursedVal: 250,
-    cursedAC: 580,
-    gcVal: 380,
-    gcAC: 750
-  },
-  { 
-    id: "14", 
-    name: "Thunder Lord", 
-    tier: "legendary", 
-    value: 140, 
-    ac: 380,
-    era: "Season 1",
-    releaseDate: "2022-12-20",
-    skills: [
-      { name: "Thunder Strike", description: "Call down thunder from the sky" }
-    ],
-    demand: "moderate",
-    updates: ["Minor value adjustment"],
-    glitchedVal: 210,
-    glitchedAC: 500
-  },
-  { 
-    id: "15", 
-    name: "Mystic Sage", 
-    tier: "epic", 
-    value: 90, 
-    ac: 280,
-    era: "Season 2",
-    releaseDate: "2023-04-10",
-    skills: [
-      { name: "Wisdom Aura", description: "Boost the abilities of nearby allies" }
-    ],
-    demand: "moderate"
-  },
-  { 
-    id: "16", 
-    name: "Coral Titan", 
-    tier: "rare", 
-    value: 65, 
-    ac: 180,
-    era: "Season 1",
-    releaseDate: "2022-09-20",
-    demand: "none"
-  },
-  { 
-    id: "17", 
-    name: "Wind Runner", 
-    tier: "uncommon", 
-    value: 35, 
-    ac: 90,
-    era: "Season 1",
-    releaseDate: "2022-08-01",
-    demand: "none"
-  },
-  { 
-    id: "18", 
-    name: "Earth Guardian", 
-    tier: "common", 
-    value: 12, 
-    ac: 40,
-    era: "Season 1",
-    releaseDate: "2022-06-01",
-    demand: "none"
-  },
-]
+    updates: ["Glitched serials #7 and #8 added", "Normal variant introduced late"],
+    glitchedVal: 67,
+    glitchedAC: 67,
+    cursedVal: 67,
+    cursedAC: 67,
+    gcVal: 67,
+    gcAC: 67
+  }
+];
 
 export function ValueSite() {
   const [items] = useState<Item[]>(SAMPLE_ITEMS)
