@@ -38,6 +38,28 @@ export interface Item {
   cursedAC?: number
   gcVal?: number
   gcAC?: number
+  // Supply fields for calculator
+  supply?: number
+  glitched_supply?: number
+  cursed_supply?: number
+  cursed_glitched_supply?: number
+  serial2_unique?: boolean
+  unique_value?: boolean
+  glitched_unique?: boolean
+  serial_values?: {
+    normal?: Record<string, number>
+    glitched?: Record<string, number>
+    cursed?: Record<string, number>
+    glitched_cursed?: Record<string, number>
+  }
+}
+
+export interface TradeItem {
+  item: Item
+  serial?: number
+  isGlitched: boolean
+  isCursed: boolean
+  calculatedValue: number
 }
 
 export const TIER_COLORS: Record<Tier, string> = {

@@ -15,6 +15,7 @@ export function ValueCard({ item }: ValueCardProps) {
   const [isGlitched, setIsGlitched] = useState(false)
   const [isCursed, setIsCursed] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   const getDisplayValue = () => {
     if (isGlitched && isCursed && item.gcVal !== undefined) return item.gcVal
@@ -36,8 +37,14 @@ export function ValueCard({ item }: ValueCardProps) {
   return (
     <>
       <div 
-        className="bg-card border border-border flex flex-col cursor-pointer hover:border-muted-foreground transition-colors"
+        className="bg-card border border-border flex flex-col cursor-pointer transition-all"
         onClick={() => setShowModal(true)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          borderColor: isHovered ? tierColor : undefined,
+          boxShadow: isHovered ? `0 0 10px ${tierColor}40` : undefined
+        }}
       >
         {/* Tier color bar at top */}
         <div className="h-1 w-full" style={{ backgroundColor: tierColor }} />
@@ -103,7 +110,7 @@ export function ValueCard({ item }: ValueCardProps) {
                   className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
                     isGlitched 
                       ? "bg-purple-900 text-purple-300" 
-                      : "bg-secondary text-purple-900 hover:bg-purple-900/20"
+                      : "bg-secondary text-purple-900 hover:bg-purple-900/30"
                   }`}
                   title="Toggle Glitched"
                 >
@@ -116,7 +123,7 @@ export function ValueCard({ item }: ValueCardProps) {
                   className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
                     isCursed 
                       ? "bg-yellow-800 text-yellow-300" 
-                      : "bg-secondary text-yellow-800 hover:bg-yellow-800/20"
+                      : "bg-secondary text-yellow-800 hover:bg-yellow-800/30"
                   }`}
                   title="Toggle Cursed"
                 >

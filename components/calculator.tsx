@@ -1,0 +1,323 @@
+"use client"
+
+import { useState, useMemo } from "react"
+import { Item, TradeItem, TIER_COLORS } from "@/lib/types"
+import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
+import { X, Plus, Minus } from "lucide-react"
+import Image from "next/image"
+
+interface CalculatorProps {
+  items: Item[]
+  onClose: () => void
+}
+
+interface SelectedItemState {
+  item: Item
+  serial: string
+  isGlitched: boolean
+  isCursed: boolean
+}
+
+export function Calculator({ items, onClose }: CalculatorProps) {
+  const [giveItems, setGiveItems] = useState<SelectedItemState[]>([])
+  const [getItems, setGetItems] = useState<SelectedItemState[]>([])
+  const [currentSide, setCurrentSide] = useState<"give" | "get">("give")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showSkinPicker, setShowSkinPicker] = useState(false)
+
+  const filteredItems = useMemo(() => {
+    if (!searchQuery.trim()) return items
+    return items.filter(item => 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }, [items, searchQuery])
+
+  const calculateTotalValue = (itemList: SelectedItemState[]): number => {
+    return itemList.reduce((total, selected) => {
+      const serial = selected.serial ? parseInt(selected.serial) : undefined
+      return total + getItemValue(selected.item, selected.isGlitched, selected.isCursed, serial)
+    }, 0)
+  }
+
+  const giveTotal = calculateTotalValue(giveItems)
+  const getTotal = calculateTotalValue(getItems)
+  const difference = getTotal - giveTotal
+  const fairnessPercent = giveTotal > 0 ? ((getTotal / giveTotal) * 100).toFixed(1) : "0"
+
+  const addItem = (item: Item) => {
+    const newItem: SelectedItemState = {
+      item,
+      serial: "",
+      isGlitched: false,
+      isCursed: false
+    }
+    if (currentSide === "give") {
+      setGiveItems([...giveItems, newItem])
+    } else {
+      setGetItems([...getItems, newItem])
+    }
+    setShowSkinPicker(false)
+    setSearchQuery("")
+  }
+
+  const removeItem = (side: "give" | "get", index: number) => {
+    if (side === "give") {
+      setGiveItems(giveItems.filter((_, i) => i !== index))
+    } else {
+      setGetItems(getItems.filter((_, i) => i !== index))
+    }
+  }
+
+  const updateItem = (side: "give" | "get", index: number, updates: Partial<SelectedItemState>) => {
+    if (side === "give") {
+      setGiveItems(giveItems.map((item, i) => i === index ? { ...item, ...updates } : item))
+    } else {
+      setGetItems(getItems.map((item, i) => i === index ? { ...item, ...updates } : item))
+    }
+  }
+
+  const renderItemCard = (selected: SelectedItemState, side: "give" | "get", index: number) => {
+    const tierColor = TIER_COLORS[selected.item.tier]
+    const serial = selected.serial ? parseInt(selected.serial) : undefined
+    const value = getItemValue(selected.item, selected.isGlitched, selected.isCursed, serial)
+    const showSerial = isSerialAffectedSkin(selected.item)
+
+    return (
+      <div key={index} className="bg-card border border-border p-3 relative">
+        <button
+          onClick={() => removeItem(side, index)}
+          className="absolute top-1 right-1 w-5 h-5 bg-destructive text-white flex items-center justify-center hover:bg-red-700 transition-colors"
+        >
+          <X size={12} />
+        </button>
+        
+        <div className="h-1 w-full mb-2" style={{ backgroundColor: tierColor }} />
+        
+        <div className="flex gap-2">
+          <div className="w-12 h-12 bg-secondary flex items-center justify-center flex-shrink-0">
+            {selected.item.image ? (
+              <Image 
+                src={selected.item.image} 
+                alt={selected.item.name} 
+                width={48} 
+                height={48} 
+                className="object-contain" 
+              />
+            ) : (
+              <span className="text-xs text-muted-foreground">?</span>
+            )}
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium truncate">{selected.item.name}</p>
+            <p className="text-xs uppercase" style={{ color: tierColor }}>{selected.item.tier}</p>
+          </div>
+        </div>
+
+        <div className="mt-2 flex flex-wrap gap-1">
+          {/* Glitched toggle */}
+          {(selected.item.glitchedVal !== undefined) && (
+            <button
+              onClick={() => updateItem(side, index, { isGlitched: !selected.isGlitched })}
+              className={`px-2 py-0.5 text-xs font-bold transition-colors ${
+                selected.isGlitched 
+                  ? "bg-purple-900 text-purple-300" 
+                  : "bg-secondary text-purple-900"
+              }`}
+            >
+              G
+            </button>
+          )}
+          
+          {/* Cursed toggle */}
+          {(selected.item.cursedVal !== undefined) && (
+            <button
+              onClick={() => updateItem(side, index, { isCursed: !selected.isCursed })}
+              className={`px-2 py-0.5 text-xs font-bold transition-colors ${
+                selected.isCursed 
+                  ? "bg-yellow-800 text-yellow-300" 
+                  : "bg-secondary text-yellow-800"
+              }`}
+            >
+              C
+            </button>
+          )}
+        </div>
+
+        {/* Serial input for affected skins */}
+        {showSerial && (
+          <div className="mt-2">
+            <input
+              type="number"
+              placeholder="Serial #"
+              value={selected.serial}
+              onChange={(e) => updateItem(side, index, { serial: e.target.value })}
+              className="w-full px-2 py-1 text-xs bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
+              min="1"
+            />
+          </div>
+        )}
+
+        <p className="mt-2 text-lg font-bold">{fmt(value)}</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+      <div className="bg-card border border-border w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="p-4 border-b border-border flex items-center justify-between">
+          <h2 className="text-xl font-bold">Trade Calculator</h2>
+          <button onClick={onClose} className="p-2 hover:bg-secondary transition-colors">
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Give side */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-red-400">GIVE</h3>
+                <button
+                  onClick={() => { setCurrentSide("give"); setShowSkinPicker(true) }}
+                  className="flex items-center gap-1 px-3 py-1 bg-secondary hover:bg-muted transition-colors text-sm"
+                >
+                  <Plus size={14} /> Add
+                </button>
+              </div>
+              <div className="space-y-2 min-h-[200px] bg-secondary/30 p-2 border border-border">
+                {giveItems.length === 0 ? (
+                  <p className="text-muted-foreground text-sm text-center py-8">Click Add to add items</p>
+                ) : (
+                  giveItems.map((item, idx) => renderItemCard(item, "give", idx))
+                )}
+              </div>
+              <div className="mt-2 p-2 bg-red-900/30 border border-red-900">
+                <p className="text-sm text-red-400">Total: <span className="font-bold text-lg">{fmt(giveTotal)}</span></p>
+              </div>
+            </div>
+
+            {/* Get side */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-green-400">GET</h3>
+                <button
+                  onClick={() => { setCurrentSide("get"); setShowSkinPicker(true) }}
+                  className="flex items-center gap-1 px-3 py-1 bg-secondary hover:bg-muted transition-colors text-sm"
+                >
+                  <Plus size={14} /> Add
+                </button>
+              </div>
+              <div className="space-y-2 min-h-[200px] bg-secondary/30 p-2 border border-border">
+                {getItems.length === 0 ? (
+                  <p className="text-muted-foreground text-sm text-center py-8">Click Add to add items</p>
+                ) : (
+                  getItems.map((item, idx) => renderItemCard(item, "get", idx))
+                )}
+              </div>
+              <div className="mt-2 p-2 bg-green-900/30 border border-green-900">
+                <p className="text-sm text-green-400">Total: <span className="font-bold text-lg">{fmt(getTotal)}</span></p>
+              </div>
+            </div>
+          </div>
+
+          {/* Summary */}
+          <div className="mt-4 p-4 bg-secondary border border-border">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-sm text-muted-foreground">Difference</p>
+                <p className={`text-xl font-bold ${difference >= 0 ? "text-green-400" : "text-red-400"}`}>
+                  {difference >= 0 ? "+" : ""}{fmt(difference)}
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Fairness</p>
+                <p className={`text-xl font-bold ${
+                  parseFloat(fairnessPercent) >= 95 && parseFloat(fairnessPercent) <= 105 
+                    ? "text-green-400" 
+                    : parseFloat(fairnessPercent) >= 80 && parseFloat(fairnessPercent) <= 120
+                      ? "text-yellow-400"
+                      : "text-red-400"
+                }`}>
+                  {fairnessPercent}%
+                </p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Verdict</p>
+                <p className={`text-xl font-bold ${
+                  parseFloat(fairnessPercent) >= 95 && parseFloat(fairnessPercent) <= 105 
+                    ? "text-green-400" 
+                    : parseFloat(fairnessPercent) >= 80 && parseFloat(fairnessPercent) <= 120
+                      ? "text-yellow-400"
+                      : "text-red-400"
+                }`}>
+                  {parseFloat(fairnessPercent) >= 95 && parseFloat(fairnessPercent) <= 105 
+                    ? "Fair" 
+                    : parseFloat(fairnessPercent) > 105 
+                      ? "W" 
+                      : "L"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Skin picker modal */}
+        {showSkinPicker && (
+          <div className="absolute inset-0 bg-black/90 flex flex-col">
+            <div className="p-4 border-b border-border flex items-center gap-4">
+              <button 
+                onClick={() => { setShowSkinPicker(false); setSearchQuery("") }}
+                className="p-2 hover:bg-secondary transition-colors"
+              >
+                <X size={20} />
+              </button>
+              <input
+                type="text"
+                placeholder="Search skins..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 px-4 py-2 bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
+                autoFocus
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+                {filteredItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => addItem(item)}
+                    className="bg-card border border-border p-2 hover:border-foreground transition-colors text-left"
+                    style={{
+                      borderTopColor: TIER_COLORS[item.tier],
+                      borderTopWidth: "3px"
+                    }}
+                  >
+                    <div className="aspect-square bg-secondary flex items-center justify-center mb-1">
+                      {item.image ? (
+                        <Image 
+                          src={item.image} 
+                          alt={item.name} 
+                          width={60} 
+                          height={60} 
+                          className="object-contain" 
+                        />
+                      ) : (
+                        <span className="text-xs text-muted-foreground">?</span>
+                      )}
+                    </div>
+                    <p className="text-xs truncate">{item.name}</p>
+                    <p className="text-xs font-bold">{fmt(item.value)}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

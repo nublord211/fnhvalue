@@ -5,6 +5,8 @@ import { Item, Tier, SortOption } from "@/lib/types"
 import { TierTabs } from "./tier-tabs"
 import { SearchBar } from "./search-bar"
 import { ValueCard } from "./value-card"
+import { Calculator } from "./calculator"
+import { Calculator as CalcIcon } from "lucide-react"
 
 interface FilterState {
   sortBy: SortOption
@@ -35,7 +37,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 500
   },
   {
     id: "2",
@@ -55,7 +58,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 350
   },
   {
     id: "3",
@@ -77,7 +81,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 200
   },
   {
     id: "4",
@@ -88,7 +93,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 4",
     releaseDate: "2023-06-05",
     skills: [
-      { name: "Dragon's Breath", description: "Scorching flames reduce enemy armor" },
+      { name: "Dragon Breath", description: "Scorching flames reduce enemy armor" },
       { name: "MXES Protocol", description: "Digital corruption spreads to enemies" }
     ],
     demand: "high",
@@ -98,7 +103,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 150
   },
   {
     id: "5",
@@ -119,7 +125,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 300
   },
   {
     id: "6",
@@ -141,7 +148,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 100
   },
   {
     id: "7",
@@ -162,7 +170,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 250
   },
   {
     id: "8",
@@ -184,7 +193,8 @@ const SAMPLE_ITEMS: Item[] = [
     cursedVal: 67,
     cursedAC: 67,
     gcVal: 67,
-    gcAC: 67
+    gcAC: 67,
+    supply: 180
   }
 ];
 
@@ -192,6 +202,7 @@ export function ValueSite() {
   const [items] = useState<Item[]>(SAMPLE_ITEMS)
   const [activeTier, setActiveTier] = useState<Tier | "all">("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const [showCalculator, setShowCalculator] = useState(false)
   const [filters, setFilters] = useState<FilterState>({
     sortBy: "default",
     minValue: "",
@@ -257,6 +268,17 @@ export function ValueSite() {
           <p className="text-muted-foreground">Browse and search items by tier</p>
         </header>
 
+        {/* Calculator button */}
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={() => setShowCalculator(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium"
+          >
+            <CalcIcon size={20} />
+            Trade Calculator
+          </button>
+        </div>
+
         {/* Tier Tabs */}
         <div className="mb-6">
           <TierTabs activeTier={activeTier} onTierChange={setActiveTier} />
@@ -290,6 +312,11 @@ export function ValueSite() {
           </div>
         )}
       </div>
+
+      {/* Calculator Modal */}
+      {showCalculator && (
+        <Calculator items={items} onClose={() => setShowCalculator(false)} />
+      )}
     </div>
   )
 }
