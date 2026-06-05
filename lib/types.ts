@@ -16,7 +16,17 @@ export interface Item {
   image?: string
   value: number
   ac?: number
+  era?: string
+  releaseDate?: string
+  skills?: string[]
   glitchedOff?: boolean
+  cursedOff?: boolean
+  glitchedVal?: number
+  glitchedAC?: number
+  cursedVal?: number
+  cursedAC?: number
+  gcVal?: number
+  gcAC?: number
 }
 
 export const TIER_COLORS: Record<Tier, string> = {

@@ -5,32 +5,232 @@ import { Item, Tier } from "@/lib/types"
 import { TierTabs } from "./tier-tabs"
 import { SearchBar } from "./search-bar"
 import { ValueCard } from "./value-card"
-import { JsonUploader } from "./json-uploader"
 
-// Sample data for demonstration
+// Sample data for demonstration with all new fields
 const SAMPLE_ITEMS: Item[] = [
-  { id: "1", name: "Shadow Phoenix", tier: "secret", value: 500, ac: 999 },
-  { id: "2", name: "Void Walker", tier: "sacred", value: 350, ac: 750 },
-  { id: "3", name: "Crystal Queen", tier: "exclusive", value: 280, ac: 620 },
-  { id: "4", name: "Fire Dragon", tier: "mythic", value: 200, ac: 500 },
-  { id: "5", name: "Golden Knight", tier: "legendary", value: 150, ac: 400 },
-  { id: "6", name: "Storm Mage", tier: "epic", value: 100, ac: 300 },
-  { id: "7", name: "Ocean Guardian", tier: "rare", value: 75, ac: 200 },
-  { id: "8", name: "Forest Scout", tier: "uncommon", value: 40, ac: 100 },
-  { id: "9", name: "Stone Golem", tier: "common", value: 15, ac: 50 },
-  { id: "10", name: "Emerald Serpent", tier: "secret", value: 480, ac: 950, glitchedOff: true },
-  { id: "11", name: "Dark Overlord", tier: "sacred", value: 320, ac: 700 },
-  { id: "12", name: "Neon Phantom", tier: "exclusive", value: 260, ac: 580, glitchedOff: true },
-  { id: "13", name: "Inferno Beast", tier: "mythic", value: 180, ac: 450 },
-  { id: "14", name: "Thunder Lord", tier: "legendary", value: 140, ac: 380 },
-  { id: "15", name: "Mystic Sage", tier: "epic", value: 90, ac: 280 },
-  { id: "16", name: "Coral Titan", tier: "rare", value: 65, ac: 180 },
-  { id: "17", name: "Wind Runner", tier: "uncommon", value: 35, ac: 90 },
-  { id: "18", name: "Earth Guardian", tier: "common", value: 12, ac: 40 },
+  { 
+    id: "1", 
+    name: "Shadow Phoenix", 
+    tier: "secret", 
+    value: 500, 
+    ac: 999,
+    era: "Season 5",
+    releaseDate: "2024-03-15",
+    skills: ["Fire Blast", "Shadow Step", "Rebirth"],
+    glitchedVal: 750,
+    glitchedAC: 1200,
+    cursedVal: 650,
+    cursedAC: 1100,
+    gcVal: 950,
+    gcAC: 1500
+  },
+  { 
+    id: "2", 
+    name: "Void Walker", 
+    tier: "sacred", 
+    value: 350, 
+    ac: 750,
+    era: "Season 4",
+    releaseDate: "2023-11-20",
+    skills: ["Void Shift", "Dark Matter"],
+    glitchedVal: 520,
+    glitchedAC: 950,
+    cursedVal: 480,
+    cursedAC: 900,
+    gcVal: 700,
+    gcAC: 1200
+  },
+  { 
+    id: "3", 
+    name: "Crystal Queen", 
+    tier: "exclusive", 
+    value: 280, 
+    ac: 620,
+    era: "Season 3",
+    releaseDate: "2023-06-10",
+    skills: ["Crystal Shield", "Refraction"],
+    glitchedVal: 420,
+    glitchedAC: 800,
+    cursedVal: 380,
+    cursedAC: 750,
+    gcVal: 560,
+    gcAC: 1000
+  },
+  { 
+    id: "4", 
+    name: "Fire Dragon", 
+    tier: "mythic", 
+    value: 200, 
+    ac: 500,
+    era: "Season 2",
+    releaseDate: "2023-02-14",
+    skills: ["Flame Breath", "Wing Gust", "Inferno"],
+    glitchedVal: 300,
+    glitchedAC: 650,
+    cursedOff: true
+  },
+  { 
+    id: "5", 
+    name: "Golden Knight", 
+    tier: "legendary", 
+    value: 150, 
+    ac: 400,
+    era: "Season 1",
+    releaseDate: "2022-09-01",
+    skills: ["Golden Strike"],
+    cursedVal: 220,
+    cursedAC: 550
+  },
+  { 
+    id: "6", 
+    name: "Storm Mage", 
+    tier: "epic", 
+    value: 100, 
+    ac: 300,
+    era: "Season 2",
+    releaseDate: "2023-01-20",
+    skills: ["Lightning Bolt", "Thunder Clap"]
+  },
+  { 
+    id: "7", 
+    name: "Ocean Guardian", 
+    tier: "rare", 
+    value: 75, 
+    ac: 200,
+    era: "Season 1",
+    releaseDate: "2022-08-15"
+  },
+  { 
+    id: "8", 
+    name: "Forest Scout", 
+    tier: "uncommon", 
+    value: 40, 
+    ac: 100,
+    era: "Season 1",
+    releaseDate: "2022-07-01"
+  },
+  { 
+    id: "9", 
+    name: "Stone Golem", 
+    tier: "common", 
+    value: 15, 
+    ac: 50,
+    era: "Season 1",
+    releaseDate: "2022-06-15"
+  },
+  { 
+    id: "10", 
+    name: "Emerald Serpent", 
+    tier: "secret", 
+    value: 480, 
+    ac: 950, 
+    glitchedOff: true,
+    era: "Season 5",
+    releaseDate: "2024-02-28",
+    skills: ["Venom Strike", "Coil"],
+    cursedVal: 620,
+    cursedAC: 1100,
+    gcVal: 800,
+    gcAC: 1350
+  },
+  { 
+    id: "11", 
+    name: "Dark Overlord", 
+    tier: "sacred", 
+    value: 320, 
+    ac: 700,
+    era: "Season 4",
+    releaseDate: "2023-10-31",
+    skills: ["Shadow Realm", "Dominate"],
+    glitchedVal: 480,
+    glitchedAC: 900,
+    cursedVal: 450,
+    cursedAC: 850,
+    gcVal: 640,
+    gcAC: 1100
+  },
+  { 
+    id: "12", 
+    name: "Neon Phantom", 
+    tier: "exclusive", 
+    value: 260, 
+    ac: 580, 
+    glitchedOff: true,
+    era: "Season 3",
+    releaseDate: "2023-07-04",
+    skills: ["Phase Out", "Neon Flash"],
+    cursedVal: 350,
+    cursedAC: 720
+  },
+  { 
+    id: "13", 
+    name: "Inferno Beast", 
+    tier: "mythic", 
+    value: 180, 
+    ac: 450,
+    era: "Season 2",
+    releaseDate: "2023-03-15",
+    skills: ["Magma Pool", "Heat Wave"],
+    glitchedVal: 270,
+    glitchedAC: 600,
+    cursedVal: 250,
+    cursedAC: 580,
+    gcVal: 380,
+    gcAC: 750
+  },
+  { 
+    id: "14", 
+    name: "Thunder Lord", 
+    tier: "legendary", 
+    value: 140, 
+    ac: 380,
+    era: "Season 1",
+    releaseDate: "2022-12-20",
+    skills: ["Thunder Strike"],
+    glitchedVal: 210,
+    glitchedAC: 500
+  },
+  { 
+    id: "15", 
+    name: "Mystic Sage", 
+    tier: "epic", 
+    value: 90, 
+    ac: 280,
+    era: "Season 2",
+    releaseDate: "2023-04-10",
+    skills: ["Wisdom Aura"]
+  },
+  { 
+    id: "16", 
+    name: "Coral Titan", 
+    tier: "rare", 
+    value: 65, 
+    ac: 180,
+    era: "Season 1",
+    releaseDate: "2022-09-20"
+  },
+  { 
+    id: "17", 
+    name: "Wind Runner", 
+    tier: "uncommon", 
+    value: 35, 
+    ac: 90,
+    era: "Season 1",
+    releaseDate: "2022-08-01"
+  },
+  { 
+    id: "18", 
+    name: "Earth Guardian", 
+    tier: "common", 
+    value: 12, 
+    ac: 40,
+    era: "Season 1",
+    releaseDate: "2022-06-01"
+  },
 ]
 
 export function ValueSite() {
-  const [items, setItems] = useState<Item[]>(SAMPLE_ITEMS)
+  const [items] = useState<Item[]>(SAMPLE_ITEMS)
   const [activeTier, setActiveTier] = useState<Tier | "all">("all")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -42,10 +242,6 @@ export function ValueSite() {
     })
   }, [items, activeTier, searchQuery])
 
-  const handleJsonUpload = (newItems: Item[]) => {
-    setItems(newItems)
-  }
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="container mx-auto px-4 py-8">
@@ -54,14 +250,6 @@ export function ValueSite() {
           <h1 className="text-3xl font-bold mb-2 text-foreground">Value List</h1>
           <p className="text-muted-foreground">Browse and search items by tier</p>
         </header>
-
-        {/* JSON Uploader */}
-        <div className="mb-6">
-          <JsonUploader onUpload={handleJsonUpload} />
-          <p className="text-center text-xs text-muted-foreground mt-2">
-            Upload a JSON file with items to display
-          </p>
-        </div>
 
         {/* Tier Tabs */}
         <div className="mb-6">
@@ -90,27 +278,6 @@ export function ValueSite() {
             No items found matching your criteria
           </div>
         )}
-
-        {/* JSON Format Info */}
-        <div className="mt-12 p-4 bg-card border border-border">
-          <h2 className="text-lg font-semibold mb-2 text-foreground">JSON Format</h2>
-          <p className="text-sm text-muted-foreground mb-3">
-            Upload a JSON file with the following structure:
-          </p>
-          <pre className="bg-secondary p-4 text-xs overflow-x-auto text-foreground">
-{`[
-  {
-    "id": "1",
-    "name": "Item Name",
-    "tier": "secret" | "sacred" | "exclusive" | "mythic" | "legendary" | "epic" | "rare" | "uncommon" | "common",
-    "value": 100,
-    "image": "/path/to/image.png",
-    "ac": 500,
-    "glitchedOff": false
-  }
-]`}
-          </pre>
-        </div>
       </div>
     </div>
   )

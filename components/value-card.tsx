@@ -1,7 +1,10 @@
 "use client"
 
+import { useState } from "react"
 import { Item, TIER_COLORS } from "@/lib/types"
+import { ItemDetailModal } from "./item-detail-modal"
 import Image from "next/image"
+import { Zap, Skull } from "lucide-react"
 
 interface ValueCardProps {
   item: Item
@@ -9,76 +12,149 @@ interface ValueCardProps {
 
 export function ValueCard({ item }: ValueCardProps) {
   const tierColor = TIER_COLORS[item.tier]
+  const [isGlitched, setIsGlitched] = useState(false)
+  const [isCursed, setIsCursed] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+
+  const getDisplayValue = () => {
+    if (isGlitched && isCursed && item.gcVal !== undefined) return item.gcVal
+    if (isCursed && item.cursedVal !== undefined) return item.cursedVal
+    if (isGlitched && item.glitchedVal !== undefined) return item.glitchedVal
+    return item.value
+  }
+
+  const getDisplayAC = () => {
+    if (isGlitched && isCursed && item.gcAC !== undefined) return item.gcAC
+    if (isCursed && item.cursedAC !== undefined) return item.cursedAC
+    if (isGlitched && item.glitchedAC !== undefined) return item.glitchedAC
+    return item.ac
+  }
+
+  const hasGlitchedData = item.glitchedVal !== undefined || item.glitchedAC !== undefined
+  const hasCursedData = item.cursedVal !== undefined || item.cursedAC !== undefined
 
   return (
-    <div className="bg-card border border-border flex flex-col">
-      {/* Tier color bar at top */}
-      <div className="h-1 w-full" style={{ backgroundColor: tierColor }} />
-      
-      <div className="p-3">
-        {/* Header with tier name and circle indicator */}
-        <div className="flex items-center justify-between mb-3">
-          <span 
-            className="text-xs font-bold uppercase tracking-wider"
-            style={{ color: tierColor }}
-          >
-            {item.tier}
-          </span>
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-3 h-3 rounded-full"
-              style={{ backgroundColor: tierColor }}
-            />
-            <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5">
-              N/A
+    <>
+      <div 
+        className="bg-card border border-border flex flex-col cursor-pointer hover:border-muted-foreground transition-colors"
+        onClick={() => setShowModal(true)}
+      >
+        {/* Tier color bar at top */}
+        <div className="h-1 w-full" style={{ backgroundColor: tierColor }} />
+        
+        <div className="p-3">
+          {/* Header with tier name and circle indicator */}
+          <div className="flex items-center justify-between mb-3">
+            <span 
+              className="text-xs font-bold uppercase tracking-wider"
+              style={{ color: tierColor }}
+            >
+              {item.tier}
             </span>
-          </div>
-        </div>
-
-        {/* Image container */}
-        <div className="bg-secondary aspect-square flex items-center justify-center mb-3 overflow-hidden">
-          {item.image ? (
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={150}
-              height={150}
-              className="object-contain w-full h-full"
-            />
-          ) : (
-            <div className="w-20 h-20 bg-muted flex items-center justify-center">
-              <span className="text-muted-foreground text-xs">No Image</span>
+            <div className="flex items-center gap-2">
+              <div 
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: tierColor }}
+              />
+              <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5">
+                N/A
+              </span>
             </div>
-          )}
-        </div>
-
-        {/* Item name */}
-        <h3 className="font-semibold text-foreground text-sm mb-1 truncate">
-          {item.name}
-        </h3>
-
-        {/* AC value */}
-        {item.ac !== undefined && (
-          <p className="text-xs text-primary mb-1">
-            AC: {item.ac}
-          </p>
-        )}
-
-        {/* Value */}
-        <p className="text-xl font-bold text-foreground">
-          {item.value}
-        </p>
-
-        {/* Glitched Off badge */}
-        {item.glitchedOff && (
-          <div className="mt-2 flex items-center gap-1.5 text-muted-foreground text-xs bg-secondary px-2 py-1 w-fit">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            GLITCHED OFF
           </div>
-        )}
+
+          {/* Image container */}
+          <div className="bg-secondary aspect-square flex items-center justify-center mb-3 overflow-hidden">
+            {item.image ? (
+              <Image
+                src={item.image}
+                alt={item.name}
+                width={150}
+                height={150}
+                className="object-contain w-full h-full"
+              />
+            ) : (
+              <div className="w-20 h-20 bg-muted flex items-center justify-center">
+                <span className="text-muted-foreground text-xs">No Image</span>
+              </div>
+            )}
+          </div>
+
+          {/* Item name */}
+          <h3 className="font-semibold text-foreground text-sm mb-1 truncate">
+            {item.name}
+          </h3>
+
+          {/* AC value and toggle buttons row */}
+          <div className="flex items-center gap-2 mb-1">
+            {getDisplayAC() !== undefined && (
+              <p className="text-xs text-primary">
+                AC: {getDisplayAC()}
+              </p>
+            )}
+            
+            {/* Toggle buttons */}
+            <div className="flex items-center gap-1 ml-auto" onClick={(e) => e.stopPropagation()}>
+              {hasGlitchedData && (
+                <button
+                  onClick={() => setIsGlitched(!isGlitched)}
+                  className={`p-1 transition-colors ${
+                    isGlitched 
+                      ? "bg-yellow-500 text-black" 
+                      : "bg-secondary text-muted-foreground hover:text-yellow-500"
+                  }`}
+                  title="Toggle Glitched"
+                >
+                  <Zap className="w-3 h-3" />
+                </button>
+              )}
+              {hasCursedData && (
+                <button
+                  onClick={() => setIsCursed(!isCursed)}
+                  className={`p-1 transition-colors ${
+                    isCursed 
+                      ? "bg-red-500 text-white" 
+                      : "bg-secondary text-muted-foreground hover:text-red-500"
+                  }`}
+                  title="Toggle Cursed"
+                >
+                  <Skull className="w-3 h-3" />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Value */}
+          <p className="text-xl font-bold text-foreground">
+            {getDisplayValue()}
+          </p>
+
+          {/* Status badges */}
+          <div className="flex flex-wrap gap-1 mt-2">
+            {item.glitchedOff && (
+              <div className="flex items-center gap-1 text-muted-foreground text-xs bg-secondary px-2 py-0.5">
+                <Zap className="w-3 h-3" />
+                GLITCHED OFF
+              </div>
+            )}
+            {item.cursedOff && (
+              <div className="flex items-center gap-1 text-muted-foreground text-xs bg-secondary px-2 py-0.5">
+                <Skull className="w-3 h-3" />
+                CURSED OFF
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* Detail Modal */}
+      {showModal && (
+        <ItemDetailModal 
+          item={item} 
+          isGlitched={isGlitched}
+          isCursed={isCursed}
+          onClose={() => setShowModal(false)} 
+        />
+      )}
+    </>
   )
 }
