@@ -1,10 +1,18 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Item, Tier } from "@/lib/types"
+import { Item, Tier, SortOption } from "@/lib/types"
 import { TierTabs } from "./tier-tabs"
 import { SearchBar } from "./search-bar"
 import { ValueCard } from "./value-card"
+
+interface FilterState {
+  sortBy: SortOption
+  minValue: string
+  maxValue: string
+  dateFrom: string
+  dateTo: string
+}
 
 // Sample data for demonstration with all new fields
 const SAMPLE_ITEMS: Item[] = [
@@ -16,7 +24,11 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 999,
     era: "Season 5",
     releaseDate: "2024-03-15",
-    skills: ["Fire Blast", "Shadow Step", "Rebirth"],
+    skills: [
+      { name: "Fire Blast", description: "Unleashes a powerful blast of fire dealing massive damage" },
+      { name: "Shadow Step", description: "Teleport through shadows to evade attacks" },
+      { name: "Rebirth", description: "Rise from the ashes with full health once per battle" }
+    ],
     demand: "extreme",
     updates: ["Value increased from 450 to 500", "Added new skill: Rebirth"],
     glitchedVal: 750,
@@ -34,7 +46,10 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 750,
     era: "Season 4",
     releaseDate: "2023-11-20",
-    skills: ["Void Shift", "Dark Matter"],
+    skills: [
+      { name: "Void Shift", description: "Phase through dimensions to avoid damage" },
+      { name: "Dark Matter", description: "Create a zone of dark matter that slows enemies" }
+    ],
     demand: "high",
     updates: ["Glitched AC adjusted"],
     glitchedVal: 520,
@@ -52,7 +67,10 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 620,
     era: "Season 3",
     releaseDate: "2023-06-10",
-    skills: ["Crystal Shield", "Refraction"],
+    skills: [
+      { name: "Crystal Shield", description: "Create a protective barrier of crystals" },
+      { name: "Refraction", description: "Reflect incoming projectiles back at attackers" }
+    ],
     demand: "decent",
     glitchedVal: 420,
     glitchedAC: 800,
@@ -69,7 +87,11 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 500,
     era: "Season 2",
     releaseDate: "2023-02-14",
-    skills: ["Flame Breath", "Wing Gust", "Inferno"],
+    skills: [
+      { name: "Flame Breath", description: "Breathe a cone of devastating fire" },
+      { name: "Wing Gust", description: "Create powerful gusts that push enemies back" },
+      { name: "Inferno", description: "Engulf the area in flames" }
+    ],
     demand: "moderate",
     updates: ["Cursed variant discontinued"],
     glitchedVal: 300,
@@ -84,7 +106,9 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 400,
     era: "Season 1",
     releaseDate: "2022-09-01",
-    skills: ["Golden Strike"],
+    skills: [
+      { name: "Golden Strike", description: "A powerful strike imbued with golden energy" }
+    ],
     demand: "decent",
     cursedVal: 220,
     cursedAC: 550
@@ -97,7 +121,10 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 300,
     era: "Season 2",
     releaseDate: "2023-01-20",
-    skills: ["Lightning Bolt", "Thunder Clap"],
+    skills: [
+      { name: "Lightning Bolt", description: "Strike enemies with a bolt of lightning" },
+      { name: "Thunder Clap", description: "Create a deafening thunder that stuns nearby enemies" }
+    ],
     demand: "moderate"
   },
   { 
@@ -139,7 +166,10 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedOff: true,
     era: "Season 5",
     releaseDate: "2024-02-28",
-    skills: ["Venom Strike", "Coil"],
+    skills: [
+      { name: "Venom Strike", description: "Inject deadly venom that damages over time" },
+      { name: "Coil", description: "Constrict an enemy, immobilizing them" }
+    ],
     demand: "high",
     updates: ["Glitched variant discontinued", "Base value increased"],
     cursedVal: 620,
@@ -155,7 +185,10 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 700,
     era: "Season 4",
     releaseDate: "2023-10-31",
-    skills: ["Shadow Realm", "Dominate"],
+    skills: [
+      { name: "Shadow Realm", description: "Trap enemies in a realm of shadows" },
+      { name: "Dominate", description: "Take control of an enemy for a short time" }
+    ],
     demand: "extreme",
     glitchedVal: 480,
     glitchedAC: 900,
@@ -173,7 +206,10 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedOff: true,
     era: "Season 3",
     releaseDate: "2023-07-04",
-    skills: ["Phase Out", "Neon Flash"],
+    skills: [
+      { name: "Phase Out", description: "Become intangible for a short duration" },
+      { name: "Neon Flash", description: "Blind enemies with a burst of neon light" }
+    ],
     demand: "decent",
     cursedVal: 350,
     cursedAC: 720
@@ -186,7 +222,10 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 450,
     era: "Season 2",
     releaseDate: "2023-03-15",
-    skills: ["Magma Pool", "Heat Wave"],
+    skills: [
+      { name: "Magma Pool", description: "Create a pool of magma that burns enemies" },
+      { name: "Heat Wave", description: "Emit a wave of intense heat" }
+    ],
     demand: "high",
     glitchedVal: 270,
     glitchedAC: 600,
@@ -203,7 +242,9 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 380,
     era: "Season 1",
     releaseDate: "2022-12-20",
-    skills: ["Thunder Strike"],
+    skills: [
+      { name: "Thunder Strike", description: "Call down thunder from the sky" }
+    ],
     demand: "moderate",
     updates: ["Minor value adjustment"],
     glitchedVal: 210,
@@ -217,7 +258,9 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 280,
     era: "Season 2",
     releaseDate: "2023-04-10",
-    skills: ["Wisdom Aura"],
+    skills: [
+      { name: "Wisdom Aura", description: "Boost the abilities of nearby allies" }
+    ],
     demand: "moderate"
   },
   { 
@@ -256,14 +299,61 @@ export function ValueSite() {
   const [items] = useState<Item[]>(SAMPLE_ITEMS)
   const [activeTier, setActiveTier] = useState<Tier | "all">("all")
   const [searchQuery, setSearchQuery] = useState("")
+  const [filters, setFilters] = useState<FilterState>({
+    sortBy: "default",
+    minValue: "",
+    maxValue: "",
+    dateFrom: "",
+    dateTo: ""
+  })
 
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
+    let result = items.filter((item) => {
       const matchesTier = activeTier === "all" || item.tier === activeTier
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      return matchesTier && matchesSearch
+      
+      // Value range filter
+      const minVal = filters.minValue ? parseInt(filters.minValue) : null
+      const maxVal = filters.maxValue ? parseInt(filters.maxValue) : null
+      const matchesMinValue = minVal === null || item.value >= minVal
+      const matchesMaxValue = maxVal === null || item.value <= maxVal
+      
+      // Date range filter
+      const itemDate = item.releaseDate ? new Date(item.releaseDate) : null
+      const fromDate = filters.dateFrom ? new Date(filters.dateFrom) : null
+      const toDate = filters.dateTo ? new Date(filters.dateTo) : null
+      const matchesFromDate = !fromDate || !itemDate || itemDate >= fromDate
+      const matchesToDate = !toDate || !itemDate || itemDate <= toDate
+      
+      return matchesTier && matchesSearch && matchesMinValue && matchesMaxValue && matchesFromDate && matchesToDate
     })
-  }, [items, activeTier, searchQuery])
+
+    // Apply sorting
+    switch (filters.sortBy) {
+      case "value-low":
+        result = [...result].sort((a, b) => a.value - b.value)
+        break
+      case "value-high":
+        result = [...result].sort((a, b) => b.value - a.value)
+        break
+      case "date-new":
+        result = [...result].sort((a, b) => {
+          if (!a.releaseDate) return 1
+          if (!b.releaseDate) return -1
+          return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
+        })
+        break
+      case "date-old":
+        result = [...result].sort((a, b) => {
+          if (!a.releaseDate) return 1
+          if (!b.releaseDate) return -1
+          return new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
+        })
+        break
+    }
+
+    return result
+  }, [items, activeTier, searchQuery, filters])
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -279,9 +369,14 @@ export function ValueSite() {
           <TierTabs activeTier={activeTier} onTierChange={setActiveTier} />
         </div>
 
-        {/* Search Bar */}
+        {/* Search Bar with Filters */}
         <div className="mb-8">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          <SearchBar 
+            value={searchQuery} 
+            onChange={setSearchQuery}
+            filters={filters}
+            onFiltersChange={setFilters}
+          />
         </div>
 
         {/* Items count */}

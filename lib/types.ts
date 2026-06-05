@@ -11,6 +11,13 @@ export type Tier =
 
 export type Demand = "none" | "moderate" | "decent" | "high" | "extreme"
 
+export type SortOption = "default" | "value-low" | "value-high" | "date-new" | "date-old"
+
+export interface Skill {
+  name: string
+  description: string
+}
+
 export interface Item {
   id: string
   name: string
@@ -20,7 +27,7 @@ export interface Item {
   ac?: number
   era?: string
   releaseDate?: string
-  skills?: string[]
+  skills?: Skill[]
   demand?: Demand
   updates?: string[]
   glitchedOff?: boolean

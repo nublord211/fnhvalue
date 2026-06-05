@@ -15,20 +15,7 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
   const tierColor = TIER_COLORS[item.tier]
   const demandColor = item.demand ? DEMAND_COLORS[item.demand] : DEMAND_COLORS.none
   const [updatesOpen, setUpdatesOpen] = useState(false)
-
-  const getDisplayValue = () => {
-    if (isGlitched && isCursed && item.gcVal !== undefined) return item.gcVal
-    if (isCursed && item.cursedVal !== undefined) return item.cursedVal
-    if (isGlitched && item.glitchedVal !== undefined) return item.glitchedVal
-    return item.value
-  }
-
-  const getDisplayAC = () => {
-    if (isGlitched && isCursed && item.gcAC !== undefined) return item.gcAC
-    if (isCursed && item.cursedAC !== undefined) return item.cursedAC
-    if (isGlitched && item.glitchedAC !== undefined) return item.glitchedAC
-    return item.ac
-  }
+  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
 
   const getDemandLabel = () => {
     if (!item.demand) return "None"
@@ -122,18 +109,29 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
               </div>
             )}
 
-            {/* Skills - moved above base values */}
+            {/* Skills - with hover descriptions */}
             {item.skills && item.skills.length > 0 && (
               <div className="pt-2">
                 <h3 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Skills</h3>
                 <div className="flex flex-wrap gap-2">
                   {item.skills.map((skill, index) => (
-                    <span 
+                    <div 
                       key={index}
-                      className="bg-secondary text-foreground text-xs px-2 py-1"
+                      className="relative"
+                      onMouseEnter={() => setHoveredSkill(skill.name)}
+                      onMouseLeave={() => setHoveredSkill(null)}
                     >
-                      {skill}
-                    </span>
+                      <span 
+                        className="bg-secondary text-foreground text-xs px-2 py-1 cursor-help"
+                      >
+                        {skill.name}
+                      </span>
+                      {hoveredSkill === skill.name && skill.description && (
+                        <div className="absolute bottom-full left-0 mb-2 z-10 w-48 p-2 bg-card border border-border text-xs text-foreground shadow-lg">
+                          {skill.description}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -159,18 +157,18 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
             {/* Glitched Values */}
             {(item.glitchedVal !== undefined || item.glitchedAC !== undefined) && (
               <div className="pt-2">
-                <h3 className="text-sm font-semibold text-purple-800 mb-3 uppercase tracking-wider">Glitched Values</h3>
+                <h3 className="text-sm font-semibold text-purple-900 mb-3 uppercase tracking-wider">Glitched Values</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {item.glitchedVal !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Glitched Value</span>
-                      <span className="text-purple-800 font-bold">{item.glitchedVal}</span>
+                      <span className="text-purple-400 font-bold">{item.glitchedVal}</span>
                     </div>
                   )}
                   {item.glitchedAC !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Glitched AC</span>
-                      <span className="text-purple-800 font-bold">{item.glitchedAC}</span>
+                      <span className="text-purple-400 font-bold">{item.glitchedAC}</span>
                     </div>
                   )}
                 </div>
@@ -180,21 +178,21 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
               </div>
             )}
 
-            {/* Cursed Values */}
+            {/* Cursed Values - now GC color (greenish) */}
             {(item.cursedVal !== undefined || item.cursedAC !== undefined) && (
               <div className="pt-2">
-                <h3 className="text-sm font-semibold text-yellow-700 mb-3 uppercase tracking-wider">Cursed Values</h3>
+                <h3 className="text-sm font-semibold text-teal-500 mb-3 uppercase tracking-wider">Cursed Values</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {item.cursedVal !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Cursed Value</span>
-                      <span className="text-yellow-700 font-bold">{item.cursedVal}</span>
+                      <span className="text-teal-400 font-bold">{item.cursedVal}</span>
                     </div>
                   )}
                   {item.cursedAC !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Cursed AC</span>
-                      <span className="text-yellow-700 font-bold">{item.cursedAC}</span>
+                      <span className="text-teal-400 font-bold">{item.cursedAC}</span>
                     </div>
                   )}
                 </div>
@@ -204,46 +202,26 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
               </div>
             )}
 
-            {/* GC (Glitched + Cursed) Values */}
+            {/* GC (Glitched + Cursed) Values - now blue */}
             {(item.gcVal !== undefined || item.gcAC !== undefined) && (
               <div className="pt-2">
-                <h3 className="text-sm font-semibold text-orange-500 mb-3 uppercase tracking-wider">Glitched + Cursed Values</h3>
+                <h3 className="text-sm font-semibold text-blue-500 mb-3 uppercase tracking-wider">Glitched + Cursed Values</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {item.gcVal !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">GC Value</span>
-                      <span className="text-orange-500 font-bold">{item.gcVal}</span>
+                      <span className="text-blue-400 font-bold">{item.gcVal}</span>
                     </div>
                   )}
                   {item.gcAC !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">GC AC</span>
-                      <span className="text-orange-500 font-bold">{item.gcAC}</span>
+                      <span className="text-blue-400 font-bold">{item.gcAC}</span>
                     </div>
                   )}
                 </div>
               </div>
             )}
-
-            {/* Current Display Values (based on toggle state) */}
-            <div className="pt-4 border-t border-border">
-              <h3 className="text-sm font-semibold text-primary mb-3 uppercase tracking-wider">Current Display</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div className="bg-primary/10 p-2 border border-primary">
-                  <span className="text-muted-foreground block">Value</span>
-                  <span className="text-primary font-bold text-lg">{getDisplayValue()}</span>
-                </div>
-                {getDisplayAC() !== undefined && (
-                  <div className="bg-primary/10 p-2 border border-primary">
-                    <span className="text-muted-foreground block">AC</span>
-                    <span className="text-primary font-bold text-lg">{getDisplayAC()}</span>
-                  </div>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                Mode: {isGlitched && isCursed ? "Glitched + Cursed" : isGlitched ? "Glitched" : isCursed ? "Cursed" : "Base"}
-              </p>
-            </div>
           </div>
         </div>
       </div>

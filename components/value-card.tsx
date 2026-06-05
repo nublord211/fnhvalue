@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Item, TIER_COLORS, DEMAND_COLORS } from "@/lib/types"
 import { ItemDetailModal } from "./item-detail-modal"
 import Image from "next/image"
-import { ChevronUp } from "lucide-react"
 
 interface ValueCardProps {
   item: Item
@@ -54,14 +53,14 @@ export function ValueCard({ item }: ValueCardProps) {
             </span>
             <div className="flex items-center gap-2">
               <div 
-                className="w-3 h-3 rounded-full"
+                className="w-3 h-3"
                 style={{ backgroundColor: tierColor }}
               />
               <span 
-                className="text-xs px-2 py-0.5 flex items-center"
+                className="text-xs px-2 py-0.5 font-bold"
                 style={{ backgroundColor: demandColor, color: "#fff" }}
               >
-                <ChevronUp className="w-3 h-3" />
+                {item.demand ? item.demand.charAt(0).toUpperCase() + item.demand.slice(1) : "None"}
               </span>
             </div>
           </div>
@@ -103,8 +102,8 @@ export function ValueCard({ item }: ValueCardProps) {
                   onClick={() => setIsGlitched(!isGlitched)}
                   className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
                     isGlitched 
-                      ? "bg-purple-800 text-white" 
-                      : "bg-secondary text-purple-800 hover:bg-purple-800/20"
+                      ? "bg-purple-900 text-purple-300" 
+                      : "bg-secondary text-purple-900 hover:bg-purple-900/20"
                   }`}
                   title="Toggle Glitched"
                 >
@@ -116,8 +115,8 @@ export function ValueCard({ item }: ValueCardProps) {
                   onClick={() => setIsCursed(!isCursed)}
                   className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
                     isCursed 
-                      ? "bg-yellow-700 text-white" 
-                      : "bg-secondary text-yellow-700 hover:bg-yellow-700/20"
+                      ? "bg-yellow-800 text-yellow-300" 
+                      : "bg-secondary text-yellow-800 hover:bg-yellow-800/20"
                   }`}
                   title="Toggle Cursed"
                 >
@@ -135,13 +134,13 @@ export function ValueCard({ item }: ValueCardProps) {
           {/* Status badges */}
           <div className="flex flex-wrap gap-1 mt-2">
             {item.glitchedOff && (
-              <div className="flex items-center gap-1 text-purple-800 text-xs bg-secondary px-2 py-0.5">
+              <div className="flex items-center gap-1 text-purple-900 text-xs bg-secondary px-2 py-0.5">
                 <span className="font-bold">G</span>
                 OFF
               </div>
             )}
             {item.cursedOff && (
-              <div className="flex items-center gap-1 text-yellow-700 text-xs bg-secondary px-2 py-0.5">
+              <div className="flex items-center gap-1 text-yellow-800 text-xs bg-secondary px-2 py-0.5">
                 <span className="font-bold">C</span>
                 OFF
               </div>
