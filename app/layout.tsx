@@ -10,9 +10,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Value List',
-  description: 'Browse and search items by tier',
-  generator: 'v0.app',
+  title: 'New value List?',
+  description: 'ou shiiiii 👀',
   icons: {
     icon: [
       {
