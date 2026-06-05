@@ -9,6 +9,8 @@ export type Tier =
   | "uncommon" 
   | "common"
 
+export type Demand = "none" | "moderate" | "decent" | "high" | "extreme"
+
 export interface Item {
   id: string
   name: string
@@ -19,6 +21,8 @@ export interface Item {
   era?: string
   releaseDate?: string
   skills?: string[]
+  demand?: Demand
+  updates?: string[]
   glitchedOff?: boolean
   cursedOff?: boolean
   glitchedVal?: number
@@ -39,6 +43,14 @@ export const TIER_COLORS: Record<Tier, string> = {
   rare: "#3b82f6",        // blue
   uncommon: "#86efac",    // lighter green
   common: "#eab308",      // yellow
+}
+
+export const DEMAND_COLORS: Record<Demand, string> = {
+  none: "#6b7280",        // grey
+  moderate: "#eab308",    // yellow
+  decent: "#22c55e",      // green
+  high: "#3b82f6",        // blue
+  extreme: "#ef4444",     // red
 }
 
 export const TIER_ORDER: Tier[] = [

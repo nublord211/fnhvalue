@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Item, TIER_COLORS } from "@/lib/types"
+import { Item, TIER_COLORS, DEMAND_COLORS } from "@/lib/types"
 import { ItemDetailModal } from "./item-detail-modal"
 import Image from "next/image"
-import { Zap, Skull } from "lucide-react"
+import { ChevronUp } from "lucide-react"
 
 interface ValueCardProps {
   item: Item
@@ -12,6 +12,7 @@ interface ValueCardProps {
 
 export function ValueCard({ item }: ValueCardProps) {
   const tierColor = TIER_COLORS[item.tier]
+  const demandColor = item.demand ? DEMAND_COLORS[item.demand] : DEMAND_COLORS.none
   const [isGlitched, setIsGlitched] = useState(false)
   const [isCursed, setIsCursed] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -43,7 +44,7 @@ export function ValueCard({ item }: ValueCardProps) {
         <div className="h-1 w-full" style={{ backgroundColor: tierColor }} />
         
         <div className="p-3">
-          {/* Header with tier name and circle indicator */}
+          {/* Header with tier name and demand indicator */}
           <div className="flex items-center justify-between mb-3">
             <span 
               className="text-xs font-bold uppercase tracking-wider"
@@ -56,8 +57,11 @@ export function ValueCard({ item }: ValueCardProps) {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: tierColor }}
               />
-              <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5">
-                N/A
+              <span 
+                className="text-xs px-2 py-0.5 flex items-center"
+                style={{ backgroundColor: demandColor, color: "#fff" }}
+              >
+                <ChevronUp className="w-3 h-3" />
               </span>
             </div>
           </div>
@@ -92,32 +96,32 @@ export function ValueCard({ item }: ValueCardProps) {
               </p>
             )}
             
-            {/* Toggle buttons */}
+            {/* Toggle buttons - G for glitched, C for cursed */}
             <div className="flex items-center gap-1 ml-auto" onClick={(e) => e.stopPropagation()}>
               {hasGlitchedData && (
                 <button
                   onClick={() => setIsGlitched(!isGlitched)}
-                  className={`p-1 transition-colors ${
+                  className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
                     isGlitched 
-                      ? "bg-yellow-500 text-black" 
-                      : "bg-secondary text-muted-foreground hover:text-yellow-500"
+                      ? "bg-purple-800 text-white" 
+                      : "bg-secondary text-purple-800 hover:bg-purple-800/20"
                   }`}
                   title="Toggle Glitched"
                 >
-                  <Zap className="w-3 h-3" />
+                  G
                 </button>
               )}
               {hasCursedData && (
                 <button
                   onClick={() => setIsCursed(!isCursed)}
-                  className={`p-1 transition-colors ${
+                  className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
                     isCursed 
-                      ? "bg-red-500 text-white" 
-                      : "bg-secondary text-muted-foreground hover:text-red-500"
+                      ? "bg-yellow-700 text-white" 
+                      : "bg-secondary text-yellow-700 hover:bg-yellow-700/20"
                   }`}
                   title="Toggle Cursed"
                 >
-                  <Skull className="w-3 h-3" />
+                  C
                 </button>
               )}
             </div>
@@ -131,15 +135,15 @@ export function ValueCard({ item }: ValueCardProps) {
           {/* Status badges */}
           <div className="flex flex-wrap gap-1 mt-2">
             {item.glitchedOff && (
-              <div className="flex items-center gap-1 text-muted-foreground text-xs bg-secondary px-2 py-0.5">
-                <Zap className="w-3 h-3" />
-                GLITCHED OFF
+              <div className="flex items-center gap-1 text-purple-800 text-xs bg-secondary px-2 py-0.5">
+                <span className="font-bold">G</span>
+                OFF
               </div>
             )}
             {item.cursedOff && (
-              <div className="flex items-center gap-1 text-muted-foreground text-xs bg-secondary px-2 py-0.5">
-                <Skull className="w-3 h-3" />
-                CURSED OFF
+              <div className="flex items-center gap-1 text-yellow-700 text-xs bg-secondary px-2 py-0.5">
+                <span className="font-bold">C</span>
+                OFF
               </div>
             )}
           </div>

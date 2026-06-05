@@ -17,6 +17,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 5",
     releaseDate: "2024-03-15",
     skills: ["Fire Blast", "Shadow Step", "Rebirth"],
+    demand: "extreme",
+    updates: ["Value increased from 450 to 500", "Added new skill: Rebirth"],
     glitchedVal: 750,
     glitchedAC: 1200,
     cursedVal: 650,
@@ -33,6 +35,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 4",
     releaseDate: "2023-11-20",
     skills: ["Void Shift", "Dark Matter"],
+    demand: "high",
+    updates: ["Glitched AC adjusted"],
     glitchedVal: 520,
     glitchedAC: 950,
     cursedVal: 480,
@@ -49,6 +53,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 3",
     releaseDate: "2023-06-10",
     skills: ["Crystal Shield", "Refraction"],
+    demand: "decent",
     glitchedVal: 420,
     glitchedAC: 800,
     cursedVal: 380,
@@ -65,6 +70,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 2",
     releaseDate: "2023-02-14",
     skills: ["Flame Breath", "Wing Gust", "Inferno"],
+    demand: "moderate",
+    updates: ["Cursed variant discontinued"],
     glitchedVal: 300,
     glitchedAC: 650,
     cursedOff: true
@@ -78,6 +85,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 1",
     releaseDate: "2022-09-01",
     skills: ["Golden Strike"],
+    demand: "decent",
     cursedVal: 220,
     cursedAC: 550
   },
@@ -89,7 +97,8 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 300,
     era: "Season 2",
     releaseDate: "2023-01-20",
-    skills: ["Lightning Bolt", "Thunder Clap"]
+    skills: ["Lightning Bolt", "Thunder Clap"],
+    demand: "moderate"
   },
   { 
     id: "7", 
@@ -98,7 +107,8 @@ const SAMPLE_ITEMS: Item[] = [
     value: 75, 
     ac: 200,
     era: "Season 1",
-    releaseDate: "2022-08-15"
+    releaseDate: "2022-08-15",
+    demand: "none"
   },
   { 
     id: "8", 
@@ -107,7 +117,8 @@ const SAMPLE_ITEMS: Item[] = [
     value: 40, 
     ac: 100,
     era: "Season 1",
-    releaseDate: "2022-07-01"
+    releaseDate: "2022-07-01",
+    demand: "none"
   },
   { 
     id: "9", 
@@ -116,7 +127,8 @@ const SAMPLE_ITEMS: Item[] = [
     value: 15, 
     ac: 50,
     era: "Season 1",
-    releaseDate: "2022-06-15"
+    releaseDate: "2022-06-15",
+    demand: "none"
   },
   { 
     id: "10", 
@@ -128,6 +140,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 5",
     releaseDate: "2024-02-28",
     skills: ["Venom Strike", "Coil"],
+    demand: "high",
+    updates: ["Glitched variant discontinued", "Base value increased"],
     cursedVal: 620,
     cursedAC: 1100,
     gcVal: 800,
@@ -142,6 +156,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 4",
     releaseDate: "2023-10-31",
     skills: ["Shadow Realm", "Dominate"],
+    demand: "extreme",
     glitchedVal: 480,
     glitchedAC: 900,
     cursedVal: 450,
@@ -159,6 +174,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 3",
     releaseDate: "2023-07-04",
     skills: ["Phase Out", "Neon Flash"],
+    demand: "decent",
     cursedVal: 350,
     cursedAC: 720
   },
@@ -171,6 +187,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 2",
     releaseDate: "2023-03-15",
     skills: ["Magma Pool", "Heat Wave"],
+    demand: "high",
     glitchedVal: 270,
     glitchedAC: 600,
     cursedVal: 250,
@@ -187,6 +204,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 1",
     releaseDate: "2022-12-20",
     skills: ["Thunder Strike"],
+    demand: "moderate",
+    updates: ["Minor value adjustment"],
     glitchedVal: 210,
     glitchedAC: 500
   },
@@ -198,7 +217,8 @@ const SAMPLE_ITEMS: Item[] = [
     ac: 280,
     era: "Season 2",
     releaseDate: "2023-04-10",
-    skills: ["Wisdom Aura"]
+    skills: ["Wisdom Aura"],
+    demand: "moderate"
   },
   { 
     id: "16", 
@@ -207,7 +227,8 @@ const SAMPLE_ITEMS: Item[] = [
     value: 65, 
     ac: 180,
     era: "Season 1",
-    releaseDate: "2022-09-20"
+    releaseDate: "2022-09-20",
+    demand: "none"
   },
   { 
     id: "17", 
@@ -216,7 +237,8 @@ const SAMPLE_ITEMS: Item[] = [
     value: 35, 
     ac: 90,
     era: "Season 1",
-    releaseDate: "2022-08-01"
+    releaseDate: "2022-08-01",
+    demand: "none"
   },
   { 
     id: "18", 
@@ -225,7 +247,8 @@ const SAMPLE_ITEMS: Item[] = [
     value: 12, 
     ac: 40,
     era: "Season 1",
-    releaseDate: "2022-06-01"
+    releaseDate: "2022-06-01",
+    demand: "none"
   },
 ]
 
