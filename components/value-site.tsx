@@ -264,8 +264,8 @@ export function ValueSite() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2 text-foreground">Value List</h1>
-          <p className="text-muted-foreground">Browse and search items by tier</p>
+          <h1 className="text-3xl font-bold mb-2 text-foreground">Values & shi </h1>
+          <p className="text-muted-foreground">ou shiiiiii</p>
         </header>
 
         {/* Calculator button */}
