@@ -260,16 +260,71 @@ const SAMPLE_ITEMS: Item[] = [
     tier: "sacred",
     value: 13,
     ac: 500,
-    era: "Lunar New Year",
+    era: "Easter",
     releaseDate: "???",
     skills: [
-      { name: "vengance", description: "L ability" },
+      { name: "limb gripper(vegan edition)", description: "free win(no animals were harmed in the making of this skill)" },
     ],
     demand: "moderate",
     supply: 500,
     glitchedVal: 120,
     glitchedAC: 10
   },
+  {
+    id: "15",
+    name: "Sunkissed drop",
+    tier: "sacred",
+    value: 10,
+    ac: 2000,
+    era: "Valentines",
+    releaseDate: "???",
+    skills: [
+      { name: "kissy kissy drop", description: "the name isnt freaky trust" },
+    ],
+    demand: "moderate",
+    supply: 2000,
+    cursedVal: 33,
+    cursedAc: 20,
+  },
+  {
+    glitchedOff: true,
+    id: "16",
+    name: "Snowfall",
+    tier: "sacred",
+    value: 7,
+    ac: 4000,
+    era: "Christmas",
+    releaseDate: "???",
+    skills: [
+      { name: "snowfall", description: "use anything else bro please" },
+    ],
+    demand: "moderate",
+    supply: 4000,
+    cursedVal: 22,
+    cursedAc: 40,
+  },
+  {
+    id: "17",
+    name: "Creation",
+    tier: "sacred",
+    value: 5,
+    ac: 6000,
+    era: "TJOC",
+    releaseDate: "???",
+    skills: [
+      { name: "crwation thingy", description: "nerfed to hell" },
+    ],
+    demand: "moderate",
+    updates: ["ability got nerfed to hell"],
+    supply: 6000,
+    glitchedVal: 30,
+    glitchedAC: 65,
+    cursedVal: 15,
+    cursedAc: 340,
+    gcVal: 80,
+    gcAc: 10
+  },
+  
   
   
 ];
