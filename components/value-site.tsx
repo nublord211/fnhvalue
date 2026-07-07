@@ -66,7 +66,7 @@ const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "extreme",
     updates: ["New vfx better ones coming soon"],
-    glitchedVal: 1500,
+    glitchedVal: 1600,
     glitchedAC: 6,
     supply: 750
 
@@ -85,7 +85,7 @@ const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "moderate",
     updates: ["ability still broken"],
-    glitchedVal: 1000,
+    glitchedVal: 925,
     glitchedAC: 4,
     supply: 300
   },
@@ -104,7 +104,7 @@ const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "extreme",
     updates: ["gc mm got created but got reversed"],
-    glitchedVal: 1000,
+    glitchedVal: 1100,
     glitchedAC: 10,
     supply: 709
   },
@@ -124,7 +124,7 @@ const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "moderate",
     updates: ["can now get spirnglocked"],
-    glitchedVal: 1120,
+    glitchedVal: 800,
     glitchedAC: 3,
     supply: 316
 
@@ -225,7 +225,7 @@ const SAMPLE_ITEMS: Item[] = [
     id: "12",
     name: "The Pumpkin Rabbit",
     tier: "sacred",
-    value: 20,
+    value: 17,
     ac: 700,
     era: "Walten Files",
     releaseDate: "???",
