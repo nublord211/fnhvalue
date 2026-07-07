@@ -102,7 +102,7 @@ const SAMPLE_ITEMS: Item[] = [
       { name: "Vengance", description: "buns ability " },
 
     ],
-    demand: "extreme",
+    demand: "high",
     updates: ["gc mm got created but got reversed"],
     glitchedVal: 1100,
     glitchedAC: 10,
@@ -122,7 +122,7 @@ const SAMPLE_ITEMS: Item[] = [
       { name: "Gardeners grasp", description: "dumbass ability" },
 
     ],
-    demand: "moderate",
+    demand: "high",
     updates: ["can now get spirnglocked"],
     glitchedVal: 800,
     glitchedAC: 3,
