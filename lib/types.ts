@@ -9,7 +9,7 @@ export type Tier =
   | "uncommon" 
   | "common"
 
-export type Demand = "none" | "moderate" | "decent" | "high" | "extreme"
+export type Demand = "none" | "moderate" | "decent" | "high" | "trending" | "extreme" 
 
 export type SortOption = "default" | "value-low" | "value-high" | "date-new" | "date-old"
 
@@ -78,6 +78,7 @@ export const DEMAND_COLORS: Record<Demand, string> = {
   none: "#6b7280",        // grey
   moderate: "#eab308",    // yellow
   decent: "#22c55e",      // green
+  trending: "#4B0082",   // indigo
   high: "#3b82f6",        // blue
   extreme: "#ef4444",     // red
 }
