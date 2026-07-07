@@ -216,6 +216,8 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedVal: 175,
     updates: ["ability got nerfed"],
     glitchedAC: 20,
+    gcVal: 600,
+    gcAc: 1,
     supply: 1050
   },
   {
@@ -235,6 +237,40 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedAC: 8,
     supply: 700
   },
+  {
+    glitchedOff: true,
+    cursedOff: true,
+    id: "13",
+    name: "8-bit",
+    tier: "sacred",
+    value: 20,
+    ac: 500,
+    era: "I dont fucking know son",
+    releaseDate: "???",
+    skills: [
+      { name: "vengance", description: "L ability" },
+    ],
+    demand: "none",
+    supply: 500
+  },
+  {
+    cursedOff: true,
+    id: "14",
+    name: "Blooming ennard",
+    tier: "sacred",
+    value: 13,
+    ac: 500,
+    era: "Lunar New Year",
+    releaseDate: "???",
+    skills: [
+      { name: "vengance", description: "L ability" },
+    ],
+    demand: "moderate",
+    supply: 500,
+    glitchedVal: 120,
+    glitchedAC: 10
+  },
+  
   
 ];
 
