@@ -68,6 +68,8 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["New vfx better ones coming soon"],
     glitchedVal: 1500,
     glitchedAC: 6,
+    supply: 750
+
   },
   {
     cursedOff: true,
@@ -124,7 +126,8 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["can now get spirnglocked"],
     glitchedVal: 1120,
     glitchedAC: 3,
-    ac: 316
+    supply: 316
+
   },
   {
     cursedOff: true,
@@ -201,7 +204,7 @@ const SAMPLE_ITEMS: Item[] = [
   {
     id: "11",
     name: "Crimson Ballora",
-    tier: "sacred",
+    tier: "mythic",
     value: 25,
     ac: 1050,
     era: "Lunar New Year",
