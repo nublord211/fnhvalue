@@ -27,8 +27,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 1",
     releaseDate: "2022-03-15",
     skills: [
-      { name: "Golden Glow", description: "Emits a blinding flash of golden light" },
-      { name: "Midas Touch", description: "Turns enemies into solid gold temporarily" }
+      { name: "Gassy gas", description: "Gassy" },
     ],
     demand: "extreme",
     updates: ["Value adjusted from 125 to 67", "Added golden particle effects"],
@@ -49,7 +48,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 2",
     releaseDate: "2022-07-20",
     skills: [
-      { name: "Spring Lock", description: "Traps enemy in a devastating mechanical grip" }
+      { name: "Spring Lock", description: "ez win" }
     ],
     demand: "extreme",
     updates: ["Model rework", "Added new animation set"],
@@ -70,9 +69,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 3",
     releaseDate: "2023-01-10",
     skills: [
-      { name: "Tidal Wave", description: "Summons a massive wave that crashes the battlefield" },
-      { name: "Nightmare Surge", description: "Enemies in range are paralyzed with fear" },
-      { name: "Abyssal Grasp", description: "Tentacles rise from below to trap foes" }
+      { name: "Tidal Wave", description: "wave of baby oil" },
     ],
     demand: "extreme",
     updates: ["Glitched variant introduced", "Value increased from 50 to 67"],
@@ -93,8 +90,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 4",
     releaseDate: "2023-06-05",
     skills: [
-      { name: "Dragon Breath", description: "Scorching flames reduce enemy armor" },
-      { name: "MXES Protocol", description: "Digital corruption spreads to enemies" }
+      { name: "Dragon Breath", description: "Releases racchet stank breath" },
     ],
     demand: "high",
     updates: ["Glitched serials #3 and #4 added", "Demand increased from moderate to high"],
@@ -115,8 +111,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 5",
     releaseDate: "2023-10-18",
     skills: [
-      { name: "Midnight Drive", description: "Dashes through shadows, untargetable" },
-      { name: "Motor Roar", description: "Deafening engine noise stuns enemies" }
+      { name: "Midnight Drive", description: "cya mane" },
+
     ],
     demand: "extreme",
     updates: ["Serial #0 discovered", "Glitched variant reworked"],
@@ -137,9 +133,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 6",
     releaseDate: "2024-02-28",
     skills: [
-      { name: "Pollen Cloud", description: "Toxic pollen damages over time" },
-      { name: "Vine Snare", description: "Thorny vines root enemies in place" },
-      { name: "Flourish", description: "Heals based on nearby enemy count" }
+      { name: "Pollen bust", description: "sprays toxic shi in ur eyes" },
+
     ],
     demand: "high",
     updates: ["Second glitched serial added", "Visual overhaul"],
@@ -160,8 +155,8 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 7",
     releaseDate: "2024-07-14",
     skills: [
-      { name: "Laughing Gas", description: "Enemies become confused and attack randomly" },
-      { name: "Carnival Trap", description: "Summons a merry-go-round that pulls enemies inward" }
+      { name: "Laughing Gas", description: "Gassy laughing" },
+
     ],
     demand: "high",
     updates: ["Glitched supply increased", "Value decreased from 42 to 67"],
@@ -182,9 +177,7 @@ const SAMPLE_ITEMS: Item[] = [
     era: "Season 8",
     releaseDate: "2024-12-01",
     skills: [
-      { name: "Tea Party", description: "Forces enemies to sit and sip tea, disabling them" },
-      { name: "Hat Trick", description: "Pulls random buffs or debuffs from a magical hat" },
-      { name: "Madness", description: "Attack speed increases as health decreases" }
+      { name: "Tea Party", description: "crumpets and tea bruv" },
     ],
     demand: "extreme",
     updates: ["Glitched serials #7 and #8 added", "Normal variant introduced late"],
