@@ -216,7 +216,7 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedVal: 175,
     updates: ["ability got nerfed"],
     glitchedAC: 20,
-    supply: 1000
+    supply: 1050
   },
   {
     cursedOff: true,
