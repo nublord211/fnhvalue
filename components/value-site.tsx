@@ -198,6 +198,40 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedAC: 5,
     supply: 500
   },
+  {
+    id: "11",
+    name: "Crimson Ballora",
+    tier: "sacred",
+    value: 25,
+    ac: 1050,
+    era: "Lunar New Year",
+    releaseDate: "???",
+    skills: [
+      { name: "fuckass fan", description: "35 free dmg with a decent cd" },
+    ],
+    demand: "decent",
+    glitchedVal: 175,
+    updates: ["ability got nerfed"],
+    glitchedAC: 20,
+    supply: 1000
+  },
+  {
+    cursedOff: true,
+    id: "12",
+    name: "The Pumpkin Rabbit",
+    tier: "sacred",
+    value: 20,
+    ac: 700,
+    era: "Walten Files",
+    releaseDate: "???",
+    skills: [
+      { name: "shadow clone", description: "shadow clone n shi" },
+    ],
+    demand: "none",
+    glitchedVal: 150,
+    glitchedAC: 8,
+    supply: 700
+  },
   
 ];
 
