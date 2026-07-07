@@ -196,7 +196,7 @@ const SAMPLE_ITEMS: Item[] = [
     skills: [
       { name: "fuckass moon ability", description: "worse than ampt im crine" },
     ],
-    demand: "none",
+    demand: "decent",
     glitchedVal: 275,
     glitchedAC: 5,
     supply: 500
@@ -250,7 +250,7 @@ const SAMPLE_ITEMS: Item[] = [
     skills: [
       { name: "vengance", description: "L ability" },
     ],
-    demand: "decent",
+    demand: "none",
     supply: 500
   },
   {
