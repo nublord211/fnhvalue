@@ -324,6 +324,49 @@ const SAMPLE_ITEMS: Item[] = [
     gcVal: 80,
     gcAc: 10
   },
+  {
+    cursedOff: true,
+    id: "18",
+    name: "Chicas magic rainbow",
+    tier: "sacred",
+    value: 22,
+    ac: 6000,
+    era: "Easter",
+    releaseDate: "???",
+    skills: [
+      { name: "rainbow save thingy", description: "takes 20% longer 4 u to die in ballpits" },
+    ],
+    demand: "moderate",
+    supply: 475,
+    glitchedVal: 300,
+    glitchedAC: 10,
+  },
+  {
+    cursedOff: true,
+    id: "19",
+    name: "Blessed Helpy",
+    tier: "sacred",
+    value: 18,
+    ac: 1040,
+    era: "Lunar New Year",
+    releaseDate: "???",
+    skills: [
+      { name: "helping hand", description: "nerfed to hell bust still op" },
+    ],
+    demand: "trending",
+    updates: ["ability got nerfed to hell"],
+    supply: 6000,
+    glitchedVal: 30,
+    glitchedAC: 65,
+    cursedVal: 15,
+    cursedAc: 340,
+    gcVal: 80,
+    gcAc: 10
+  },
+  
+
+
+  
   
   
   
