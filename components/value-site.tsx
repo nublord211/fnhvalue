@@ -162,7 +162,43 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedVal: 450,
     glitchedAC: 8,
     supply: 425
-  }
+  },
+  {
+    cursedOff: true,
+    id: "9",
+    name: "Lava ennard",
+    tier: "sacred",
+    value: 35,
+    ac: 512,
+    era: "TJOC",
+    releaseDate: "???",
+    skills: [
+      { name: "Limb GRIPPER", description: "grip those limbs boi" },
+    ],
+    demand: "moderate",
+    updates: ["new vfx"],
+    glitchedVal: 400,
+    glitchedAC: 1,
+    supply: 512
+  },
+  {
+    cursedOff: true,
+    id: "10",
+    name: "Withered moon rose",
+    tier: "sacred",
+    value: 30,
+    ac: 500,
+    era: "Valentines",
+    releaseDate: "???",
+    skills: [
+      { name: "fuckass moon ability", description: "worse than ampt im crine" },
+    ],
+    demand: "none",
+    glitchedVal: 275,
+    glitchedAC: 5,
+    supply: 500
+  },
+  
 ];
 
 export function ValueSite() {
