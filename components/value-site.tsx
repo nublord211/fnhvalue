@@ -232,7 +232,7 @@ const SAMPLE_ITEMS: Item[] = [
     skills: [
       { name: "shadow clone", description: "shadow clone n shi" },
     ],
-    demand: "none",
+    demand: "decent",
     glitchedVal: 150,
     glitchedAC: 8,
     supply: 700
