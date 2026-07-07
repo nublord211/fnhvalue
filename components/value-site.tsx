@@ -209,7 +209,7 @@ const SAMPLE_ITEMS: Item[] = [
     skills: [
       { name: "fuckass fan", description: "35 free dmg with a decent cd" },
     ],
-    demand: "decent",
+    demand: "high",
     glitchedVal: 175,
     updates: ["ability got nerfed"],
     glitchedAC: 20,
