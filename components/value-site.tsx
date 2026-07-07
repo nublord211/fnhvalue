@@ -30,7 +30,7 @@ const SAMPLE_ITEMS: Item[] = [
       { name: "Springlocked", description: "ez win" },
       { name: "Freddys thing ", description: "ez win" }
     ],
-    demand: "mid",
+    demand: "moderate",
     updates: ["Now able to use sprnglocked"],
     glitchedOff: true,
     cursedOff: true,
