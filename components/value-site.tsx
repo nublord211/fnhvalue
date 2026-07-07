@@ -27,7 +27,7 @@ const SAMPLE_ITEMS: Item[] = [
     value: 95,
     ac: 764,
     era: "Summer upd 2025",
-    releaseDate: "2025-04-14",
+    releaseDate: "04/14/2025",
     skills: [
       { name: "Springlocked", description: "ez win" },
       { name: "Freddys thing ", description: "ez win" }
@@ -250,7 +250,7 @@ const SAMPLE_ITEMS: Item[] = [
     skills: [
       { name: "vengance", description: "L ability" },
     ],
-    demand: "none",
+    demand: "decent",
     supply: 500
   },
   {
