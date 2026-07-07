@@ -20,6 +20,8 @@ interface FilterState {
 const SAMPLE_ITEMS: Item[] = [
   {
     id: "1",
+    glitchedOff: true,
+    cursedOff: true,
     name: "Bling Freddy",
     tier: "exclusive",
     value: 110,
@@ -32,14 +34,6 @@ const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "moderate",
     updates: ["Now able to use sprnglocked"],
-    glitchedOff: true,
-    cursedOff: true,
-    glitchedVal: 67,
-    glitchedAC: 67,
-    cursedVal: 67,
-    cursedAC: 67,
-    gcVal: 67,
-    gcAC: 67,
     supply: 500
   },
   {
