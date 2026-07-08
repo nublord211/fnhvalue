@@ -387,7 +387,7 @@ const SAMPLE_ITEMS: Item[] = [
   {
     id: "20",
     name: "Bullfighter Endo",
-    image: "",
+    image: "/Skins/Ennard.webp",
     tier: "exclusive",
     value: 5,
     ac: 1745,
@@ -420,7 +420,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "23",
     name: "Birthday Bash Bonnie",
-    image: "/Skins/BirthdayBash.webp",
+    image: "",
     tier: "exclusive",
     value: 2,
     ac: 1320,
@@ -442,7 +442,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "25",
     name: "Lucky Charm Endo-01",
-    image: "/Skins/LuckyCharm.webp",
+    image: "",
     tier: "exclusive",
     value: 1,
     ac: 1501,
@@ -475,7 +475,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "28",
     name: "Catrina Chica",
-    image: "/Skins/CatrinaChica.webp",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 1518,
@@ -486,7 +486,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "29",
     name: "Monarch Baby",
-    image: "/Skins/MonarchBaby.webp",
+    image: "",
     tier: "exclusive",
     value: 1,
     ac: 2000,
@@ -508,7 +508,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "31",
     name: "Ringmaster Foxy",
-    image: "/Skins/RIngMasterFoxy.webp",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 1262,
@@ -519,7 +519,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "32",
     name: "Glam Chica",
-    image: "",
+    image: "/Skins/Glamrock.webp",
     tier: "exclusive",
     value: 4,
     ac: 3981,
@@ -540,8 +540,8 @@ const SAMPLE_ITEMS: Item[] = [
 },
 {
     id: "34",
-    name: "Hungry(chud) Freddy",
-    image: "/Skins/HungryFreddy.webp",
+    name: "Hungry Freddy",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 2005,
@@ -552,7 +552,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "35",
     name: "Trickster Puppet",
-    image: "/Skins/TricksterPuppet.webp",
+    image: "",
     tier: "exclusive",
     value: 2,
     ac: 2649,
@@ -607,7 +607,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "40",
     name: "Bling Bonnie",
-    image: "",
+    image: "/Skins/Bling.webp",
     tier: "exclusive",
     value: 4,
     ac: 1306,
@@ -618,7 +618,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "42",
     name: "Loveshot Mangle",
-    image: "/Skins/LoveShot.webp",
+    image: "",
     tier: "exclusive",
     value: 2,
     ac: 3702,
@@ -651,7 +651,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "45",
     name: "Cardmaster Bonnie",
-    image: "",
+    image: "/Skins/GoldenFredbear.webp",
     tier: "exclusive",
     value: 5,
     ac: 7354,
@@ -662,7 +662,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "46",
     name: "Baker Freddy",
-    image: "",
+    image: "/Skins/FreedomFreddy.webp",
     tier: "exclusive",
     value: 3,
     ac: 1157,
