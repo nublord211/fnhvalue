@@ -58,7 +58,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Nightmare Tidal King",
     tier: "sacred",
     value: 85,
-    ac: 750,
+    ac: 724,
     era: "Summer 2025",
     releaseDate: "???",
     skills: [
@@ -68,7 +68,7 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["New vfx better ones coming soon"],
     glitchedVal: 1600,
     glitchedAC: 6,
-    supply: 750
+    supply: 724
 
   },
   {
@@ -95,7 +95,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Midnight Motorist",
     tier: "sacred",
     value: 55,
-    ac: 708,
+    ac: 790,
     era: "Halloween",
     releaseDate: "????",
     skills: [
@@ -106,7 +106,7 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["gc mm got created but got reversed"],
     glitchedVal: 1100,
     glitchedAC: 10,
-    supply: 709
+    supply: 790
   },
   {
     cursedOff: true,
@@ -135,7 +135,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Clowntrap",
     tier: "sacred",
     value: 55,
-    ac: 300,
+    ac: 281,
     era: "Halloween 2025",
     releaseDate: "???",
     skills: [
@@ -146,7 +146,7 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["Sudden rise in demand"],
     glitchedVal: 85,
     glitchedAC: 97,
-    supply: 250
+    supply: 281
   },
   {
     cursedOff: true,
@@ -154,7 +154,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Mad Hatter Vanny",
     tier: "sacred",
     value: 40,
-    ac: 425,
+    ac: 488,
     era: "Easter",
     releaseDate: "04/04/2026",
     skills: [
@@ -164,7 +164,7 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["dumbass zero has g #8 now "],
     glitchedVal: 450,
     glitchedAC: 8,
-    supply: 425
+    supply: 488
   },
   {
     cursedOff: true,
@@ -172,7 +172,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Lava ennard",
     tier: "sacred",
     value: 35,
-    ac: 512,
+    ac: 525,
     era: "TJOC",
     releaseDate: "???",
     skills: [
@@ -182,7 +182,7 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["new vfx"],
     glitchedVal: 400,
     glitchedAC: 1,
-    supply: 512
+    supply: 525
   },
   {
     cursedOff: true,
@@ -190,7 +190,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Withered moon rose",
     tier: "sacred",
     value: 30,
-    ac: 500,
+    ac: 582,
     era: "Valentines",
     releaseDate: "???",
     skills: [
@@ -199,14 +199,14 @@ const SAMPLE_ITEMS: Item[] = [
     demand: "decent",
     glitchedVal: 275,
     glitchedAC: 5,
-    supply: 500
+    supply: 582
   },
   {
     id: "11",
     name: "Crimson Ballora",
     tier: "mythic",
     value: 25,
-    ac: 1050,
+    ac: 1096,
     era: "Lunar New Year",
     releaseDate: "???",
     skills: [
@@ -218,7 +218,7 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedAC: 20,
     gcVal: 600,
     gcAc: 1,
-    supply: 1050
+    supply: 1096
   },
   {
     cursedOff: true,
@@ -226,7 +226,8 @@ const SAMPLE_ITEMS: Item[] = [
     name: "The Pumpkin Rabbit",
     tier: "sacred",
     value: 17,
-    ac: 700,
+    ac: 803
+,
     era: "Walten Files",
     releaseDate: "???",
     skills: [
@@ -235,7 +236,8 @@ const SAMPLE_ITEMS: Item[] = [
     demand: "decent",
     glitchedVal: 150,
     glitchedAC: 8,
-    supply: 700
+    supply: 803
+
   },
   {
     glitchedOff: true,
@@ -244,7 +246,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "8-bit",
     tier: "sacred",
     value: 20,
-    ac: 500,
+    ac: 556,
     era: "I dont fucking know son",
     releaseDate: "???",
     skills: [
@@ -259,14 +261,14 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Blooming ennard",
     tier: "sacred",
     value: 13,
-    ac: 500,
+    ac: 673,
     era: "Easter",
     releaseDate: "???",
     skills: [
       { name: "limb gripper(vegan edition)", description: "free win(no animals were harmed in the making of this skill)" },
     ],
     demand: "moderate",
-    supply: 500,
+    supply: 673,
     glitchedVal: 120,
     glitchedAC: 10
   },
@@ -275,7 +277,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Sunkissed drop",
     tier: "sacred",
     value: 10,
-    ac: 2000,
+    ac: 2686,
     era: "Valentines",
     releaseDate: "???",
     skills: [
@@ -292,7 +294,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Snowfall",
     tier: "sacred",
     value: 7,
-    ac: 4000,
+    ac: 4216,
     era: "Christmas",
     releaseDate: "???",
     skills: [
@@ -308,7 +310,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Creation",
     tier: "sacred",
     value: 5,
-    ac: 6000,
+    ac: 6732,
     era: "TJOC",
     releaseDate: "???",
     skills: [
@@ -330,7 +332,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Chicas magic rainbow",
     tier: "sacred",
     value: 22,
-    ac: 6000,
+    ac: 493,
     era: "Easter",
     releaseDate: "???",
     skills: [
@@ -355,7 +357,7 @@ const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "trending",
     updates: ["ability got nerfed to hell"],
-    supply: 6000,
+    supply: 1419,
     glitchedVal: 30,
     glitchedAC: 65,
     cursedVal: 15,
@@ -368,7 +370,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Bullfighter Endo",
     tier: "exclusive",
     value: 5,
-    ac: 2000,
+    ac: 1745,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -378,7 +380,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Kitsune Lolbit",
     tier: "exclusive",
     value: 3,
-    ac: 2000,
+    ac: 5652,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -388,7 +390,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Freedom Freddy",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 2786,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -398,7 +400,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Birthday Bash Bonnie",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 1320,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -408,7 +410,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Vocalist Bonnie",
     tier: "exclusive",
     value: 3,
-    ac: 2000,
+    ac: 2790,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -418,7 +420,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Lucky Charm Endo-01",
     tier: "exclusive",
     value: 1,
-    ac: 2000,
+    ac: 1501,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -428,7 +430,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Twisted Bonnie",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 4227,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -438,7 +440,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Chick Chica",
     tier: "exclusive",
     value: 1,
-    ac: 2000,
+    ac: 1450,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -448,7 +450,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Catrina Chica",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 1518,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -468,7 +470,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Lady Chica",
     tier: "exclusive",
     value: 5,
-    ac: 2000,
+    ac: 4505,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -478,7 +480,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Ringmaster Foxy",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 1262,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -488,7 +490,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Glam Chica",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 3981,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -498,7 +500,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "The Mangle",
     tier: "exclusive",
     value: 1,
-    ac: 2000,
+    ac: 1318,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -508,7 +510,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Hungry Freddy",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 2005,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -518,7 +520,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Trickster Puppet",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 2649,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -528,7 +530,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Captain Foxy",
     tier: "exclusive",
     value: 4,
-    ac: 2000,
+    ac: 2893,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -538,7 +540,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Sprinting Fredbear",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 3378,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -548,7 +550,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Samurai Foxy",
     tier: "exclusive",
     value: 7,
-    ac: 2000,
+    ac: 4838,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -558,7 +560,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Glamrock Foxy",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 4543,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -567,8 +569,8 @@ const SAMPLE_ITEMS: Item[] = [
     id: "40",
     name: "Bling Bonnie",
     tier: "exclusive",
-    value: 5,
-    ac: 2000,
+    value: 4,
+    ac: 1306,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -578,7 +580,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Loveshot Mangle",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 3702,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -588,7 +590,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Lava Marionette",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 4253,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -598,7 +600,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Krampus Burntrap",
     tier: "exclusive",
     value: 2,
-    ac: 2000,
+    ac: 5512,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -608,7 +610,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Cardmaster Bonnie",
     tier: "exclusive",
     value: 5,
-    ac: 2000,
+    ac: 7354,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
@@ -618,7 +620,7 @@ const SAMPLE_ITEMS: Item[] = [
     name: "Baker Freddy",
     tier: "exclusive",
     value: 3,
-    ac: 2000,
+    ac: 1157,
     era: "???",
     releaseDate: "???",
     demand: "moderate",
