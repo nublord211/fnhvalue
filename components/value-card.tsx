@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Item, TIER_COLORS, DEMAND_COLORS } from "@/lib/types"
+import { Item, TIER_COLORS, DEMAND_COLORS, SITE_COLORS } from "@/lib/types"
 import { ItemDetailModal } from "./item-detail-modal"
 import Image from "next/image"
 
@@ -12,6 +12,8 @@ interface ValueCardProps {
 export function ValueCard({ item }: ValueCardProps) {
   const tierColor = TIER_COLORS[item.tier]
   const demandColor = item.demand ? DEMAND_COLORS[item.demand] : DEMAND_COLORS.none
+  const glitchedColors = SITE_COLORS.glitched
+  const cursedColors = SITE_COLORS.cursed
   const [isGlitched, setIsGlitched] = useState(false)
   const [isCursed, setIsCursed] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -107,11 +109,11 @@ export function ValueCard({ item }: ValueCardProps) {
               {hasGlitchedData && (
                 <button
                   onClick={() => setIsGlitched(!isGlitched)}
-                  className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
-                    isGlitched 
-                      ? "bg-purple-900 text-purple-300" 
-                      : "bg-secondary text-purple-900 hover:bg-purple-900/30"
-                  }`}
+                  className="w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center"
+                  style={{
+                    backgroundColor: isGlitched ? glitchedColors.activeBg : glitchedColors.inactiveBg,
+                    color: isGlitched ? glitchedColors.activeText : glitchedColors.inactiveText,
+                  }}
                   title="Toggle Glitched"
                 >
                   G
@@ -120,11 +122,11 @@ export function ValueCard({ item }: ValueCardProps) {
               {hasCursedData && (
                 <button
                   onClick={() => setIsCursed(!isCursed)}
-                  className={`w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center ${
-                    isCursed 
-                      ? "bg-yellow-800 text-yellow-300" 
-                      : "bg-secondary text-yellow-800 hover:bg-yellow-800/30"
-                  }`}
+                  className="w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center"
+                  style={{
+                    backgroundColor: isCursed ? cursedColors.activeBg : cursedColors.inactiveBg,
+                    color: isCursed ? cursedColors.activeText : cursedColors.inactiveText,
+                  }}
                   title="Toggle Cursed"
                 >
                   C

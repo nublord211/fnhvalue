@@ -94,3 +94,27 @@ export const TIER_ORDER: Tier[] = [
   "uncommon",
   "common"
 ]
+
+export const SITE_COLORS = {
+  glitched: {
+    activeBg: "#581c87",
+    activeText: "#f0abfc",
+    inactiveBg: "#f5f3ff",
+    inactiveText: "#581c87",
+  },
+  cursed: {
+    activeBg: "#78350f",
+    activeText: "#fde68a",
+    inactiveBg: "#fef3c7",
+    inactiveText: "#92400e",
+  },
+  updatePanel: "#c2410c",
+  successBg: "#14532d",
+  successBorder: "#166534",
+  successText: "#4ade80",
+  dangerBg: "#7f1d1d",
+  dangerBorder: "#991b1b",
+  dangerText: "#f87171",
+  warningText: "#facc15",
+  infoText: "#60a5fa",
+}

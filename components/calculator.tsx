@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Item, TradeItem, TIER_COLORS } from "@/lib/types"
+import { Item, TradeItem, TIER_COLORS, SITE_COLORS } from "@/lib/types"
 import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
 import { X, Plus, Minus } from "lucide-react"
 import Image from "next/image"
@@ -119,11 +119,11 @@ export function Calculator({ items, onClose }: CalculatorProps) {
           {(selected.item.glitchedVal !== undefined) && (
             <button
               onClick={() => updateItem(side, index, { isGlitched: !selected.isGlitched })}
-              className={`px-2 py-0.5 text-xs font-bold transition-colors ${
-                selected.isGlitched 
-                  ? "bg-purple-900 text-purple-300" 
-                  : "bg-secondary text-purple-900"
-              }`}
+              className="px-2 py-0.5 text-xs font-bold transition-colors"
+              style={{
+                backgroundColor: selected.isGlitched ? SITE_COLORS.glitched.activeBg : SITE_COLORS.glitched.inactiveBg,
+                color: selected.isGlitched ? SITE_COLORS.glitched.activeText : SITE_COLORS.glitched.inactiveText,
+              }}
             >
               G
             </button>
@@ -133,11 +133,11 @@ export function Calculator({ items, onClose }: CalculatorProps) {
           {(selected.item.cursedVal !== undefined) && (
             <button
               onClick={() => updateItem(side, index, { isCursed: !selected.isCursed })}
-              className={`px-2 py-0.5 text-xs font-bold transition-colors ${
-                selected.isCursed 
-                  ? "bg-yellow-800 text-yellow-300" 
-                  : "bg-secondary text-yellow-800"
-              }`}
+              className="px-2 py-0.5 text-xs font-bold transition-colors"
+              style={{
+                backgroundColor: selected.isCursed ? SITE_COLORS.cursed.activeBg : SITE_COLORS.cursed.inactiveBg,
+                color: selected.isCursed ? SITE_COLORS.cursed.activeText : SITE_COLORS.cursed.inactiveText,
+              }}
             >
               C
             </button>
@@ -180,7 +180,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
             {/* Give side */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-red-400">GIVE</h3>
+                <h3 className="font-bold" style={{ color: SITE_COLORS.dangerText }}>GIVE</h3>
                 <button
                   onClick={() => { setCurrentSide("give"); setShowSkinPicker(true) }}
                   className="flex items-center gap-1 px-3 py-1 bg-secondary hover:bg-muted transition-colors text-sm"
@@ -195,15 +195,15 @@ export function Calculator({ items, onClose }: CalculatorProps) {
                   giveItems.map((item, idx) => renderItemCard(item, "give", idx))
                 )}
               </div>
-              <div className="mt-2 p-2 bg-red-900/30 border border-red-900">
-                <p className="text-sm text-red-400">Total: <span className="font-bold text-lg">{fmt(giveTotal)}</span></p>
+              <div className="mt-2 p-2 border" style={{ backgroundColor: SITE_COLORS.dangerBg, borderColor: SITE_COLORS.dangerBorder }}>
+                <p className="text-sm" style={{ color: SITE_COLORS.dangerText }}>Total: <span className="font-bold text-lg">{fmt(giveTotal)}</span></p>
               </div>
             </div>
 
             {/* Get side */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-bold text-green-400">GET</h3>
+                <h3 className="font-bold" style={{ color: SITE_COLORS.successText }}>GET</h3>
                 <button
                   onClick={() => { setCurrentSide("get"); setShowSkinPicker(true) }}
                   className="flex items-center gap-1 px-3 py-1 bg-secondary hover:bg-muted transition-colors text-sm"
@@ -218,8 +218,8 @@ export function Calculator({ items, onClose }: CalculatorProps) {
                   getItems.map((item, idx) => renderItemCard(item, "get", idx))
                 )}
               </div>
-              <div className="mt-2 p-2 bg-green-900/30 border border-green-900">
-                <p className="text-sm text-green-400">Total: <span className="font-bold text-lg">{fmt(getTotal)}</span></p>
+              <div className="mt-2 p-2 border" style={{ backgroundColor: SITE_COLORS.successBg, borderColor: SITE_COLORS.successBorder }}>
+                <p className="text-sm" style={{ color: SITE_COLORS.successText }}>Total: <span className="font-bold text-lg">{fmt(getTotal)}</span></p>
               </div>
             </div>
           </div>
@@ -229,7 +229,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <p className="text-sm text-muted-foreground">Difference</p>
-                <p className={`text-xl font-bold ${difference >= 0 ? "text-green-400" : "text-red-400"}`}>
+                <p className="text-xl font-bold" style={{ color: difference >= 0 ? SITE_COLORS.successText : SITE_COLORS.dangerText }}>
                   {difference >= 0 ? "+" : ""}{fmt(difference)}
                 </p>
               </div>

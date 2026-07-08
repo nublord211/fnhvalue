@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Item, TIER_COLORS, DEMAND_COLORS } from "@/lib/types"
+import { Item, TIER_COLORS, DEMAND_COLORS, SITE_COLORS } from "@/lib/types"
 import { X, ChevronDown, ChevronUp } from "lucide-react"
 
 interface ItemDetailModalProps {
@@ -14,6 +14,9 @@ interface ItemDetailModalProps {
 export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDetailModalProps) {
   const tierColor = TIER_COLORS[item.tier]
   const demandColor = item.demand ? DEMAND_COLORS[item.demand] : DEMAND_COLORS.none
+  const glitchedTextColor = SITE_COLORS.glitched.activeText
+  const cursedTextColor = SITE_COLORS.cursed.activeText
+  const gcTextColor = SITE_COLORS.infoText
   const [updatesOpen, setUpdatesOpen] = useState(false)
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null)
 
@@ -59,7 +62,7 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
               <button
                 onClick={() => setUpdatesOpen(!updatesOpen)}
                 className="w-full flex items-center justify-between p-3 text-left transition-colors"
-                style={{ backgroundColor: "#c2410c" }}
+                style={{ backgroundColor: SITE_COLORS.updatePanel }}
               >
                 <span className="text-white font-semibold text-sm uppercase tracking-wider">Updates</span>
                 {updatesOpen ? (
@@ -157,18 +160,18 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
             {/* Glitched Values */}
             {(item.glitchedVal !== undefined || item.glitchedAC !== undefined) && (
               <div className="pt-2">
-                <h3 className="text-sm font-semibold text-purple-900 mb-3 uppercase tracking-wider">Glitched Values</h3>
+                <h3 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: glitchedTextColor }}>Glitched Values</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {item.glitchedVal !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Glitched Value</span>
-                      <span className="text-purple-400 font-bold">{item.glitchedVal}</span>
+                      <span className="font-bold" style={{ color: glitchedTextColor }}>{item.glitchedVal}</span>
                     </div>
                   )}
                   {item.glitchedAC !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Glitched AC</span>
-                      <span className="text-purple-400 font-bold">{item.glitchedAC}</span>
+                      <span className="font-bold" style={{ color: glitchedTextColor }}>{item.glitchedAC}</span>
                     </div>
                   )}
                 </div>
@@ -181,18 +184,18 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
             {/* Cursed Values - now GC color (greenish) */}
             {(item.cursedVal !== undefined || item.cursedAC !== undefined) && (
               <div className="pt-2">
-                <h3 className="text-sm font-semibold text-teal-500 mb-3 uppercase tracking-wider">Cursed Values</h3>
+                <h3 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: cursedTextColor }}>Cursed Values</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {item.cursedVal !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Cursed Value</span>
-                      <span className="text-teal-400 font-bold">{item.cursedVal}</span>
+                      <span className="font-bold" style={{ color: cursedTextColor }}>{item.cursedVal}</span>
                     </div>
                   )}
                   {item.cursedAC !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">Cursed AC</span>
-                      <span className="text-teal-400 font-bold">{item.cursedAC}</span>
+                      <span className="font-bold" style={{ color: cursedTextColor }}>{item.cursedAC}</span>
                     </div>
                   )}
                 </div>
@@ -205,18 +208,18 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
             {/* GC (Glitched + Cursed) Values - now blue */}
             {(item.gcVal !== undefined || item.gcAC !== undefined) && (
               <div className="pt-2">
-                <h3 className="text-sm font-semibold text-blue-500 mb-3 uppercase tracking-wider">Glitched + Cursed Values</h3>
+                <h3 className="text-sm font-semibold mb-3 uppercase tracking-wider" style={{ color: gcTextColor }}>Glitched + Cursed Values</h3>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   {item.gcVal !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">GC Value</span>
-                      <span className="text-blue-400 font-bold">{item.gcVal}</span>
+                      <span className="font-bold" style={{ color: gcTextColor }}>{item.gcVal}</span>
                     </div>
                   )}
                   {item.gcAC !== undefined && (
                     <div className="bg-secondary p-2">
                       <span className="text-muted-foreground block">GC AC</span>
-                      <span className="text-blue-400 font-bold">{item.gcAC}</span>
+                      <span className="font-bold" style={{ color: gcTextColor }}>{item.gcAC}</span>
                     </div>
                   )}
                 </div>
