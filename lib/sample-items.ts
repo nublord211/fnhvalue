@@ -384,7 +384,7 @@ export const SAMPLE_ITEMS: Item[] = [
     name: "Kitsune Lolbit",
     image: "/Skins/Kitsune.webp",
     tier: "exclusive",
-    value: 3,
+    value: 2,
     ac: 5652,
     era: "???",
     releaseDate: "???",
@@ -492,7 +492,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "31",
     name: "Ringmaster Foxy",
-    image: "/Skins/GlamrockFoxy.webp",
+    image: "/Skins/RingMasterFoxy.webp",
     tier: "exclusive",
     value: 4,
     ac: 1262,
@@ -503,7 +503,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "32",
     name: "Glam Chica",
-    image: "/Skins/Glamrock.webp",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 3981,
@@ -525,7 +525,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "34",
     name: "Hungry Freddy",
-    image: "/Skins/FreedomFreddy.webp",
+    image: "/Skins/HungryFreddy.webp",
     tier: "exclusive",
     value: 4,
     ac: 2005,
@@ -536,7 +536,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "35",
     name: "Trickster Puppet",
-    image: "/Skins/Vocalist.webp",
+    image: "/Skins/TricksterPuppet.webp",
     tier: "exclusive",
     value: 2,
     ac: 2649,
@@ -602,7 +602,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "42",
     name: "Loveshot Mangle",
-    image: "/Skins/The-Mangle.webp",
+    image: "/Skins/LoveShot.webp",
     tier: "exclusive",
     value: 2,
     ac: 3702,
@@ -635,9 +635,9 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "45",
     name: "Cardmaster Bonnie",
-    image: "/Skins/GoldenFredbear.webp",
+    image: "",
     tier: "exclusive",
-    value: 5,
+    value: 4,
     ac: 7354,
     era: "???",
     releaseDate: "???",
@@ -646,7 +646,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "46",
     name: "Baker Freddy",
-    image: "/Skins/FreedomFreddy.webp",
+    image: "",
     tier: "exclusive",
     value: 3,
     ac: 1157,
