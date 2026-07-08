@@ -256,7 +256,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "13",
     name: "8-bit",
-    image: "",
+    image: "/Skins/8-bit.webp",
     tier: "sacred",
     value: 20,
     ac: 556,
@@ -288,8 +288,8 @@ const SAMPLE_ITEMS: Item[] = [
   },
   {
     id: "15",
-    name: "Sunkissed drop",
-    image: "",
+    name: "Sun-kissed-drop",
+    image: "/Skins/sun-kissed-drop.webp",
     tier: "sacred",
     value: 10,
     ac: 2686,
@@ -324,7 +324,7 @@ const SAMPLE_ITEMS: Item[] = [
   {
     id: "17",
     name: "Creation",
-    image: "",
+    image: "/Skins/Creation.webp",
     tier: "sacred",
     value: 5,
     ac: 6732,
@@ -475,7 +475,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "28",
     name: "Catrina Chica",
-    image: "/Skins/CatrinaChica",
+    image: "/Skins/CatrinaChica.webp",
     tier: "exclusive",
     value: 4,
     ac: 1518,
@@ -618,7 +618,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "42",
     name: "Loveshot Mangle",
-    image: "/Skins/The-Mangle.webp",
+    image: "/Skins/LoveShot.webp",
     tier: "exclusive",
     value: 2,
     ac: 3702,
