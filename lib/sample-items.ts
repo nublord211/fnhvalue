@@ -273,7 +273,7 @@ export const SAMPLE_ITEMS: Item[] = [
   {
     id: "15",
     name: "sun-kissed-drop",
-    image: "/Skins/sun-kissed-drop.webp",
+    image: "/Skins/SunKissedDrop.webp",
     tier: "sacred",
     value: 10,
     ac: 2686,
