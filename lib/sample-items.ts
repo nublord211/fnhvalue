@@ -591,7 +591,7 @@ export const SAMPLE_ITEMS: Item[] = [
 {
     id: "40",
     name: "Bling Bonnie",
-    image: "/Skins/Bling.webp",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 1306,
