@@ -43,14 +43,14 @@ function usesFlatEGCSerialPricing(skin: Item, isGlitched: boolean, isCursed: boo
 export function getStaticSupply(skin: Item, isGlitched: boolean, isCursed: boolean): number | null {
   const baseSupply = (skin.supply != null && skin.supply > 0) ? skin.supply : null
   if (isGlitched && isCursed) {
-    if (skin.cursed_glitched_supply != null) return skin.cursed_glitched_supply
-    const cursedS = skin.cursed_supply != null ? skin.cursed_supply : (baseSupply != null ? Math.floor(baseSupply * 0.05) : null)
+    if (skin.gcAc != null) return skin.gcAc
+    const cursedS = skin.cursedAc != null ? skin.cursedAc : (baseSupply != null ? Math.floor(baseSupply * 0.05) : null)
     return cursedS != null ? Math.max(1, Math.floor(cursedS * 0.15)) : null
   } else if (isCursed) {
-    if (skin.cursed_supply != null) return skin.cursed_supply
+    if (skin.cursedAc != null) return skin.cursedAc
     return baseSupply != null ? Math.max(1, Math.floor(baseSupply * 0.05)) : null
   } else if (isGlitched) {
-    if (skin.glitched_supply != null) return skin.glitched_supply
+    if (skin.glitchedAc != null) return skin.glitchedAc
     return baseSupply != null ? Math.max(1, Math.floor(baseSupply * 0.02)) : null
   } else {
     return baseSupply
