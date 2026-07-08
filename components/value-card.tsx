@@ -143,13 +143,13 @@ export function ValueCard({ item }: ValueCardProps) {
           {/* Status badges */}
           <div className="flex flex-wrap gap-1 mt-2">
             {item.glitchedOff && (
-              <div className="flex items-center gap-1 text-purple-900 text-xs bg-secondary px-2 py-0.5">
+              <div className="flex items-center gap-1 text-purple-900 text-xs bg-secondary px-2 py-0.5" style={{ backgroundColor: glitchedColors.inactiveBg, color: glitchedColors.inactiveText }}>
                 <span className="font-bold">G</span>
                 OFF
               </div>
             )}
             {item.cursedOff && (
-              <div className="flex items-center gap-1 text-yellow-800 text-xs bg-secondary px-2 py-0.5">
+              <div className="flex items-center gap-1 text-yellow-800 text-xs bg-secondary px-2 py-0.5" style={{ backgroundColor: cursedColors.inactiveBg, color: cursedColors.inactiveText }}>
                 <span className="font-bold">C</span>
                 OFF
               </div>
