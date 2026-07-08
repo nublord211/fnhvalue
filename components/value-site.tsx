@@ -23,6 +23,7 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedOff: true,
     cursedOff: true,
     name: "Bling Freddy",
+    image: "/Skins/Bling.webp",
     tier: "exclusive",
     value: 95,
     ac: 764,
@@ -41,6 +42,7 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedOff: true,
     cursedOff: true,
     name: "Springtrap 2026",
+    image: "/Skins/ShipWrecked.webp",
     tier: "sacred",
     value: 215,
     ac: 180,
@@ -56,6 +58,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "3",
     name: "Nightmare Tidal King",
+    image: "/Skins/Tidal.webp",
     tier: "sacred",
     value: 85,
     ac: 724,
@@ -75,6 +78,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "4",
     name: "Dragon MXES",
+    image: "/Skins/DragonMXES.webp",
     tier: "sacred",
     value: 65,
     ac: 300,
@@ -93,6 +97,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "5",
     name: "Midnight Motorist",
+    image: "/Skins/MidnightMotorist.webp",
     tier: "sacred",
     value: 55,
     ac: 790,
@@ -112,6 +117,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "6",
     name: "Bloomtrap",
+    image: "/Skins/Bloomtrap.webp",
     tier: "secret",
     value: 60,
     ac: 316,
@@ -133,6 +139,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "7",
     name: "Clowntrap",
+    image: "/Skins/Clowntrap.webp",
     tier: "sacred",
     value: 55,
     ac: 281,
@@ -152,6 +159,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "8",
     name: "Mad Hatter Vanny",
+    image: "/Skins/Mad-Hatter-Vanny.webp",
     tier: "sacred",
     value: 40,
     ac: 488,
@@ -170,6 +178,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "9",
     name: "Lava ennard",
+    image: "/Skins/LavaEnnard.webp",
     tier: "sacred",
     value: 35,
     ac: 525,
@@ -188,6 +197,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "10",
     name: "Withered moon rose",
+    image: "/Skins/Withered-Moon-Rose.webp",
     tier: "sacred",
     value: 30,
     ac: 582,
@@ -204,6 +214,7 @@ const SAMPLE_ITEMS: Item[] = [
   {
     id: "11",
     name: "Crimson Ballora",
+    image: "/Skins/CrimsonBallora.webp",
     tier: "mythic",
     value: 25,
     ac: 1096,
@@ -217,13 +228,14 @@ const SAMPLE_ITEMS: Item[] = [
     updates: ["ability got nerfed"],
     glitchedAC: 20,
     gcVal: 600,
-    gcAc: 1,
+    gcAC: 1,
     supply: 1096
   },
   {
     cursedOff: true,
     id: "12",
     name: "The Pumpkin Rabbit",
+    image: "/Skins/ThePumpkinRabbit.webp",
     tier: "sacred",
     value: 17,
     ac: 803
@@ -244,6 +256,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "13",
     name: "8-bit",
+    image: "",
     tier: "sacred",
     value: 20,
     ac: 556,
@@ -259,6 +272,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "14",
     name: "Blooming ennard",
+    image: "/Skins/BloomingEnnard.webp",
     tier: "sacred",
     value: 13,
     ac: 673,
@@ -275,6 +289,7 @@ const SAMPLE_ITEMS: Item[] = [
   {
     id: "15",
     name: "Sunkissed drop",
+    image: "",
     tier: "sacred",
     value: 10,
     ac: 2686,
@@ -286,12 +301,13 @@ const SAMPLE_ITEMS: Item[] = [
     demand: "moderate",
     supply: 2000,
     cursedVal: 33,
-    cursedAc: 20,
+    cursedAC: 20,
   },
   {
     glitchedOff: true,
     id: "16",
     name: "Snowfall",
+    image: "",
     tier: "sacred",
     value: 7,
     ac: 4216,
@@ -303,11 +319,12 @@ const SAMPLE_ITEMS: Item[] = [
     demand: "moderate",
     supply: 4000,
     cursedVal: 22,
-    cursedAc: 40,
+    cursedAC: 40,
   },
   {
     id: "17",
     name: "Creation",
+    image: "",
     tier: "sacred",
     value: 5,
     ac: 6732,
@@ -322,14 +339,15 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedVal: 30,
     glitchedAC: 65,
     cursedVal: 15,
-    cursedAc: 340,
+    cursedAC: 340,
     gcVal: 80,
-    gcAc: 10
+    gcAC: 10
   },
   {
     cursedOff: true,
     id: "18",
     name: "Chicas magic rainbow",
+    image: "/Skins/CoconutChica.webp",
     tier: "sacred",
     value: 22,
     ac: 493,
@@ -347,6 +365,7 @@ const SAMPLE_ITEMS: Item[] = [
     cursedOff: true,
     id: "19",
     name: "Blessed Helpy",
+    image: "",
     tier: "sacred",
     value: 18,
     ac: 1040,
@@ -361,13 +380,14 @@ const SAMPLE_ITEMS: Item[] = [
     glitchedVal: 30,
     glitchedAC: 65,
     cursedVal: 15,
-    cursedAc: 340,
+    cursedAC: 340,
     gcVal: 80,
-    gcAc: 10
+    gcAC: 10
   },
   {
     id: "20",
     name: "Bullfighter Endo",
+    image: "",
     tier: "exclusive",
     value: 5,
     ac: 1745,
@@ -378,6 +398,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "21",
     name: "Kitsune Lolbit",
+    image: "/Skins/Kitsune.webp",
     tier: "exclusive",
     value: 3,
     ac: 5652,
@@ -388,6 +409,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "22",
     name: "Freedom Freddy",
+    image: "/Skins/FreedomFreddy.webp",
     tier: "exclusive",
     value: 4,
     ac: 2786,
@@ -398,6 +420,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "23",
     name: "Birthday Bash Bonnie",
+    image: "",
     tier: "exclusive",
     value: 2,
     ac: 1320,
@@ -408,6 +431,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "24",
     name: "Vocalist Bonnie",
+    image: "/Skins/Vocalist.webp",
     tier: "exclusive",
     value: 3,
     ac: 2790,
@@ -418,6 +442,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "25",
     name: "Lucky Charm Endo-01",
+    image: "",
     tier: "exclusive",
     value: 1,
     ac: 1501,
@@ -428,6 +453,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "26",
     name: "Twisted Bonnie",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 4227,
@@ -438,6 +464,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "27",
     name: "Chick Chica",
+    image: "/Skins/Chick.png",
     tier: "exclusive",
     value: 1,
     ac: 1450,
@@ -448,6 +475,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "28",
     name: "Catrina Chica",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 1518,
@@ -458,6 +486,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "29",
     name: "Monarch Baby",
+    image: "",
     tier: "exclusive",
     value: 1,
     ac: 2000,
@@ -468,6 +497,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "30",
     name: "Lady Chica",
+    image: "/Skins/LadyChica.webp",
     tier: "exclusive",
     value: 5,
     ac: 4505,
@@ -478,6 +508,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "31",
     name: "Ringmaster Foxy",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 1262,
@@ -488,6 +519,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "32",
     name: "Glam Chica",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 3981,
@@ -498,6 +530,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "33",
     name: "The Mangle",
+    image: "/Skins/The-Mangle.webp",
     tier: "exclusive",
     value: 1,
     ac: 1318,
@@ -508,6 +541,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "34",
     name: "Hungry Freddy",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 2005,
@@ -518,6 +552,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "35",
     name: "Trickster Puppet",
+    image: "",
     tier: "exclusive",
     value: 2,
     ac: 2649,
@@ -528,6 +563,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "36",
     name: "Captain Foxy",
+    image: "/Skins/CaptainFoxy.webp",
     tier: "exclusive",
     value: 4,
     ac: 2893,
@@ -538,6 +574,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "37",
     name: "Sprinting Fredbear",
+    image: "/Skins/SprintingFredbear.webp",
     tier: "exclusive",
     value: 2,
     ac: 3378,
@@ -548,6 +585,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "38",
     name: "Samurai Foxy",
+    image: "",
     tier: "exclusive",
     value: 7,
     ac: 4838,
@@ -558,6 +596,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "39",
     name: "Glamrock Foxy",
+    image: "/Skins/GlamrockFoxy.webp",
     tier: "exclusive",
     value: 2,
     ac: 4543,
@@ -568,6 +607,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "40",
     name: "Bling Bonnie",
+    image: "",
     tier: "exclusive",
     value: 4,
     ac: 1306,
@@ -578,36 +618,40 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "42",
     name: "Loveshot Mangle",
+    image: "",
     tier: "exclusive",
     value: 2,
     ac: 3702,
-    era: "???",
+    era: "Valentines",
     releaseDate: "???",
     demand: "moderate",
 },
 {
     id: "43",
     name: "Lava Marionette",
+    image: "/Skins/LavaMarionette.webp",
     tier: "exclusive",
     value: 2,
     ac: 4253,
-    era: "???",
+    era: "TJOC",
     releaseDate: "???",
     demand: "moderate",
 },
 {
     id: "44",
     name: "Krampus Burntrap",
+    image: "/Skins/KrampusBurntrap.webp",
     tier: "exclusive",
     value: 2,
     ac: 5512,
-    era: "???",
+    era: "Christmas",
     releaseDate: "???",
     demand: "moderate",
 },
 {
     id: "45",
     name: "Cardmaster Bonnie",
+    image: "",
     tier: "exclusive",
     value: 5,
     ac: 7354,
@@ -618,6 +662,7 @@ const SAMPLE_ITEMS: Item[] = [
 {
     id: "46",
     name: "Baker Freddy",
+    image: "",
     tier: "exclusive",
     value: 3,
     ac: 1157,
@@ -625,8 +670,7 @@ const SAMPLE_ITEMS: Item[] = [
     releaseDate: "???",
     demand: "moderate",
 },
-  
-];
+]; 
 
 export function ValueSite() {
   const [items] = useState<Item[]>(SAMPLE_ITEMS)
