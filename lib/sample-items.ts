@@ -310,7 +310,7 @@ export const SAMPLE_ITEMS: Item[] = [
     name: "Creation",
     image: "/Skins/Creation.webp",
     tier: "sacred",
-    value: 5,
+    value: 7,
     ac: 6732,
     era: "TJOC",
     releaseDate: "???",
