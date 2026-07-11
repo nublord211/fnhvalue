@@ -361,12 +361,8 @@ export const SAMPLE_ITEMS: Item[] = [
     demand: "trending",
     updates: ["ability got nerfed to hell"],
     supply: 1419,
-    glitchedVal: 30,
-    glitchedAC: 65,
-    cursedVal: 15,
-    cursedAC: 340,
-    gcVal: 80,
-    gcAC: 10
+    glitchedVal: 220,
+    glitchedAC: 15,
   },
   {
     id: "20",
