@@ -135,7 +135,7 @@ export const SAMPLE_ITEMS: Item[] = [
     ],
     demand: "trending",
     updates: ["Sudden rise in demand"],
-    glitchedVal: 75,
+    glitchedVal: 70,
     glitchedAC: 97,
     supply: 281
   },
