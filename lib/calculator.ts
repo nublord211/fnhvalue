@@ -63,22 +63,40 @@ function usesFlatEGCSerialPricing(skin: Item, isGlitched: boolean, isCursed: boo
   return !!(skin && isGlitched && isCursed && FLAT_GC_SERIAL_SKINS.has(skinNameKey(skin.name)))
 }
 
+function getPositiveNumber(value: number | null | undefined): number | null {
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) return null
+  return value
+}
+
+function getBaseSupply(skin: Item): number | null {
+  return getPositiveNumber(skin.supply) ?? getPositiveNumber(skin.ac) ?? null
+}
+
 // Get static (historical max) supply from skin object
 export function getStaticSupply(skin: Item, isGlitched: boolean, isCursed: boolean): number | null {
-  const baseSupply = (skin.supply != null && skin.supply > 0) ? skin.supply : null
+  const baseSupply = getBaseSupply(skin)
+
   if (isGlitched && isCursed) {
-    if (skin.gcAC != null) return skin.gcAC
-    const cursedS = skin.cursedAC != null ? skin.cursedAC : (baseSupply != null ? Math.floor(baseSupply * 0.05) : null)
-    return cursedS != null ? Math.max(1, Math.floor(cursedS * 0.15)) : null
-  } else if (isCursed) {
-    if (skin.cursedAC != null) return skin.cursedAC
-    return baseSupply != null ? Math.max(1, Math.floor(baseSupply * 0.05)) : null
-  } else if (isGlitched) {
-    if (skin.glitchedAC != null) return skin.glitchedAC
-    return baseSupply != null ? Math.max(1, Math.floor(baseSupply * 0.02)) : null
-  } else {
-    return baseSupply
+    if (getPositiveNumber(skin.gcAC) !== null) return getPositiveNumber(skin.gcAC) as number
+    if (getPositiveNumber(skin.cursedAC) !== null) return getPositiveNumber(skin.cursedAC) as number
+    if (getPositiveNumber(skin.glitchedAC) !== null) return getPositiveNumber(skin.glitchedAC) as number
+    if (baseSupply != null) return Math.max(2, Math.floor(baseSupply * 0.05))
+    return null
   }
+
+  if (isCursed) {
+    if (getPositiveNumber(skin.cursedAC) !== null) return getPositiveNumber(skin.cursedAC) as number
+    if (baseSupply != null) return Math.max(2, Math.floor(baseSupply * 0.05))
+    return null
+  }
+
+  if (isGlitched) {
+    if (getPositiveNumber(skin.glitchedAC) !== null) return getPositiveNumber(skin.glitchedAC) as number
+    if (baseSupply != null) return Math.max(2, Math.floor(baseSupply * 0.02))
+    return null
+  }
+
+  return baseSupply
 }
 
 // Serial multiplier calculations
@@ -103,34 +121,17 @@ function getTierEnds(supply: number): { tier1End: number; tier2End: number; tier
 function multiplierFromSerial(serial: number, supply: number, isExclusive: boolean = false): number | null {
   const n = Math.floor(Number(serial))
   const S = Math.floor(Number(supply))
-  
+
   if (!Number.isFinite(n) || !Number.isFinite(S) || S < 2) return 1.0
   if (n <= 1) return null
-  
+
   const nn = clamp(n, 2, S)
-  const { tier1End, tier2End, tier3End, cap } = getTierEnds(S)
   const maxMultiplier = isExclusive ? 4.0 : 2.0
-  const tier1EndMultiplier = isExclusive ? 3.25 : 1.75
-  const tier2EndMultiplier = isExclusive ? 2.50 : 1.40
-  const tier3EndMultiplier = isExclusive ? 1.75 : 1.18
-  
-  if (nn <= tier1End) {
-    const t = (nn - 2) / Math.max(1, tier1End - 2)
-    return easedLerp(maxMultiplier, tier1EndMultiplier, t, 3.0)
-  }
-  
-  if (nn <= tier2End) {
-    const t = (nn - (tier1End + 1)) / Math.max(1, tier2End - (tier1End + 1))
-    return easedLerp(tier1EndMultiplier, tier2EndMultiplier, t, 2.6)
-  }
-  
-  if (nn <= tier3End) {
-    const t = (nn - (tier2End + 1)) / Math.max(1, tier3End - (tier2End + 1))
-    return easedLerp(tier2EndMultiplier, tier3EndMultiplier, t, 2.2)
-  }
-  
-  const t = (nn - (tier3End + 1)) / Math.max(1, cap - (tier3End + 1))
-  return easedLerp(tier3EndMultiplier, 1.00, t, 4.0)
+
+  if (nn <= 2) return 1.0
+
+  const progress = (nn - 2) / Math.max(1, S - 2)
+  return easedLerp(1.0, maxMultiplier, progress, 2.2)
 }
 
 export interface SerialValueResult {
