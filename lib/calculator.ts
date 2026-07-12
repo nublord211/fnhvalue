@@ -106,18 +106,6 @@ function easedLerp(from: number, to: number, t: number, exponent: number = 2.0):
   return from + (to - from) * eased
 }
 
-function getTierEnds(supply: number): { tier1End: number; tier2End: number; tier3End: number; cap: number } {
-  const S = Math.max(2, Math.floor(Number(supply) || 0))
-  let tier1End = Math.max(2, Math.round(S * 0.014))
-  let tier2End = Math.max(tier1End + 1, Math.round(S * 0.138))
-  let tier3End = Math.max(tier2End + 1, Math.round(S * 0.691))
-  // Safety clamps
-  if (tier3End >= S) tier3End = Math.max(tier2End + 1, S - 1)
-  if (tier2End >= tier3End) tier2End = Math.max(tier1End + 1, tier3End - 1)
-  if (tier1End >= tier2End) tier1End = Math.max(2, tier2End - 1)
-  return { tier1End, tier2End, tier3End, cap: S }
-}
-
 function multiplierFromSerial(serial: number, supply: number, isExclusive: boolean = false): number | null {
   const n = Math.floor(Number(serial))
   const S = Math.floor(Number(supply))
@@ -128,10 +116,10 @@ function multiplierFromSerial(serial: number, supply: number, isExclusive: boole
   const nn = clamp(n, 2, S)
   const maxMultiplier = isExclusive ? 4.0 : 2.0
 
-  if (nn <= 2) return 1.0
+  if (nn <= 2) return maxMultiplier
 
   const progress = (nn - 2) / Math.max(1, S - 2)
-  return easedLerp(1.0, maxMultiplier, progress, 2.2)
+  return easedLerp(maxMultiplier, 1.0, progress, 2.2)
 }
 
 export interface SerialValueResult {

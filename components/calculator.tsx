@@ -102,15 +102,16 @@ export function Calculator({ items, onClose }: CalculatorProps) {
         
         <div className="h-1 w-full mb-2" style={{ backgroundColor: tierColor }} />
         
-        <div className="flex gap-2">
-          <div className="w-12 h-12 bg-secondary flex items-center justify-center flex-shrink-0">
+        <div className="flex gap-2 items-start">
+          <div className="relative w-12 h-12 bg-secondary flex items-center justify-center flex-shrink-0 overflow-hidden rounded-sm border border-border/60">
+            <div className="absolute inset-x-0 top-0 h-1 z-10" style={{ backgroundColor: tierColor }} />
             {selected.item.image ? (
               <Image 
                 src={selected.item.image} 
                 alt={selected.item.name} 
                 width={48} 
                 height={48} 
-                className="object-contain" 
+                className="object-contain relative z-0" 
               />
             ) : (
               <span className="text-xs text-muted-foreground">?</span>
