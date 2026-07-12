@@ -54,14 +54,6 @@ export interface Item {
   }
 }
 
-export interface TradeItem {
-  item: Item
-  serial?: number
-  isGlitched: boolean
-  isCursed: boolean
-  calculatedValue: number
-}
-
 export const TIER_COLORS: Record<Tier, string> = {
   secret: "#22c55e",      // green
   sacred: "#4a4a4a",      // blackish grey

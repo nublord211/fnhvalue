@@ -1,8 +1,32 @@
 import { Item } from "./types"
 
 // Utility functions
+function toFiniteNumber(value: number | null | undefined): number | null {
+  if (typeof value !== "number" || !Number.isFinite(value)) return null
+  return value
+}
+
+function getVariantBaseValue(item: Item, isGlitched: boolean, isCursed: boolean): number {
+  const baseValue = toFiniteNumber(item?.value) ?? 0
+  const glitchedValue = toFiniteNumber(item?.glitchedVal)
+  const cursedValue = toFiniteNumber(item?.cursedVal)
+  const gcValue = toFiniteNumber(item?.gcVal)
+
+  if (isGlitched && isCursed) {
+    if (gcValue !== null) return gcValue
+    if (glitchedValue !== null) return Math.round(glitchedValue * 3.25)
+    if (cursedValue !== null) return cursedValue
+    return baseValue
+  }
+
+  if (isCursed && cursedValue !== null) return cursedValue
+  if (isGlitched && glitchedValue !== null) return glitchedValue
+  return baseValue
+}
+
 export function fmt(n: number | null | undefined): string {
   if (n === null || n === undefined) return "?"
+  if (typeof n !== "number" || !Number.isFinite(n)) return "?"
   if (n >= 1e9) return (n / 1e9).toFixed(2) + "B"
   if (n >= 1e6) return (n / 1e6).toFixed(2) + "M"
   if (n >= 1e3) return (n / 1e3).toFixed(2) + "K"
@@ -76,7 +100,7 @@ function getTierEnds(supply: number): { tier1End: number; tier2End: number; tier
   return { tier1End, tier2End, tier3End, cap: S }
 }
 
-function multiplierFromSerial(serial: number, supply: number): number | null {
+function multiplierFromSerial(serial: number, supply: number, isExclusive: boolean = false): number | null {
   const n = Math.floor(Number(serial))
   const S = Math.floor(Number(supply))
   
@@ -85,24 +109,28 @@ function multiplierFromSerial(serial: number, supply: number): number | null {
   
   const nn = clamp(n, 2, S)
   const { tier1End, tier2End, tier3End, cap } = getTierEnds(S)
+  const maxMultiplier = isExclusive ? 4.0 : 2.0
+  const tier1EndMultiplier = isExclusive ? 3.25 : 1.75
+  const tier2EndMultiplier = isExclusive ? 2.50 : 1.40
+  const tier3EndMultiplier = isExclusive ? 1.75 : 1.18
   
   if (nn <= tier1End) {
     const t = (nn - 2) / Math.max(1, tier1End - 2)
-    return easedLerp(2.00, 1.75, t, 3.0)
+    return easedLerp(maxMultiplier, tier1EndMultiplier, t, 3.0)
   }
   
   if (nn <= tier2End) {
     const t = (nn - (tier1End + 1)) / Math.max(1, tier2End - (tier1End + 1))
-    return easedLerp(1.75, 1.40, t, 2.6)
+    return easedLerp(tier1EndMultiplier, tier2EndMultiplier, t, 2.6)
   }
   
   if (nn <= tier3End) {
     const t = (nn - (tier2End + 1)) / Math.max(1, tier3End - (tier2End + 1))
-    return easedLerp(1.40, 1.18, t, 2.2)
+    return easedLerp(tier2EndMultiplier, tier3EndMultiplier, t, 2.2)
   }
   
   const t = (nn - (tier3End + 1)) / Math.max(1, cap - (tier3End + 1))
-  return easedLerp(1.18, 1.00, t, 4.0)
+  return easedLerp(tier3EndMultiplier, 1.00, t, 4.0)
 }
 
 export interface SerialValueResult {
@@ -120,13 +148,8 @@ export function getSerialValue(skin: Item, serial: number, isGlitched: boolean, 
   if (serialNum === 0 || serialNum === 1) return { value: null, isOC: true }
   if (skin.serial2_unique && serialNum === 2) return { value: null, isOC: true }
 
-  const baseValue = isCursed && isGlitched
-    ? (skin.gcVal != null ? skin.gcVal : (skin.glitchedVal != null ? skin.glitchedVal * 3 : skin.value * 3))
-    : isCursed
-      ? (skin.cursedVal != null ? skin.cursedVal : skin.value * 3)
-      : isGlitched
-        ? (skin.glitchedVal != null ? skin.glitchedVal : skin.value)
-        : skin.value
+  const isExclusive = String(skin?.tier || "").toLowerCase() === "exclusive"
+  const baseValue = getVariantBaseValue(skin, isGlitched, isCursed)
 
   if (usesFlatEGCSerialPricing(skin, isGlitched, isCursed)) {
     return { value: baseValue, isOC: false, isSacreds: true, multiplier: 1.0, flatEGC: true }
@@ -154,7 +177,7 @@ export function getSerialValue(skin: Item, serial: number, isGlitched: boolean, 
     return { value: baseValue, isOC: false, isSacreds: true, multiplier: 1.0 }
   }
   
-  const mult = multiplierFromSerial(serialNum, supply)
+  const mult = multiplierFromSerial(serialNum, supply, isExclusive)
   if (mult === null) return { value: null, isOC: true }
   
   // Universal formula: value = baseValue × serialMultiplier(serial, supply)
@@ -192,17 +215,15 @@ export function isSerialAffectedSkin(skin: Item): boolean {
 }
 
 export function getItemValue(item: Item, isGlitched: boolean, isCursed: boolean, serial?: number): number {
+  const serialNumber = typeof serial === "number" && Number.isFinite(serial) ? serial : undefined
+
   // If we have a serial and it's a serial-affected skin, calculate serial value
-  if (serial !== undefined && serial > 1 && isSerialAffectedSkin(item)) {
-    const result = getSerialValue(item, serial, isGlitched, isCursed)
+  if (serialNumber !== undefined && serialNumber > 1 && isSerialAffectedSkin(item)) {
+    const result = getSerialValue(item, serialNumber, isGlitched, isCursed)
     if (result && result.value !== null) {
       return result.value
     }
   }
-  
-  // Otherwise return base value for variant
-  if (isGlitched && isCursed && item.gcVal !== undefined) return item.gcVal
-  if (isCursed && item.cursedVal !== undefined) return item.cursedVal
-  if (isGlitched && item.glitchedVal !== undefined) return item.glitchedVal
-  return item.value
+
+  return getVariantBaseValue(item, isGlitched, isCursed)
 }

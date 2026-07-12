@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Item, TradeItem, TIER_COLORS, SITE_COLORS } from "@/lib/types"
+import { Item, TIER_COLORS, SITE_COLORS } from "@/lib/types"
 import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
-import { X, Plus, Minus } from "lucide-react"
+import { X, Plus } from "lucide-react"
 import Image from "next/image"
 
 interface CalculatorProps {
@@ -16,6 +16,13 @@ interface SelectedItemState {
   serial: string
   isGlitched: boolean
   isCursed: boolean
+}
+
+function parseSerialValue(value: string): number | undefined {
+  const cleaned = value.replace(/[^\d]/g, "")
+  if (!cleaned) return undefined
+  const parsed = Number.parseInt(cleaned, 10)
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined
 }
 
 export function Calculator({ items, onClose }: CalculatorProps) {
@@ -34,15 +41,17 @@ export function Calculator({ items, onClose }: CalculatorProps) {
 
   const calculateTotalValue = (itemList: SelectedItemState[]): number => {
     return itemList.reduce((total, selected) => {
-      const serial = selected.serial ? parseInt(selected.serial) : undefined
-      return total + getItemValue(selected.item, selected.isGlitched, selected.isCursed, serial)
+      const serial = parseSerialValue(selected.serial)
+      const value = getItemValue(selected.item, selected.isGlitched, selected.isCursed, serial)
+      return Number.isFinite(value) ? total + value : total
     }, 0)
   }
 
   const giveTotal = calculateTotalValue(giveItems)
   const getTotal = calculateTotalValue(getItems)
   const difference = getTotal - giveTotal
-  const fairnessPercent = giveTotal > 0 ? ((getTotal / giveTotal) * 100).toFixed(1) : "0"
+  const fairnessPercent = giveTotal > 0 ? ((getTotal / giveTotal) * 100) : 0
+  const fairnessLabel = Number.isFinite(fairnessPercent) ? fairnessPercent.toFixed(1) : "0"
 
   const addItem = (item: Item) => {
     const newItem: SelectedItemState = {
@@ -78,7 +87,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
 
   const renderItemCard = (selected: SelectedItemState, side: "give" | "get", index: number) => {
     const tierColor = TIER_COLORS[selected.item.tier]
-    const serial = selected.serial ? parseInt(selected.serial) : undefined
+    const serial = parseSerialValue(selected.serial)
     const value = getItemValue(selected.item, selected.isGlitched, selected.isCursed, serial)
     const showSerial = isSerialAffectedSkin(selected.item)
 
@@ -151,9 +160,11 @@ export function Calculator({ items, onClose }: CalculatorProps) {
               type="number"
               placeholder="Serial #"
               value={selected.serial}
-              onChange={(e) => updateItem(side, index, { serial: e.target.value })}
+              onChange={(e) => updateItem(side, index, { serial: e.target.value.replace(/[^\d]/g, "") })}
               className="w-full px-2 py-1 text-xs bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
               min="1"
+              step="1"
+              inputMode="numeric"
             />
           </div>
         )}
@@ -236,27 +247,27 @@ export function Calculator({ items, onClose }: CalculatorProps) {
               <div>
                 <p className="text-sm text-muted-foreground">Fairness</p>
                 <p className={`text-xl font-bold ${
-                  parseFloat(fairnessPercent) >= 95 && parseFloat(fairnessPercent) <= 105 
+                  Number(fairnessLabel) >= 95 && Number(fairnessLabel) <= 105 
                     ? "text-green-400" 
-                    : parseFloat(fairnessPercent) >= 80 && parseFloat(fairnessPercent) <= 120
+                    : Number(fairnessLabel) >= 80 && Number(fairnessLabel) <= 120
                       ? "text-yellow-400"
                       : "text-red-400"
                 }`}>
-                  {fairnessPercent}%
+                  {fairnessLabel}%
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Verdict</p>
                 <p className={`text-xl font-bold ${
-                  parseFloat(fairnessPercent) >= 95 && parseFloat(fairnessPercent) <= 105 
+                  Number(fairnessLabel) >= 95 && Number(fairnessLabel) <= 105 
                     ? "text-green-400" 
-                    : parseFloat(fairnessPercent) >= 80 && parseFloat(fairnessPercent) <= 120
+                    : Number(fairnessLabel) >= 80 && Number(fairnessLabel) <= 120
                       ? "text-yellow-400"
                       : "text-red-400"
                 }`}>
-                  {parseFloat(fairnessPercent) >= 95 && parseFloat(fairnessPercent) <= 105 
+                  {Number(fairnessLabel) >= 95 && Number(fairnessLabel) <= 105 
                     ? "Fair" 
-                    : parseFloat(fairnessPercent) > 105 
+                    : Number(fairnessLabel) > 105 
                       ? "W" 
                       : "L"}
                 </p>
@@ -267,8 +278,9 @@ export function Calculator({ items, onClose }: CalculatorProps) {
 
         {/* Skin picker modal */}
         {showSkinPicker && (
-          <div className="absolute inset-0 bg-black/90 flex flex-col">
-            <div className="p-4 border-b border-border flex items-center gap-4">
+          <div className="absolute inset-0 bg-black/90 flex items-center justify-center p-3">
+            <div className="w-full max-w-3xl max-h-[80vh] bg-card border border-border flex flex-col rounded-lg overflow-hidden">
+            <div className="p-3 border-b border-border flex items-center gap-3">
               <button 
                 onClick={() => { setShowSkinPicker(false); setSearchQuery("") }}
                 className="p-2 hover:bg-secondary transition-colors"
@@ -280,40 +292,41 @@ export function Calculator({ items, onClose }: CalculatorProps) {
                 placeholder="Search skins..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2 bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
+                className="flex-1 px-3 py-2 bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
                 autoFocus
               />
             </div>
-            <div className="flex-1 overflow-y-auto p-4">
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+            <div className="flex-1 overflow-y-auto p-3">
+              <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2">
                 {filteredItems.map((item) => (
                   <button
                     key={item.id}
                     onClick={() => addItem(item)}
-                    className="bg-card border border-border p-2 hover:border-foreground transition-colors text-left"
+                    className="bg-card border border-border p-1.5 hover:border-foreground transition-colors text-left"
                     style={{
                       borderTopColor: TIER_COLORS[item.tier],
                       borderTopWidth: "3px"
                     }}
                   >
-                    <div className="aspect-square bg-secondary flex items-center justify-center mb-1">
+                    <div className="aspect-square bg-secondary flex items-center justify-center mb-1 p-1">
                       {item.image ? (
                         <Image 
                           src={item.image} 
                           alt={item.name} 
-                          width={60} 
-                          height={60} 
-                          className="object-contain" 
+                          width={40} 
+                          height={40} 
+                          className="object-contain w-10 h-10" 
                         />
                       ) : (
                         <span className="text-xs text-muted-foreground">?</span>
                       )}
                     </div>
-                    <p className="text-xs truncate">{item.name}</p>
-                    <p className="text-xs font-bold">{fmt(item.value)}</p>
+                    <p className="text-[10px] leading-tight truncate">{item.name}</p>
+                    <p className="text-[10px] font-bold">{fmt(item.value)}</p>
                   </button>
                 ))}
               </div>
+            </div>
             </div>
           </div>
         )}

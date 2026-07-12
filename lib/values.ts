@@ -1,6 +1,6 @@
 import { Item } from "./types"
 
-export const SAMPLE_ITEMS: Item[] = [
+export const VALUES: Item[] = [
   
   {
     id: "1",
