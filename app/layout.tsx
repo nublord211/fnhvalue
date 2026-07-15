@@ -12,6 +12,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'New value List?',
   description: 'ou shiiiii 👀',
+  viewport: 'width=device-width, initial-scale=1',
   icons: {
     icon: [
       {

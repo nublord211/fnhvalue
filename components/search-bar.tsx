@@ -280,7 +280,7 @@ export function SearchBar({ value, onChange, filters, onFiltersChange }: SearchB
   return (
     <div className="max-w-2xl mx-auto">
       {/* Search input row */}
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <div className="relative flex-1">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <input
@@ -293,7 +293,7 @@ export function SearchBar({ value, onChange, filters, onFiltersChange }: SearchB
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`px-4 py-3 border border-border flex items-center gap-2 transition-colors ${
+          className={`w-full sm:w-auto px-4 py-3 border border-border flex items-center gap-2 transition-colors ${
             hasActiveFilters ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-muted"
           }`}
         >

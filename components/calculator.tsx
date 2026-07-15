@@ -177,7 +177,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-card border border-border w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-card border border-border w-full max-w-full sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col sm:rounded-lg">
         {/* Header */}
         <div className="p-4 border-b border-border flex items-center justify-between">
           <h2 className="text-xl font-bold">Trade Calculator</h2>
@@ -280,7 +280,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
         {/* Skin picker modal */}
         {showSkinPicker && (
           <div className="absolute inset-0 bg-black/90 flex items-center justify-center p-3">
-            <div className="w-full max-w-3xl max-h-[80vh] bg-card border border-border flex flex-col rounded-lg overflow-hidden">
+            <div className="w-full max-w-full sm:max-w-3xl max-h-[80vh] bg-card border border-border flex flex-col sm:rounded-lg overflow-hidden">
             <div className="p-3 border-b border-border flex items-center gap-3">
               <button 
                 onClick={() => { setShowSkinPicker(false); setSearchQuery("") }}

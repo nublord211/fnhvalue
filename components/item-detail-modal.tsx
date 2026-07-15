@@ -28,15 +28,15 @@ export function ItemDetailModal({ item, isGlitched, isCursed, onClose }: ItemDet
   const hasUpdates = item.updates && item.updates.length > 0
 
   return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-3" onClick={onClose}>
       <div 
-        className="bg-card border border-border max-w-md w-full max-h-[90vh] overflow-y-auto"
+        className="bg-card border border-border max-w-md w-full max-h-[90vh] overflow-y-auto sm:rounded-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header color bar */}
         <div className="h-2 w-full" style={{ backgroundColor: tierColor }} />
         
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Close button */}
           <div className="flex items-center justify-between mb-4">
             <span 
