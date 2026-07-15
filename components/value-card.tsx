@@ -51,11 +51,11 @@ export function ValueCard({ item }: ValueCardProps) {
         {/* Tier color bar at top */}
         <div className="h-1 w-full" style={{ backgroundColor: tierColor }} />
         
-        <div className="p-3">
+        <div className="p-2 sm:p-3 min-w-0">
           {/* Header with tier name and demand indicator */}
           <div className="flex items-center justify-between mb-3">
             <span 
-              className="text-xs font-bold uppercase tracking-wider"
+              className="text-[10px] sm:text-xs font-bold uppercase tracking-wider"
               style={{ color: tierColor }}
             >
               {item.tier}
@@ -66,7 +66,7 @@ export function ValueCard({ item }: ValueCardProps) {
                 style={{ backgroundColor: tierColor }}
               />
               <span 
-                className="text-xs px-2 py-0.5 font-bold"
+                className="text-[10px] sm:text-xs px-2 py-0.5 font-bold flex-shrink-0"
                 style={{ backgroundColor: demandColor, color: "#fff" }}
               >
                 {item.demand ? item.demand.charAt(0).toUpperCase() + item.demand.slice(1) : "None"}
@@ -92,14 +92,14 @@ export function ValueCard({ item }: ValueCardProps) {
           </div>
 
           {/* Item name */}
-          <h3 className="font-semibold text-foreground text-sm mb-1 truncate">
+          <h3 className="font-semibold text-foreground text-xs sm:text-sm mb-1 truncate">
             {item.name}
           </h3>
 
           {/* AC value and toggle buttons row */}
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             {getDisplayAC() !== undefined && (
-              <p className="text-xs text-primary">
+              <p className="text-[10px] sm:text-xs text-primary">
                 AC: {getDisplayAC()}
               </p>
             )}
@@ -109,7 +109,7 @@ export function ValueCard({ item }: ValueCardProps) {
               {hasGlitchedData && (
                 <button
                   onClick={() => setIsGlitched(!isGlitched)}
-                  className="w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center"
+                  className="sm:w-5 sm:h-5 w-6 h-6 text-[10px] sm:text-xs font-bold transition-colors flex items-center justify-center flex-shrink-0"
                   style={{
                     backgroundColor: isGlitched ? glitchedColors.activeBg : glitchedColors.inactiveBg,
                     color: isGlitched ? glitchedColors.activeText : glitchedColors.inactiveText,
@@ -122,7 +122,7 @@ export function ValueCard({ item }: ValueCardProps) {
               {hasCursedData && (
                 <button
                   onClick={() => setIsCursed(!isCursed)}
-                  className="w-5 h-5 text-xs font-bold transition-colors flex items-center justify-center"
+                  className="sm:w-5 sm:h-5 w-6 h-6 text-[10px] sm:text-xs font-bold transition-colors flex items-center justify-center flex-shrink-0"
                   style={{
                     backgroundColor: isCursed ? cursedColors.activeBg : cursedColors.inactiveBg,
                     color: isCursed ? cursedColors.activeText : cursedColors.inactiveText,

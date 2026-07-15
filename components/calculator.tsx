@@ -92,7 +92,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
     const showSerial = isSerialAffectedSkin(selected.item)
 
     return (
-      <div key={index} className="bg-card border border-border p-3 relative">
+      <div key={index} className="bg-card border border-border p-2 sm:p-3 relative">
         <button
           onClick={() => removeItem(side, index)}
           className="absolute top-1 right-1 w-5 h-5 bg-destructive text-white flex items-center justify-center hover:bg-red-700 transition-colors"
@@ -102,7 +102,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
         
         <div className="h-1 w-full mb-2" style={{ backgroundColor: tierColor }} />
         
-        <div className="flex gap-2 items-start">
+          <div className="flex gap-2 items-start">
           <div className="relative w-12 h-12 bg-secondary flex items-center justify-center flex-shrink-0 overflow-hidden rounded-sm border border-border/60">
             <div className="absolute inset-x-0 top-0 h-1 z-10" style={{ backgroundColor: tierColor }} />
             {selected.item.image ? (
@@ -119,8 +119,8 @@ export function Calculator({ items, onClose }: CalculatorProps) {
           </div>
           
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{selected.item.name}</p>
-            <p className="text-xs uppercase" style={{ color: tierColor }}>{selected.item.tier}</p>
+            <p className="text-xs sm:text-sm font-medium truncate">{selected.item.name}</p>
+            <p className="text-[10px] sm:text-xs uppercase" style={{ color: tierColor }}>{selected.item.tier}</p>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
           {(selected.item.glitchedVal !== undefined) && (
             <button
               onClick={() => updateItem(side, index, { isGlitched: !selected.isGlitched })}
-              className="px-2 py-0.5 text-xs font-bold transition-colors"
+              className="px-2 py-0.5 text-[10px] sm:text-xs font-bold transition-colors"
               style={{
                 backgroundColor: selected.isGlitched ? SITE_COLORS.glitched.activeBg : SITE_COLORS.glitched.inactiveBg,
                 color: selected.isGlitched ? SITE_COLORS.glitched.activeText : SITE_COLORS.glitched.inactiveText,
@@ -162,7 +162,7 @@ export function Calculator({ items, onClose }: CalculatorProps) {
               placeholder="Serial #"
               value={selected.serial}
               onChange={(e) => updateItem(side, index, { serial: e.target.value.replace(/[^\d]/g, "") })}
-              className="w-full px-2 py-1 text-xs bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
+              className="w-full px-2 py-1 text-[12px] sm:text-xs bg-secondary border border-border text-foreground placeholder:text-muted-foreground"
               min="1"
               step="1"
               inputMode="numeric"
