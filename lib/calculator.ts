@@ -114,7 +114,7 @@ function multiplierFromSerial(serial: number, supply: number, isExclusive: boole
   if (n <= 1) return null
 
   const nn = clamp(n, 2, S)
-  const maxMultiplier = isExclusive ? 4.0 : 2.0
+  const maxMultiplier = isExclusive ? 2.5 : 2.0
 
   if (nn <= 2) return maxMultiplier
 
