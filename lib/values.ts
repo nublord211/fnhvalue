@@ -116,7 +116,7 @@ export const VALUES: Item[] = [
     updates: ["can now get spirnglocked"],
     glitchedVal: 800,
     glitchedAC: 3,
-    supply: 316
+    supply: 216
 
   },
   {
