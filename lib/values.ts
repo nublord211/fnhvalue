@@ -104,7 +104,7 @@ export const VALUES: Item[] = [
     image: "/Skins/Bloomtrap.webp",
     tier: "secret",
     value: 60,
-    ac: 316,
+    ac: 216,
     era: "Easter",
     releaseDate: "04/04/2026",
     skills: [
