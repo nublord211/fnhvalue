@@ -116,7 +116,7 @@ export const VALUES: Item[] = [
     updates: ["can now get spirnglocked"],
     glitchedVal: 800,
     glitchedAC: 3,
-    supply: 316
+    supply: 216
 
   },
   {
@@ -258,7 +258,7 @@ export const VALUES: Item[] = [
     name: "Blooming ennard",
     image: "/Skins/BloomingEnnard.webp",
     tier: "sacred",
-    value: 13,
+    value: 15,
     ac: 673,
     era: "Easter",
     releaseDate: "???",
@@ -275,7 +275,7 @@ export const VALUES: Item[] = [
     name: "sun-kissed-drop",
     image: "/Skins/SunKissedDrop.webp",
     tier: "sacred",
-    value: 10,
+    value: 11,
     ac: 2686,
     era: "Valentines",
     releaseDate: "???",
@@ -293,7 +293,7 @@ export const VALUES: Item[] = [
     name: "Snowfall",
     image: "/Skins/SnowfallMoon.webp",
     tier: "sacred",
-    value: 7,
+    value: 8,
     ac: 4216,
     era: "Christmas",
     releaseDate: "???",
@@ -351,7 +351,7 @@ export const VALUES: Item[] = [
     name: "Blessed Helpy",
     image: "/Skins/BlessedHelpy.webp",
     tier: "sacred",
-    value: 18,
+    value: 20,
     ac: 1040,
     era: "Lunar New Year",
     releaseDate: "???",
