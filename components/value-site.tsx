@@ -100,12 +100,16 @@ export function ValueSite() {
       />
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-foreground">FNH and Five Nights: Hunted Value List</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-foreground">Values n shi 😎</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Browse FNH and Five Nights: Hunted item values by tier, search for specific drops, and estimate trade worth with a built-in calculator.
+           ou shiiii👀👀👀
           </p>
           <p className="text-sm text-muted-foreground/80 mt-3 max-w-3xl mx-auto">
-            Track the latest FNH values, compare rarity tiers, and find the best trade opportunities in one place.
+           Dev: V8qtn 
+           Value helpers:
+           Reaper2ww1 
+           Kurtc84
+           waferthingaming__
           </p>
         </header>
 
