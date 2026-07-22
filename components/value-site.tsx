@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import Script from "next/script"
 import { Item, SortOption, Tier } from "@/lib/types"
 import { VALUES as SITE_ITEMS } from "@/lib/values"
 import { Calculator } from "./calculator"
@@ -78,10 +79,34 @@ export function ValueSite() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Script
+        id="fnh-value-structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'FNH Value',
+            url: 'https://fnhvalue.com',
+            description:
+              'Browse FNH and Five Nights: Hunted item values by tier, search for specific drops, and estimate trade worth with a built-in calculator.',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://fnhvalue.com/?q={search_term_string}',
+              'query-input': 'required name=search_term_string',
+            },
+          }),
+        }}
+      />
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-foreground">Values & shi </h1>
-          <p className="text-muted-foreground">ou shiiiiii</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-foreground">FNH and Five Nights: Hunted Value List</h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Browse FNH and Five Nights: Hunted item values by tier, search for specific drops, and estimate trade worth with a built-in calculator.
+          </p>
+          <p className="text-sm text-muted-foreground/80 mt-3 max-w-3xl mx-auto">
+            Track the latest FNH values, compare rarity tiers, and find the best trade opportunities in one place.
+          </p>
         </header>
 
         <div className="flex justify-center mb-6">
