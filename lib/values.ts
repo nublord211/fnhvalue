@@ -200,7 +200,7 @@ export const VALUES: Item[] = [
     name: "Crimson Ballora",
     image: "/Skins/CrimsonBallora.webp",
     tier: "mythic",
-    value: 25,
+    value: 22,
     ac: 1096,
     era: "Lunar New Year",
     releaseDate: "???",
@@ -242,7 +242,7 @@ export const VALUES: Item[] = [
     name: "8-bit",
     image: "/Skins/8-bit.webp",
     tier: "sacred",
-    value: 20,
+    value: 18,
     ac: 556,
     era: "I dont fucking know son",
     releaseDate: "???",
@@ -963,4 +963,18 @@ export const VALUES: Item[] = [
     gcVal: 35,
     gcAC: 10,
   },
+  {
+    id: "62",
+    name: "Golden Fredbear",
+    image: "/Skins/GoldenFredbear.webp",
+    tier: "secret",
+    value: 5,
+    ac: 4000,
+    era: "idfk dont ask me",
+    releaseDate: "???",
+    demand: "none",
+    supply: 4000,
+    glitchedVal: 60,
+    glitchedAC: 16
+  }
 ]

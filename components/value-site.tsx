@@ -104,13 +104,17 @@ export function ValueSite() {
           <p className="text-muted-foreground max-w-2xl mx-auto">
            ou shiiii👀👀👀
           </p>
-          <p className="text-sm text-muted-foreground/80 mt-3 max-w-3xl mx-auto">
-           Dev: V8qtn 
-           Value helpers:
-           Reaper2ww1 
-           Kurtc84
-           waferthingaming__
-          </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm text-white">
+            <div className="inline-flex items-center gap-2">
+              <span className="font-bold decoration-white/40 underline-offset-4">Developer:</span>
+              <span className="text-white/80 underline">V8qtn</span>
+            </div>
+
+            <div className="inline-flex items-center gap-2">
+              <span className="font-bold decoration-white/40 underline-offset-4">Value Helpers:</span>
+              <span className="text-white/80 underline">Reaper2ww1 · Kurtc84 · waferthingaming__</span>
+            </div>
+          </div>
         </header>
 
         <div className="flex justify-center mb-6">
