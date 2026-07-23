@@ -72,6 +72,12 @@ function getBaseSupply(skin: Item): number | null {
   return getPositiveNumber(skin.supply) ?? getPositiveNumber(skin.ac) ?? null
 }
 
+function getFallbackSupply(skin: Item, baseValue: number): number {
+  const baseSupply = getBaseSupply(skin)
+  if (baseSupply != null) return baseSupply
+  return Math.max(20, Math.ceil(baseValue * 10))
+}
+
 // Get static (historical max) supply from skin object
 export function getStaticSupply(skin: Item, isGlitched: boolean, isCursed: boolean): number | null {
   const baseSupply = getBaseSupply(skin)
@@ -111,7 +117,7 @@ function multiplierFromSerial(serial: number, supply: number, isExclusive: boole
   const S = Math.floor(Number(supply))
 
   if (!Number.isFinite(n) || !Number.isFinite(S) || S < 2) return 1.0
-  if (n <= 1) return null
+  if (n <= 1) return isExclusive ? 2.75 : 2.5
 
   const nn = clamp(n, 2, S)
   const maxMultiplier = isExclusive ? 2.5 : 2.0
@@ -134,7 +140,7 @@ export function getSerialValue(skin: Item, serial: number, isGlitched: boolean, 
   const serialNum = toNumber(String(serial || "").replace(/,/g, ""))
   if (!Number.isFinite(serialNum) || serialNum < 0) return null
   
-  if (serialNum === 0 || serialNum === 1) return { value: null, isOC: true }
+  if (serialNum === 0) return { value: null, isOC: true }
   if (skin.serial2_unique && serialNum === 2) return { value: null, isOC: true }
 
   const isExclusive = String(skin?.tier || "").toLowerCase() === "exclusive"
@@ -154,11 +160,15 @@ export function getSerialValue(skin: Item, serial: number, isGlitched: boolean, 
     return { value: baseValue, isOC: false, multiplier: 1.0 }
   }
   
-  const supply = getStaticSupply(skin, isGlitched, isCursed)
+  if (serialNum === 1) {
+    const firstSerialMultiplier = isExclusive ? 2.75 : 2.5
+    return { value: baseValue * firstSerialMultiplier, isOC: false, isSacreds: true, multiplier: firstSerialMultiplier }
+  }
 
-  // If supply is unknown or too small, return base value only
-  if (supply == null || supply < 2) {
-    return { value: baseValue, isOC: false, isSacreds: true, multiplier: 1.0 }
+  const supply = getStaticSupply(skin, isGlitched, isCursed) ?? getFallbackSupply(skin, baseValue)
+
+  if (supply < 2) {
+    return { value: baseValue * 1.25, isOC: false, isSacreds: true, multiplier: 1.25 }
   }
   
   // Serial beyond total minted supply → base value only, no premium
@@ -207,7 +217,7 @@ export function getItemValue(item: Item, isGlitched: boolean, isCursed: boolean,
   const serialNumber = typeof serial === "number" && Number.isFinite(serial) ? serial : undefined
 
   // If we have a serial and it's a serial-affected skin, calculate serial value
-  if (serialNumber !== undefined && serialNumber > 1 && isSerialAffectedSkin(item)) {
+  if (serialNumber !== undefined && serialNumber >= 1 && isSerialAffectedSkin(item)) {
     const result = getSerialValue(item, serialNumber, isGlitched, isCursed)
     if (result && result.value !== null) {
       return result.value
