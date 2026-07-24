@@ -107,7 +107,7 @@ export function ValueSite() {
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm text-white">
             <div className="inline-flex items-center gap-2">
               <span className="font-bold decoration-white/40 underline-offset-4">Developer:</span>
-              <span className="text-white/80 underline">V8qtn</span>
+              <span className="text-white/80 underline">A cool guy</span>
             </div>
 
             <div className="inline-flex items-center gap-2">
