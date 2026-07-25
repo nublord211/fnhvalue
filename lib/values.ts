@@ -210,7 +210,7 @@ export const VALUES: Item[] = [
     demand: "high",
     glitchedVal: 250,
     updates: ["ability got nerfed"],
-    glitchedAC: 2q,
+    glitchedAC: 22,
     gcVal: 600,
     gcAC: 1,
     supply: 1096

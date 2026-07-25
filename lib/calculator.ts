@@ -42,25 +42,34 @@ export function clamp(v: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, v))
 }
 
-const FLAT_GC_SERIAL_SKINS = new Set([
-  "purpleguy",
-  "ennard",
-  "mxes",
-  "lolbit",
-  "nightmarefredbear",
-  "nightmare",
-  "vanny",
-  "scrapbaby",
-  "lefty",
-  "burntrap"
+const HIGH_VALUE_FLAT_SERIAL_SKINS = new Set([
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "10",
+  "11",
+  "19"
 ])
 
-function skinNameKey(name: string): string {
-  return String(name || "").toLowerCase().replace(/[^a-z0-9]/g, "")
+const LOW_VALUE_FLAT_SERIAL_SKINS = new Set([])
+
+function skinIdKey(id: string | undefined): string {
+  return String(id || "").trim().toLowerCase()
 }
 
-function usesFlatEGCSerialPricing(skin: Item, isGlitched: boolean, isCursed: boolean): boolean {
-  return !!(skin && isGlitched && isCursed && FLAT_GC_SERIAL_SKINS.has(skinNameKey(skin.name)))
+export type ValueCalculatorMode = "low-value" | "high-value"
+
+function getValueCalculatorMode(skin: Item): ValueCalculatorMode {
+  return HIGH_VALUE_FLAT_SERIAL_SKINS.has(skinIdKey(skin.id)) ? "high-value" : "low-value"
+}
+
+function usesFlatEGCSerialPricing(skin: Item, isGlitched: boolean, isCursed: boolean, mode: ValueCalculatorMode): boolean {
+  const allowList = mode === "high-value" ? HIGH_VALUE_FLAT_SERIAL_SKINS : LOW_VALUE_FLAT_SERIAL_SKINS
+  return !!(skin && isGlitched && isCursed && allowList.has(skinIdKey(skin.id)))
 }
 
 function getPositiveNumber(value: number | null | undefined): number | null {
@@ -112,20 +121,33 @@ function easedLerp(from: number, to: number, t: number, exponent: number = 2.0):
   return from + (to - from) * eased
 }
 
-function multiplierFromSerial(serial: number, supply: number, isExclusive: boolean = false): number | null {
+function multiplierFromSerial(serial: number, supply: number, isExclusive: boolean = false, mode: ValueCalculatorMode = "low-value"): number | null {
   const n = Math.floor(Number(serial))
   const S = Math.floor(Number(supply))
 
   if (!Number.isFinite(n) || !Number.isFinite(S) || S < 2) return 1.0
-  if (n <= 1) return isExclusive ? 2.75 : 2.5
+
+  if (mode === "high-value") {
+    if (n <= 1) return isExclusive ? 2.75 : 2.5
+
+    const nn = clamp(n, 2, S)
+    const maxMultiplier = isExclusive ? 2.5 : 2.0
+
+    if (nn <= 2) return maxMultiplier
+
+    const progress = (nn - 2) / Math.max(1, S - 2)
+    return easedLerp(maxMultiplier, 1.0, progress, 2.2)
+  }
+
+  if (n <= 1) return isExclusive ? 2.5 : 2.25
 
   const nn = clamp(n, 2, S)
-  const maxMultiplier = isExclusive ? 2.5 : 2.0
+  const maxMultiplier = isExclusive ? 2.0 : 1.75
 
   if (nn <= 2) return maxMultiplier
 
   const progress = (nn - 2) / Math.max(1, S - 2)
-  return easedLerp(maxMultiplier, 1.0, progress, 2.2)
+  return easedLerp(maxMultiplier, 1.0, progress, 2.6)
 }
 
 export interface SerialValueResult {
@@ -137,31 +159,39 @@ export interface SerialValueResult {
 }
 
 export function getSerialValue(skin: Item, serial: number, isGlitched: boolean, isCursed: boolean = false): SerialValueResult | null {
+  return getSerialValueByMode(skin, serial, isGlitched, isCursed, getValueCalculatorMode(skin))
+}
+
+export function getSerialValueHighValue(skin: Item, serial: number, isGlitched: boolean, isCursed: boolean = false): SerialValueResult | null {
+  return getSerialValueByMode(skin, serial, isGlitched, isCursed, "high-value")
+}
+
+export function getSerialValueByMode(skin: Item, serial: number, isGlitched: boolean, isCursed: boolean = false, mode: ValueCalculatorMode = "low-value"): SerialValueResult | null {
   const serialNum = toNumber(String(serial || "").replace(/,/g, ""))
   if (!Number.isFinite(serialNum) || serialNum < 0) return null
-  
+
   if (serialNum === 0) return { value: null, isOC: true }
   if (skin.serial2_unique && serialNum === 2) return { value: null, isOC: true }
 
   const isExclusive = String(skin?.tier || "").toLowerCase() === "exclusive"
   const baseValue = getVariantBaseValue(skin, isGlitched, isCursed)
 
-  if (usesFlatEGCSerialPricing(skin, isGlitched, isCursed)) {
+  if (usesFlatEGCSerialPricing(skin, isGlitched, isCursed, mode)) {
     return { value: baseValue, isOC: false, isSacreds: true, multiplier: 1.0, flatEGC: true }
   }
-  
+
   // Bling Freddy has no serial multiplier (flat pricing)
   if (skin.name === "Bling Freddy" && !isGlitched && !isCursed) {
     return { value: baseValue, isOC: false, isSacreds: true, multiplier: 1.0, flatEGC: true }
   }
-  
+
   const rarity = String(skin.tier || "").toLowerCase()
   if (rarity !== "sacred" && rarity !== "mythic" && rarity !== "secret" && rarity !== "exclusive") {
     return { value: baseValue, isOC: false, multiplier: 1.0 }
   }
-  
+
   if (serialNum === 1) {
-    const firstSerialMultiplier = isExclusive ? 2.75 : 2.5
+    const firstSerialMultiplier = mode === "high-value" ? (isExclusive ? 2.75 : 2.5) : (isExclusive ? 2.5 : 2.25)
     return { value: baseValue * firstSerialMultiplier, isOC: false, isSacreds: true, multiplier: firstSerialMultiplier }
   }
 
@@ -170,15 +200,15 @@ export function getSerialValue(skin: Item, serial: number, isGlitched: boolean, 
   if (supply < 2) {
     return { value: baseValue * 1.25, isOC: false, isSacreds: true, multiplier: 1.25 }
   }
-  
+
   // Serial beyond total minted supply → base value only, no premium
   if (serialNum > supply) {
     return { value: baseValue, isOC: false, isSacreds: true, multiplier: 1.0 }
   }
-  
-  const mult = multiplierFromSerial(serialNum, supply, isExclusive)
+
+  const mult = multiplierFromSerial(serialNum, supply, isExclusive, mode)
   if (mult === null) return { value: null, isOC: true }
-  
+
   // Universal formula: value = baseValue × serialMultiplier(serial, supply)
   return { value: baseValue * mult, isOC: false, isSacreds: true, multiplier: mult }
 }
@@ -214,11 +244,19 @@ export function isSerialAffectedSkin(skin: Item): boolean {
 }
 
 export function getItemValue(item: Item, isGlitched: boolean, isCursed: boolean, serial?: number): number {
+  return getItemValueByMode(item, isGlitched, isCursed, serial, getValueCalculatorMode(item))
+}
+
+export function getItemValueHighValue(item: Item, isGlitched: boolean, isCursed: boolean, serial?: number): number {
+  return getItemValueByMode(item, isGlitched, isCursed, serial, "high-value")
+}
+
+export function getItemValueByMode(item: Item, isGlitched: boolean, isCursed: boolean, serial: number | undefined, mode: ValueCalculatorMode = "low-value"): number {
   const serialNumber = typeof serial === "number" && Number.isFinite(serial) ? serial : undefined
 
   // If we have a serial and it's a serial-affected skin, calculate serial value
   if (serialNumber !== undefined && serialNumber >= 1 && isSerialAffectedSkin(item)) {
-    const result = getSerialValue(item, serialNumber, isGlitched, isCursed)
+    const result = getSerialValueByMode(item, serialNumber, isGlitched, isCursed, mode)
     if (result && result.value !== null) {
       return result.value
     }
