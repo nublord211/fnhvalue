@@ -972,11 +972,24 @@ export const VALUES: Item[] = [
     tier: "secret",
     value: 5,
     ac: 4000,
-    era: "idfk dont ask me",
+    era: "The Golden Era",
     releaseDate: "???",
     demand: "none",
     supply: 4000,
     glitchedVal: 60,
     glitchedAC: 16
+  },
+  {
+    id: "63",
+    name: "Glitchtrap",
+    image: "/Skins/SandySailorGlitchtrap.gif",
+    tier: "secret",
+    value: 5,
+    ac: 300,
+    era: "Summer 2026",
+    releaseDate: "???",
+    demand: "none",
+    glitchedVal: 250,
+    glitchedAC: 6
   }
 ]
