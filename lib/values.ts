@@ -984,7 +984,7 @@ export const VALUES: Item[] = [
     name: "Glitchtrap",
     image: "/Skins/SandySailorGlitchtrap.gif",
     tier: "secret",
-    value: 5,
+    value: 25,
     ac: 300,
     era: "Summer 2026",
     releaseDate: "???",
