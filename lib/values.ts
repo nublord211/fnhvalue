@@ -988,7 +988,7 @@ export const VALUES: Item[] = [
     ac: 300,
     era: "Summer 2026",
     releaseDate: "???",
-    demand: "none",
+    demand: "high",
     glitchedVal: 250,
     glitchedAC: 6
   }
