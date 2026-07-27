@@ -982,7 +982,7 @@ export const VALUES: Item[] = [
   {
     id: "63",
     name: "Glitchtrap",
-    image: "/Skins/SandySailorGlitchtrap.gif",
+    image: "/Skins/SandySailorGlitchtrap.webp",
     tier: "secret",
     value: 25,
     ac: 300,
