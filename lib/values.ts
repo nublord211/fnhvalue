@@ -9,9 +9,9 @@ export const VALUES: Item[] = [
     name: "Bling Freddy",
     image: "/Skins/Bling.webp",
     tier: "exclusive",
-    value: 95,
+    value: 85,
     ac: 764,
-    era: "Summer upd 2025",
+    era: "idfk",
     releaseDate: "04/14/2025",
     skills: [
       { name: "Springlocked", description: "ez win" },
