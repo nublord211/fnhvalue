@@ -40,7 +40,7 @@ export function ValueSite() {
   const [authError, setAuthError] = useState<string | null>(null)
 
   const DISCORD_AUTH_URL =
-    "https://discord.com/oauth2/authorize?client_id=1530289183715889204&response_type=code&redirect_uri=https%3A%2F%2Ffnhvalues-26uevlisb-fnh-demons.vercel.app%2Fdiscord&scope=identify"
+    "https://discord.com/oauth2/authorize?client_id=1530289183715889204&response_type=code&redirect_uri=https%3A%2F%2Ffnhvalues.vercel.app%2Fdiscord&scope=identify"
 
   useEffect(() => {
     const storedUser = window.localStorage.getItem("discordUser")
