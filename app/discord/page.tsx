@@ -85,18 +85,16 @@ export default function DiscordSignInPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center text-foreground">
-      <div className="rounded-3xl border border-white/10 bg-white/5 px-8 py-10 shadow-xl shadow-black/10">
-        <div className="mb-6 inline-flex items-center justify-center rounded-full bg-indigo-500/10 p-4">
-          <svg viewBox="0 0 24 24" className="h-8 w-8 text-indigo-300" fill="currentColor" aria-hidden="true">
-            <path d="M7.7 7.4C4.2 8.1 1.7 10.9 1.7 14.1c0 3.5 2.7 6.4 6 6.4 1.5 0 2.8-.5 3.9-1.4l.4-.3.3.3c1 .8 2.3 1.4 3.8 1.4 3.4 0 6-2.9 6-6.4 0-3.1-2.4-6-5.9-6.7l-.2-.1-.1.2c-.3.9-.6 1.8-1 2.6 1.1.2 2.1.8 2.8 1.6.2.2.4.1.4-.1.2-.6.4-1 .6-1.6l.1-.1c.1-.2-.1-.4-.3-.4-1.5-.5-3.2-.8-4.9-.8-.7 0-1.3.1-1.9.2-.2 0-.3.2-.3.4l.1.1c.2.6.4 1 .7 1.6.1.2.3.2.4.1.7-.7 1.7-1.2 2.8-1.4-.4-.8-.8-1.8-1-2.7-.7.1-1.3.1-2.1.1s-1.4 0-2.1-.1c-.2.9-.6 1.9-1 2.7 1.1.2 2.1.8 2.8 1.5.1.2.3.1.4-.1.3-.6.5-1 .7-1.6l.1-.2-.2-.1z" />
-          </svg>
+      <div className="w-full max-w-md rounded-xl border border-border bg-card px-8 py-10 shadow-sm">
+        <div className="mb-6 inline-flex items-center justify-center rounded-full bg-muted p-4">
+          <img src="/discord-icon-svgrepo-com.svg" alt="Discord logo" className="h-8 w-8" />
         </div>
-        <h1 className="text-2xl font-semibold mb-3">Discord Sign-In</h1>
+        <h1 className="mb-3 text-2xl font-semibold">Discord Sign-In</h1>
         <p className="text-sm text-muted-foreground">{status}</p>
         <div className="mt-6">
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Back to home
           </a>
