@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Script from "next/script"
 import { Item, SortOption, Tier } from "@/lib/types"
 import { VALUES as SITE_ITEMS } from "@/lib/values"
@@ -18,6 +18,12 @@ interface FilterState {
   dateTo: string
 }
 
+interface DiscordUser {
+  id: string
+  username: string
+  avatar: string | null
+}
+
 export function ValueSite() {
   const [items] = useState<Item[]>(SITE_ITEMS)
   const [activeTier, setActiveTier] = useState<Tier | "all">("all")
@@ -30,6 +36,22 @@ export function ValueSite() {
     dateFrom: "",
     dateTo: "",
   })
+  const [discordUser, setDiscordUser] = useState<DiscordUser | null>(null)
+  const [authError, setAuthError] = useState<string | null>(null)
+
+  const DISCORD_AUTH_URL =
+    "https://discord.com/oauth2/authorize?client_id=1530289183715889204&response_type=code&redirect_uri=https%3A%2F%2Ffluffy-barnacle-ww95jjpgpgg29ppv-3001.app.github.dev%2Fdiscord&scope=identify"
+
+  useEffect(() => {
+    const storedUser = window.localStorage.getItem("discordUser")
+    if (storedUser) {
+      try {
+        setDiscordUser(JSON.parse(storedUser))
+      } catch {
+        window.localStorage.removeItem("discordUser")
+      }
+    }
+  }, [])
 
   const filteredItems = useMemo(() => {
     let result = items.filter((item) => {
@@ -99,6 +121,28 @@ export function ValueSite() {
         }}
       />
       <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={() => {
+              window.location.href = DISCORD_AUTH_URL
+            }}
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium rounded-md"
+          >
+            {discordUser?.avatar ? (
+              <img
+                src={`https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`}
+                alt="Discord avatar"
+                className="h-5 w-5 rounded-full"
+              />
+            ) : (
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
+                <path d="M7.7 7.4C4.2 8.1 1.7 10.9 1.7 14.1c0 3.5 2.7 6.4 6 6.4 1.5 0 2.8-.5 3.9-1.4l.4-.3.3.3c1 .8 2.3 1.4 3.8 1.4 3.4 0 6-2.9 6-6.4 0-3.1-2.4-6-5.9-6.7l-.2-.1-.1.2c-.3.9-.6 1.8-1 2.6 1.1.2 2.1.8 2.8 1.6.2.2.4.1.4-.1.2-.6.4-1 .6-1.6l.1-.1c.1-.2-.1-.4-.3-.4-1.5-.5-3.2-.8-4.9-.8-.7 0-1.3.1-1.9.2-.2 0-.3.2-.3.4l.1.1c.2.6.4 1 .7 1.6.1.2.3.2.4.1.7-.7 1.7-1.2 2.8-1.4-.4-.8-.8-1.8-1-2.7-.7.1-1.3.1-2.1.1s-1.4 0-2.1-.1c-.2.9-.6 1.9-1 2.7 1.1.2 2.1.8 2.8 1.5.1.2.3.1.4-.1.3-.6.5-1 .7-1.6l.1-.2-.2-.1z" />
+              </svg>
+            )}
+            <span>{discordUser ? discordUser.username : "Sign in"}</span>
+          </button>
+        </div>
+
         <header className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl font-bold mb-2 text-foreground">Values n shi 😎</h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -120,7 +164,7 @@ export function ValueSite() {
         <div className="flex justify-center mb-6">
           <button
             onClick={() => setShowCalculator(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium"
+            className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium rounded-md"
           >
             <CalcIcon size={20} />
             Trade Calculator
