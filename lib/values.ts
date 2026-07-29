@@ -83,7 +83,7 @@ export const VALUES: Item[] = [
     name: "Midnight Motorist",
     image: "/Skins/MidnightMotorist.webp",
     tier: "sacred",
-    value: 70,
+    value: 65,
     ac: 790,
     era: "Halloween",
     releaseDate: "????",
