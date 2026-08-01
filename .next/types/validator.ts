@@ -65,6 +65,24 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../app/tradepost/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/tradepost">> = Specific
+  const handler = {} as typeof import("../../app/tradepost/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/tradeposts/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/tradeposts">> = Specific
+  const handler = {} as typeof import("../../app/tradeposts/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../app/api/discord/token/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/discord/token">> = Specific

@@ -8,7 +8,7 @@ import { Calculator } from "./calculator"
 import { SearchBar } from "./search-bar"
 import { TierTabs } from "./tier-tabs"
 import { ValueCard } from "./value-card"
-import { Calculator as CalcIcon } from "lucide-react"
+import { Calculator as CalcIcon, Package } from "lucide-react"
 
 interface FilterState {
   sortBy: SortOption
@@ -163,13 +163,20 @@ export function ValueSite() {
           </div>
         </header>
 
-        <div className="flex justify-center mb-6">
+        <div className="flex flex-wrap justify-center gap-3 mb-6">
           <button
             onClick={() => setShowCalculator(true)}
             className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium rounded-md"
           >
             <CalcIcon size={20} />
             Trade Calculator
+          </button>
+          <button
+            onClick={() => window.location.href = "/tradeposts"}
+            className="flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-muted transition-colors font-medium rounded-md"
+          >
+            <Package size={20} />
+            Tradeposts
           </button>
         </div>
 
@@ -184,6 +191,23 @@ export function ValueSite() {
             filters={filters}
             onFiltersChange={setFilters}
           />
+        </div>
+
+        <div className="mx-auto mb-6 w-full max-w-3xl rounded-lg border border-border bg-card p-1.5">
+          <div className="mb-1.5 flex items-center justify-between rounded-md bg-secondary/40 px-2 py-1 text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+            <span>Ad</span>
+            <span>Advertisement</span>
+          </div>
+          <a href="https://discord.gg/VHcqrppMg" target="_blank" rel="noreferrer" className="block overflow-hidden rounded-md">
+            <img
+              src="/Advertisement.png"
+              alt="Advertisement banner"
+              className="block h-auto w-full object-cover"
+            />
+          </a>
+          <p className="mt-2 text-center text-[10px] text-muted-foreground">
+            if you want your ad placed here dm v8qtn on discord for more info
+          </p>
         </div>
 
         <div className="mb-4 text-sm text-muted-foreground">
