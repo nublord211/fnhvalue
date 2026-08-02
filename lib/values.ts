@@ -44,7 +44,7 @@ export const VALUES: Item[] = [
     name: "Nightmare Tidal King",
     image: "/Skins/Tidal.webp",
     tier: "sacred",
-    value: 110,
+    value: 125,
     ac: 724,
     era: "Summer 2025",
     releaseDate: "???",
