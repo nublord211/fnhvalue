@@ -985,11 +985,25 @@ export const VALUES: Item[] = [
     image: "/Skins/SandySailorGlitchtrap.webp",
     tier: "secret",
     value: 25,
-    ac: 300,
+    ac: 579,
     era: "Summer 2026",
     releaseDate: "???",
-    demand: "high",
+    demand: "decent",
     glitchedVal: 250,
     glitchedAC: 6
+  },
+  {
+    id: "63",
+    name: "Glitchtrap",
+    image: "/Skins/QueenOfSerpents.webp",
+    tier: "sacred",
+    value: 25,
+    ac: 500,
+    era: "Summer 2026",
+    releaseDate: "???",
+    demand: "decent",
+    glitchedVal: 150,
+    glitchedAC: 6
   }
+  
 ]
