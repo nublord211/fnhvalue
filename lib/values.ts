@@ -970,7 +970,7 @@ export const VALUES: Item[] = [
     name: "Golden Fredbear",
     image: "/Skins/GoldenFredbear.webp",
     tier: "secret",
-    value: 5,
+    value: 4,
     ac: 4000,
     era: "The Golden Era",
     releaseDate: "???",
