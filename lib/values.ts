@@ -993,8 +993,8 @@ export const VALUES: Item[] = [
     glitchedAC: 6
   },
   {
-    id: "63",
-    name: "Glitchtrap",
+    id: "11111",
+    name: "Queen of Serpants",
     image: "/Skins/QueenOfSerpents.webp",
     tier: "sacred",
     value: 30,
