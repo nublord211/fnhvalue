@@ -28,7 +28,7 @@ export const VALUES: Item[] = [
     name: "Springtrap 2026",
     image: "/Skins/Springtrap2026.webp",
     tier: "sacred",
-    value: 226,
+    value: 250,
     ac: 180,
     era: "New years",
     releaseDate: "???",
