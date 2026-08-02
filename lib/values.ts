@@ -275,7 +275,7 @@ export const VALUES: Item[] = [
     name: "sun-kissed-drop",
     image: "/Skins/SunKissedDrop.webp",
     tier: "sacred",
-    value: 11,
+    value: 10,
     ac: 2686,
     era: "Valentines",
     releaseDate: "???",
