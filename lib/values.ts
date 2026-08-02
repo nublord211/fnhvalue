@@ -1089,7 +1089,7 @@ export const VALUES: Item[] = [
     name: "Cyber Foxy",
     image: "/Skins/CyberFoxy.webp",
     tier: "legendary",
-    value: 2,
+    value: 1,
     glitchedOff: true,
     cursedVal: 3,
     cursedAC: 20,
