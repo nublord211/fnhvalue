@@ -249,7 +249,7 @@ export const VALUES: Item[] = [
     skills: [
       { name: "vengance", description: "L ability" },
     ],
-    demand: "none",
+    demand: "trending",
     supply: 500
   },
   {
