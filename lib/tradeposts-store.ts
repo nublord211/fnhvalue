@@ -44,6 +44,9 @@ export interface TradepostEntry {
 }
 
 const TRADEPOSTS_FILE = path.join(process.cwd(), "data", "tradeposts.json")
+const globalForTradeposts = globalThis as typeof globalThis & {
+  __fnhTradepostsMemory?: TradepostEntry[]
+}
 
 async function ensureStoreFile() {
   await fs.mkdir(path.dirname(TRADEPOSTS_FILE), { recursive: true })
@@ -55,21 +58,39 @@ async function ensureStoreFile() {
   }
 }
 
-export async function readTradeposts(): Promise<TradepostEntry[]> {
-  await ensureStoreFile()
+function setMemoryTradeposts(posts: TradepostEntry[]) {
+  globalForTradeposts.__fnhTradepostsMemory = posts
+}
 
-  const raw = await fs.readFile(TRADEPOSTS_FILE, "utf8")
+export async function readTradeposts(): Promise<TradepostEntry[]> {
+  const memoryPosts = globalForTradeposts.__fnhTradepostsMemory
+  if (memoryPosts) {
+    return [...memoryPosts]
+  }
+
   try {
+    await ensureStoreFile()
+    const raw = await fs.readFile(TRADEPOSTS_FILE, "utf8")
     const parsed = JSON.parse(raw) as unknown
-    return Array.isArray(parsed) ? parsed as TradepostEntry[] : []
+    const nextPosts = Array.isArray(parsed) ? parsed as TradepostEntry[] : []
+    setMemoryTradeposts(nextPosts)
+    return [...nextPosts]
   } catch {
-    return []
+    const fallbackPosts: TradepostEntry[] = []
+    setMemoryTradeposts(fallbackPosts)
+    return fallbackPosts
   }
 }
 
 export async function writeTradeposts(posts: TradepostEntry[]) {
-  await ensureStoreFile()
-  await fs.writeFile(TRADEPOSTS_FILE, JSON.stringify(posts, null, 2), "utf8")
+  setMemoryTradeposts(posts)
+
+  try {
+    await ensureStoreFile()
+    await fs.writeFile(TRADEPOSTS_FILE, JSON.stringify(posts, null, 2), "utf8")
+  } catch (error) {
+    console.error("Tradeposts disk persistence failed; using in-memory fallback.", error)
+  }
 }
 
 export async function createTradepost(post: TradepostEntry) {

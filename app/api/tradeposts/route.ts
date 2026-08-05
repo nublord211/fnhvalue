@@ -27,7 +27,10 @@ export async function POST(request: Request) {
 
     const created = await createTradepost(newPost)
     return NextResponse.json(created, { status: 201 })
-  } catch {
-    return NextResponse.json({ error: "Failed to save tradepost." }, { status: 500 })
+  } catch (error) {
+    console.error("Failed to save tradepost:", error)
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : "Failed to save tradepost.",
+    }, { status: 500 })
   }
 }
