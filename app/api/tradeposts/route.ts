@@ -6,7 +6,16 @@ export const runtime = "nodejs"
 
 export async function GET() {
   const posts = await readTradeposts()
-  return NextResponse.json(posts)
+  const visiblePosts = posts.filter((post) => {
+    const isVerifierSeed =
+      post.author?.name === "Verifier" &&
+      post.title === "verify title" &&
+      post.note === "verify note"
+
+    return !isVerifierSeed
+  })
+
+  return NextResponse.json(visiblePosts)
 }
 
 export async function POST(request: Request) {

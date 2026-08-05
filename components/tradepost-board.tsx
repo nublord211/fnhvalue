@@ -103,6 +103,7 @@ function getCurrentAuthor(): TradepostAuthor {
   }
 
   const discordUser = getStoredDiscordUser()
+  const discordAuthorId = discordUser?.id || null
   let stableAuthorId = window.localStorage.getItem(AUTHOR_STORAGE_KEY)
 
   if (!stableAuthorId) {
@@ -117,10 +118,10 @@ function getCurrentAuthor(): TradepostAuthor {
   }
 
   return {
-    id: stableAuthorId,
+    id: discordAuthorId || stableAuthorId,
     name: discordUser?.username || "Anonymous",
     avatar: discordUser?.avatar ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png` : null,
-    discordId: discordUser?.id || null,
+    discordId: discordAuthorId,
     isAnonymous: !discordUser,
   }
 }

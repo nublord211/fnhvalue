@@ -289,7 +289,7 @@ export const VALUES: Item[] = [
     glitchedVal: 100,
     glitchedAC: 10,
     gcVal: 450,
-    gcAc: 1
+    gcAC: 1
   },
   {
     glitchedOff: true,

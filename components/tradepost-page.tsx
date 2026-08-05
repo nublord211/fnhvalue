@@ -131,11 +131,13 @@ export function TradepostPage() {
       window.localStorage.setItem("fnh-tradepost-user-id", authorId)
     }
 
+    const discordAuthorId = storedDiscordUser?.id || null
+
     const author: TradepostAuthor = {
-      id: authorId,
+      id: discordAuthorId || authorId,
       name: storedDiscordUser?.username || "Anonymous",
       avatar: storedDiscordUser?.avatar ? `https://cdn.discordapp.com/avatars/${storedDiscordUser.id}/${storedDiscordUser.avatar}.png` : null,
-      discordId: storedDiscordUser?.id || null,
+      discordId: discordAuthorId,
       isAnonymous: !storedDiscordUser,
     }
 
