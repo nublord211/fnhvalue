@@ -28,7 +28,7 @@ export const VALUES: Item[] = [
     name: "Springtrap 2026",
     image: "/Skins/Springtrap2026.webp",
     tier: "sacred",
-    value: 250,
+    value: 275,
     ac: 180,
     era: "New years",
     releaseDate: "???",
@@ -71,7 +71,7 @@ export const VALUES: Item[] = [
     skills: [
       { name: "Dragon Breath", description: "Releases racchet stank breath" },
     ],
-    demand: "moderate",
+    demand: "decent",
     updates: ["ability still broken"],
     glitchedVal: 925,
     glitchedAC: 4,
@@ -83,7 +83,7 @@ export const VALUES: Item[] = [
     name: "Midnight Motorist",
     image: "/Skins/MidnightMotorist.webp",
     tier: "sacred",
-    value: 65,
+    value: 67,
     ac: 790,
     era: "Halloween",
     releaseDate: "????",
@@ -286,6 +286,10 @@ export const VALUES: Item[] = [
     supply: 2000,
     cursedVal: 33,
     cursedAC: 20,
+    glitchedVal: 100,
+    glitchedAC: 10,
+    gcVal: 450,
+    gcAc: 1
   },
   {
     glitchedOff: true,
@@ -361,7 +365,7 @@ export const VALUES: Item[] = [
     demand: "trending",
     updates: ["ability got nerfed to hell"],
     supply: 1419,
-    glitchedVal: 220,
+    glitchedVal: 320,
     glitchedAC: 15,
   },
   {
@@ -561,6 +565,8 @@ export const VALUES: Item[] = [
     tier: "exclusive",
     cursedVal: 15,
     cursedAC: 20,
+    gcVal: 200,
+    gcAC: 1,
     value: 4,
     ac: 2005,
     era: "April fools 2026",
@@ -906,7 +912,7 @@ export const VALUES: Item[] = [
     name: "Mimic",
     image: "/Skins/Mimic.webp",
     tier: "sacred",
-    value: 3,
+    value: 2,
     ac: 2007,
     era: "???",
     releaseDate: "???",
@@ -923,12 +929,12 @@ export const VALUES: Item[] = [
     name: "Bubble Guy",
     image: "/Skins/BubbleGuy.webp",
     tier: "secret",
-    value: 25,
-    ac: 450,
+    value: 23,
+    ac: 750,
     era: "???",
     releaseDate: "???",
     demand: "decent",
-    glitchedVal: 300,
+    glitchedVal: 275,
     glitchedAC: 8,
   },
   { 
@@ -989,7 +995,7 @@ export const VALUES: Item[] = [
     era: "Summer 2026",
     releaseDate: "???",
     demand: "decent",
-    glitchedVal: 250,
+    glitchedVal: 325,
     glitchedAC: 6
   },
   {
@@ -1002,7 +1008,7 @@ export const VALUES: Item[] = [
     era: "Summer 2026",
     releaseDate: "???",
     demand: "decent",
-    glitchedVal: 150,
+    glitchedVal: 300,
     glitchedAC: 6
   },
   {
@@ -1148,6 +1154,17 @@ export const VALUES: Item[] = [
     cursedAC: 20,
     era: "???",
     releaseDate: "???",
-    demand: "moderate"
+    demand: "moderate" 
+  },
+  {
+    id: "75",
+    name: "Inventory Inhaler",
+    image: "/Skins/WitheredFreddy.webp",
+    tier: "epic",
+    value: 367,
+    era: "wipe night ",
+    ac: 1,
+    releaseDate: "07/26/2026",
+    demand: "extreme" 
   }
 ]

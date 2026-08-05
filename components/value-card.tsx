@@ -35,6 +35,7 @@ export function ValueCard({ item }: ValueCardProps) {
 
   const hasGlitchedData = item.glitchedVal !== undefined || item.glitchedAC !== undefined
   const hasCursedData = item.cursedVal !== undefined || item.cursedAC !== undefined
+  const shouldShowInventoryInhalerHoverText = item.id === "75"
 
   return (
     <>
@@ -75,7 +76,12 @@ export function ValueCard({ item }: ValueCardProps) {
           </div>
 
           {/* Image container */}
-          <div className="bg-secondary aspect-square flex items-center justify-center mb-3 overflow-hidden">
+          <div
+            className="bg-secondary aspect-square flex items-center justify-center mb-3 overflow-hidden relative"
+            style={{
+              backgroundColor: shouldShowInventoryInhalerHoverText && isHovered ? "#111827" : undefined,
+            }}
+          >
             {item.image ? (
               <Image
                 src={item.image}
@@ -87,6 +93,14 @@ export function ValueCard({ item }: ValueCardProps) {
             ) : (
               <div className="w-20 h-20 bg-muted flex items-center justify-center">
                 <span className="text-muted-foreground text-xs">No Image</span>
+              </div>
+            )}
+
+            {shouldShowInventoryInhalerHoverText && isHovered && (
+              <div className="absolute inset-0 z-10 p-1.5">
+                <div className="h-full w-full border border-violet-400 bg-[#111827] p-1.5 text-[10px] leading-[1.15] font-semibold text-white overflow-auto [font-family:Verdana,Geneva,ui-sans-serif,system-ui,sans-serif]">
+                  On a random Sunday, Oliver and co decided to wipe people's inventories during the famous Wipe Night, sacrificing over 15k value into the Inventory Inhaler (except for Braxton's 8-bit) to achieve level 367
+                </div>
               </div>
             )}
           </div>

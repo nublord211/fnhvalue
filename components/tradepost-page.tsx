@@ -10,8 +10,6 @@ import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
 import { ItemPickerModal } from "@/components/item-picker-modal"
 import { runAutomod } from "@/lib/automod"
 
-const TRADEPOST_STORAGE_KEY = "fnh-tradeposts"
-
 interface TradepostAuthor {
   id: string
   name: string
@@ -100,7 +98,7 @@ export function TradepostPage() {
   const fairnessPercent = giveTotal > 0 ? (getTotal / giveTotal) * 100 : 0
   const fairnessLabel = Number.isFinite(fairnessPercent) ? fairnessPercent.toFixed(1) : "0"
 
-  const handlePostToBoard = () => {
+  const handlePostToBoard = async () => {
     const title = draftTitle.trim() || "Untitled tradepost"
     const note = draftNote.trim()
     const automod = runAutomod({ title, note })
@@ -151,12 +149,17 @@ export function TradepostPage() {
     }
 
     try {
-      const existing = window.localStorage.getItem(TRADEPOST_STORAGE_KEY)
-      const parsed = existing ? JSON.parse(existing) : []
-      const posts = Array.isArray(parsed) ? parsed : []
-      window.localStorage.setItem(TRADEPOST_STORAGE_KEY, JSON.stringify([newPost, ...posts]))
+      const response = await fetch("/api/tradeposts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPost),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to post")
+      }
     } catch {
-      window.localStorage.setItem(TRADEPOST_STORAGE_KEY, JSON.stringify([newPost]))
+      return
     }
 
     router.push("/tradeposts")

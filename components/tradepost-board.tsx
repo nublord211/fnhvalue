@@ -44,9 +44,9 @@ interface TradepostEntry {
   comments: TradepostComment[]
 }
 
-const STORAGE_KEY = "fnh-tradeposts"
 const AUTHOR_STORAGE_KEY = "fnh-tradepost-user-id"
 const ANON_ID_STORAGE_KEY = "fnh-tradepost-anon-id"
+const LEGACY_STORAGE_KEY = "fnh-tradeposts"
 
 function parseSerialValue(value: string): number | undefined {
   const cleaned = value.replace(/[^\d]/g, "")
@@ -75,6 +75,20 @@ function getStoredDiscordUser() {
     return stored ? JSON.parse(stored) : null
   } catch {
     return null
+  }
+}
+
+function getLegacyLocalPosts(): TradepostEntry[] {
+  if (typeof window === "undefined") return []
+
+  try {
+    const stored = window.localStorage.getItem(LEGACY_STORAGE_KEY)
+    if (!stored) return []
+
+    const parsed = JSON.parse(stored) as unknown
+    return Array.isArray(parsed) ? (parsed as TradepostEntry[]) : []
+  } catch {
+    return []
   }
 }
 
@@ -123,24 +137,37 @@ export function TradepostBoard() {
       setDiscordUser(storedDiscord)
     }
 
-    setCurrentUser(getCurrentAuthor())
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY)
-      if (stored) {
-        const parsed = JSON.parse(stored) as TradepostEntry[]
-        setPosts(Array.isArray(parsed) ? parsed : [])
-      }
-    } catch {
-      setPosts([])
-    } finally {
-      setIsLoaded(true)
-    }
-  }, [])
+    const author = getCurrentAuthor()
+    setCurrentUser(author)
 
-  useEffect(() => {
-    if (!isLoaded) return
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(posts))
-  }, [posts, isLoaded])
+    const loadPosts = async () => {
+      try {
+        const legacyPosts = getLegacyLocalPosts()
+
+        if (legacyPosts.length > 0) {
+          await Promise.all(legacyPosts.map(async (post) => {
+            await fetch("/api/tradeposts", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(post),
+            })
+          }))
+
+          window.localStorage.removeItem(LEGACY_STORAGE_KEY)
+        }
+
+        const response = await fetch("/api/tradeposts", { cache: "no-store" })
+        const data = await response.json()
+        setPosts(Array.isArray(data) ? data : [])
+      } catch {
+        setPosts([])
+      } finally {
+        setIsLoaded(true)
+      }
+    }
+
+    void loadPosts()
+  }, [])
 
   const sortedPosts = useMemo(() => [...posts].sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1)), [posts])
 
@@ -148,27 +175,60 @@ export function TradepostBoard() {
     setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, ...updates } : post)))
   }
 
-  const handleDeletePost = (postId: string) => {
-    setPosts((prev) => prev.filter((post) => post.id !== postId))
+  const handleDeletePost = async (postId: string) => {
+    try {
+      const response = await fetch(`/api/tradeposts/${postId}`, { method: "DELETE" })
+      if (!response.ok) return
+      const data = await response.json()
+      setPosts(Array.isArray(data) ? data : [])
+    } catch {
+      setPosts((prev) => prev.filter((post) => post.id !== postId))
+    }
   }
 
-  const handleDeleteComment = (postId: string, commentId: string) => {
-    setPosts((prev) => prev.map((post) => {
-      if (post.id !== postId) return post
-      return {
-        ...post,
-        comments: (post.comments || []).filter((comment) => comment.id !== commentId),
-      }
-    }))
+  const handleDeleteComment = async (postId: string, commentId: string) => {
+    try {
+      const response = await fetch(`/api/tradeposts/${postId}/comments/${commentId}`, { method: "DELETE" })
+      if (!response.ok) return
+      const updatedPost = await response.json()
+      setPosts((prev) => prev.map((post) => (post.id === postId ? updatedPost : post)))
+    } catch {
+      setPosts((prev) => prev.map((post) => {
+        if (post.id !== postId) return post
+        return {
+          ...post,
+          comments: (post.comments || []).filter((comment) => comment.id !== commentId),
+        }
+      }))
+    }
   }
 
-  const handleSaveEdit = (postId: string) => {
+  const handleSaveEdit = async (postId: string) => {
     if (!editTitle.trim() && !editNote.trim()) return
-    updatePost(postId, { title: editTitle.trim() || "Untitled tradepost", note: editNote.trim() })
-    setEditingPostId(null)
+
+    const payload = {
+      title: editTitle.trim() || "Untitled tradepost",
+      note: editNote.trim(),
+    }
+
+    try {
+      const response = await fetch(`/api/tradeposts/${postId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+
+      if (!response.ok) return
+      const updated = await response.json()
+      updatePost(postId, updated)
+    } catch {
+      updatePost(postId, payload)
+    } finally {
+      setEditingPostId(null)
+    }
   }
 
-  const handleAddComment = (postId: string) => {
+  const handleAddComment = async (postId: string) => {
     const text = (commentDrafts[postId] || "").trim()
     if (!text || !currentUser) return
 
@@ -179,8 +239,21 @@ export function TradepostBoard() {
       author: currentUser,
     }
 
-    setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, comments: [...(post.comments || []), newComment] } : post)))
-    setCommentDrafts((prev) => ({ ...prev, [postId]: "" }))
+    try {
+      const response = await fetch(`/api/tradeposts/${postId}/comments`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newComment),
+      })
+
+      if (!response.ok) return
+      const updated = await response.json()
+      setPosts((prev) => prev.map((post) => (post.id === postId ? updated : post)))
+      setCommentDrafts((prev) => ({ ...prev, [postId]: "" }))
+    } catch {
+      setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, comments: [...(post.comments || []), newComment] } : post)))
+      setCommentDrafts((prev) => ({ ...prev, [postId]: "" }))
+    }
   }
 
   return (
@@ -188,8 +261,8 @@ export function TradepostBoard() {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Tradepost board</p>
-            <h1 className="text-2xl font-bold">Recent trade offers</h1>
+            <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">Tradeposts😎</p>
+            <h1 className="text-1xl font-bold">pretty please add smth to the board</h1>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <button
