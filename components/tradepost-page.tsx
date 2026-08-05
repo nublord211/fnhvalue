@@ -46,6 +46,7 @@ export function TradepostPage() {
   const [draftTitle, setDraftTitle] = useState("")
   const [draftNote, setDraftNote] = useState("")
   const [moderationMessage, setModerationMessage] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const addItem = (item: Item) => {
     const newItem: SelectedItemState = {
@@ -99,6 +100,8 @@ export function TradepostPage() {
   const fairnessLabel = Number.isFinite(fairnessPercent) ? fairnessPercent.toFixed(1) : "0"
 
   const handlePostToBoard = async () => {
+    if (isSubmitting) return
+
     const title = draftTitle.trim() || "Untitled tradepost"
     const note = draftNote.trim()
     const automod = runAutomod({ title, note })
@@ -109,6 +112,7 @@ export function TradepostPage() {
     }
 
     setModerationMessage(null)
+    setIsSubmitting(true)
 
     const storedDiscordUser = (() => {
       try {
@@ -156,13 +160,16 @@ export function TradepostPage() {
       })
 
       if (!response.ok) {
-        throw new Error("Failed to post")
+        const errorPayload = await response.json().catch(() => ({}))
+        throw new Error(errorPayload?.error || "Failed to post")
       }
-    } catch {
-      return
-    }
 
-    router.push("/tradeposts")
+      router.push("/tradeposts")
+    } catch (error) {
+      setModerationMessage(error instanceof Error ? error.message : "Tradepost could not be posted.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const renderItemCard = (selected: SelectedItemState, side: "give" | "get", index: number) => {
@@ -397,10 +404,11 @@ export function TradepostPage() {
               </div>
             ) : null}
             <button
-              className="w-full px-4 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium rounded-md"
+              className="w-full px-4 py-3 bg-primary text-primary-foreground hover:bg-primary/80 transition-colors font-medium rounded-md disabled:opacity-60 disabled:cursor-not-allowed"
               onClick={handlePostToBoard}
+              disabled={isSubmitting}
             >
-              Post to board
+              {isSubmitting ? "Posting..." : "Post to board"}
             </button>
           </div>
         </div>
