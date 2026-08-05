@@ -78,6 +78,11 @@ function getStoredDiscordUser() {
   }
 }
 
+function canManageAllTradeposts(author: TradepostAuthor | null) {
+  if (!author) return false
+  return author.discordId === "1367643116391108711"
+}
+
 function getLegacyLocalPosts(): TradepostEntry[] {
   if (typeof window === "undefined") return []
 
@@ -339,6 +344,7 @@ export function TradepostBoard() {
               const getTotal = post.getItems.reduce((sum, item) => sum + calculateItemValue(item), 0)
               const difference = getTotal - giveTotal
               const isAuthor = currentUser?.id === post.author?.id
+              const canManagePost = canManageAllTradeposts(currentUser) || isAuthor
 
               return (
                 <article key={post.id} className="rounded-lg border border-border bg-card p-4 sm:p-5">
@@ -363,7 +369,7 @@ export function TradepostBoard() {
                       <div className="rounded-full border border-border bg-secondary px-3 py-1 text-xs text-muted-foreground">
                         {post.giveItems.length + post.getItems.length} items
                       </div>
-                      {isAuthor ? (
+                      {canManagePost ? (
                         <div className="flex gap-2">
                           <button
                             onClick={() => {
