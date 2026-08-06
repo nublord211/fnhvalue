@@ -154,7 +154,7 @@ export const VALUES: Item[] = [
     ],
     demand: "decent",
     updates: ["dumbass zero has g #8 now "],
-    glitchedVal: 575,
+    glitchedVal: 450,
     glitchedAC: 8,
     supply: 488
   },
