@@ -137,6 +137,27 @@ export function TradepostBoard() {
   const redirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI || 'https://fnhvalues.vercel.app/discord'
   const DISCORD_AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identify`
 
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch("/api/tradeposts", { 
+        cache: "no-store",
+        headers: { "Pragma": "no-cache", "Cache-Control": "no-cache" }
+      })
+      if (!response.ok) {
+        console.error("Failed to fetch posts:", response.status, response.statusText)
+        return
+      }
+      const data = await response.json()
+      console.log("Fetched posts:", data)
+      setPosts(Array.isArray(data) ? data : [])
+    } catch (error) {
+      console.error("Error fetching posts:", error)
+      setPosts([])
+    } finally {
+      setIsLoaded(true)
+    }
+  }
+
   useEffect(() => {
     const storedDiscord = getStoredDiscordUser()
     if (storedDiscord) {
@@ -162,12 +183,10 @@ export function TradepostBoard() {
           window.localStorage.removeItem(LEGACY_STORAGE_KEY)
         }
 
-        const response = await fetch("/api/tradeposts", { cache: "no-store" })
-        const data = await response.json()
-        setPosts(Array.isArray(data) ? data : [])
-      } catch {
+        await fetchPosts()
+      } catch (error) {
+        console.error("Error in loadPosts:", error)
         setPosts([])
-      } finally {
         setIsLoaded(true)
       }
     }

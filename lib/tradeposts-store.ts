@@ -76,8 +76,12 @@ export async function readTradeposts(): Promise<TradepostEntry[]> {
   const client = getSupabaseClient()
   if (client) {
     try {
+      console.log("Querying Supabase for tradeposts...")
       const { data, error } = await client.from("tradeposts").select("payload").order("created_at", { ascending: false })
-      if (!error && data) {
+      if (error) {
+        console.error("Supabase read error:", error)
+      } else {
+        console.log("Supabase query returned", data?.length || 0, "posts")
         const nextPosts = (data
           .map((row: { payload?: TradepostEntry }) => row.payload)
           .filter(Boolean) as TradepostEntry[])
@@ -91,11 +95,13 @@ export async function readTradeposts(): Promise<TradepostEntry[]> {
     }
   }
 
+  console.log("Reading from file store...")
   try {
     await ensureStoreFile()
     const raw = await fs.readFile(TRADEPOSTS_FILE, "utf8")
     const parsed = JSON.parse(raw) as unknown
     const nextPosts = Array.isArray(parsed) ? (parsed as TradepostEntry[]).map(normalizeTradepost) : []
+    console.log("File store returned", nextPosts.length, "posts")
     setMemoryTradeposts(nextPosts)
     return [...nextPosts]
   } catch {
@@ -122,8 +128,12 @@ export async function createTradepost(post: TradepostEntry) {
 
   if (client) {
     try {
-      const { error } = await client.from("tradeposts").insert({ id: normalizedPost.id, payload: normalizedPost })
-      if (!error) {
+      console.log("Attempting to insert post to Supabase:", normalizedPost.id)
+      const { data, error } = await client.from("tradeposts").insert({ id: normalizedPost.id, payload: normalizedPost })
+      if (error) {
+        console.error("Supabase insert error:", error)
+      } else {
+        console.log("Successfully inserted to Supabase:", data)
         const posts = await readTradeposts()
         const nextPosts = [normalizedPost, ...posts.filter((existing) => existing.id !== normalizedPost.id)]
         await writeTradeposts(nextPosts)
@@ -134,6 +144,7 @@ export async function createTradepost(post: TradepostEntry) {
     }
   }
 
+  console.log("Using file-only fallback for post:", normalizedPost.id)
   const posts = await readTradeposts()
   const nextPosts = [normalizedPost, ...posts]
   await writeTradeposts(nextPosts)

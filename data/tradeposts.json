@@ -1,1 +1,80 @@
-[]
+[
+  {
+    "id": "1860431b-e8e2-4971-a6b4-f7d0d396e4b6",
+    "title": "mm",
+    "note": "mm",
+    "giveItems": [
+      {
+        "item": {
+          "cursedOff": true,
+          "id": "3",
+          "name": "Nightmare Tidal King",
+          "image": "/Skins/Tidal.webp",
+          "tier": "sacred",
+          "value": 125,
+          "ac": 724,
+          "era": "Summer 2025",
+          "releaseDate": "???",
+          "skills": [
+            {
+              "name": "Tidal Wave",
+              "description": "wave of baby oil"
+            }
+          ],
+          "demand": "extreme",
+          "updates": [
+            "New vfx better ones coming soon"
+          ],
+          "glitchedVal": 1700,
+          "glitchedAC": 6,
+          "supply": 724
+        },
+        "serial": "",
+        "isGlitched": false,
+        "isCursed": false
+      }
+    ],
+    "getItems": [
+      {
+        "item": {
+          "cursedOff": true,
+          "id": "5",
+          "name": "Midnight Motorist",
+          "image": "/Skins/MidnightMotorist.webp",
+          "tier": "sacred",
+          "value": 67,
+          "ac": 790,
+          "era": "Halloween",
+          "releaseDate": "????",
+          "skills": [
+            {
+              "name": "Vengance",
+              "description": "buns ability "
+            }
+          ],
+          "demand": "extreme",
+          "updates": [
+            "gc mm got created but got reversed"
+          ],
+          "glitchedVal": 1100,
+          "glitchedAC": 10,
+          "supply": 790
+        },
+        "serial": "",
+        "isGlitched": false,
+        "isCursed": false
+      }
+    ],
+    "giveTotal": 125,
+    "getTotal": 67,
+    "createdAt": "2026-08-07T14:07:59.123Z",
+    "author": {
+      "id": "anon-25fef099-965c-4229-9b89-e0be91df0996",
+      "name": "Anonymous",
+      "avatar": null,
+      "discordId": null,
+      "isAnonymous": true
+    },
+    "comments": []
+  }
+]
