@@ -73,11 +73,6 @@ function setMemoryTradeposts(posts: TradepostEntry[]) {
 }
 
 export async function readTradeposts(): Promise<TradepostEntry[]> {
-  const memoryPosts = globalForTradeposts.__fnhTradepostsMemory
-  if (memoryPosts) {
-    return [...memoryPosts]
-  }
-
   const client = getSupabaseClient()
   if (client) {
     try {
