@@ -1,6 +1,6 @@
 import { promises as fs } from "fs"
 import path from "path"
-import { getSupabaseClient } from "@/lib/supabase"
+import { getSupabaseClient, getSupabaseServerClient } from "@/lib/supabase"
 
 export interface TradepostItemEntry {
   item: {
@@ -118,7 +118,7 @@ export async function writeTradeposts(posts: TradepostEntry[]) {
 
 export async function createTradepost(post: TradepostEntry) {
   const normalizedPost = normalizeTradepost(post)
-  const client = getSupabaseClient()
+  const client = getSupabaseServerClient()
 
   if (client) {
     try {
@@ -141,7 +141,7 @@ export async function createTradepost(post: TradepostEntry) {
 }
 
 export async function updateTradepost(postId: string, updates: Partial<TradepostEntry>) {
-  const client = getSupabaseClient()
+  const client = getSupabaseServerClient()
   const posts = await readTradeposts()
   const nextPosts = posts.map((post) => {
     if (post.id !== postId) return post
@@ -168,7 +168,7 @@ export async function updateTradepost(postId: string, updates: Partial<Tradepost
 }
 
 export async function deleteTradepost(postId: string) {
-  const client = getSupabaseClient()
+  const client = getSupabaseServerClient()
   const posts = await readTradeposts()
   const nextPosts = posts.filter((post) => post.id !== postId)
 
@@ -189,7 +189,7 @@ export async function deleteTradepost(postId: string) {
 }
 
 export async function addCommentToTradepost(postId: string, comment: TradepostComment) {
-  const client = getSupabaseClient()
+  const client = getSupabaseServerClient()
   const posts = await readTradeposts()
   const nextPosts = posts.map((post) => {
     if (post.id !== postId) return post
@@ -219,7 +219,7 @@ export async function addCommentToTradepost(postId: string, comment: TradepostCo
 }
 
 export async function deleteCommentFromTradepost(postId: string, commentId: string) {
-  const client = getSupabaseClient()
+  const client = getSupabaseServerClient()
   const posts = await readTradeposts()
   const nextPosts = posts.map((post) => {
     if (post.id !== postId) return post
