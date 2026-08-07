@@ -6,10 +6,8 @@ export const runtime = "nodejs"
 
 export async function GET() {
   try {
-    console.log("GET /api/tradeposts - Starting fetch")
     const posts = await readTradeposts()
-    console.log("GET /api/tradeposts - readTradeposts returned:", posts.length, "posts")
-    
+
     const visiblePosts = posts.filter((post) => {
       const isVerifierSeed =
         post.author?.name === "Verifier" &&
@@ -18,11 +16,12 @@ export async function GET() {
 
       return !isVerifierSeed
     })
-    
-    console.log("GET /api/tradeposts - After filtering, returning:", visiblePosts.length, "posts")
-    return NextResponse.json(visiblePosts)
+
+    return NextResponse.json(visiblePosts, {
+      headers: { "Cache-Control": "no-store, max-age=0" },
+    })
   } catch (error) {
-    console.error("GET /api/tradeposts - Error:", error)
+    console.error("[v0] GET /api/tradeposts failed:", error)
     return NextResponse.json({ error: "Failed to fetch tradeposts" }, { status: 500 })
   }
 }

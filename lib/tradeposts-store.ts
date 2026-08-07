@@ -1,6 +1,6 @@
 import { promises as fs } from "fs"
 import path from "path"
-import { getSupabaseClient, getSupabaseServerClient } from "@/lib/supabase"
+import { describeSupabaseConfig, getSupabaseDataClient } from "@/lib/supabase"
 
 export interface TradepostItemEntry {
   item: {
@@ -44,7 +44,9 @@ export interface TradepostEntry {
   comments: TradepostComment[]
 }
 
+const TABLE = "tradeposts"
 const TRADEPOSTS_FILE = path.join(process.cwd(), "data", "tradeposts.json")
+
 const globalForTradeposts = globalThis as typeof globalThis & {
   __fnhTradepostsMemory?: TradepostEntry[]
 }
@@ -55,206 +57,209 @@ function normalizeTradepost(post: TradepostEntry): TradepostEntry {
     comments: Array.isArray(post.comments) ? post.comments : [],
     giveItems: Array.isArray(post.giveItems) ? post.giveItems : [],
     getItems: Array.isArray(post.getItems) ? post.getItems : [],
+    giveTotal: Number(post.giveTotal) || 0,
+    getTotal: Number(post.getTotal) || 0,
   }
 }
 
-async function ensureStoreFile() {
-  await fs.mkdir(path.dirname(TRADEPOSTS_FILE), { recursive: true })
-
-  try {
-    await fs.access(TRADEPOSTS_FILE)
-  } catch {
-    await fs.writeFile(TRADEPOSTS_FILE, "[]", "utf8")
-  }
+function sortNewestFirst(posts: TradepostEntry[]) {
+  return [...posts].sort((a, b) => (a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0))
 }
 
 function setMemoryTradeposts(posts: TradepostEntry[]) {
   globalForTradeposts.__fnhTradepostsMemory = posts
 }
 
-export async function readTradeposts(): Promise<TradepostEntry[]> {
-  const client = getSupabaseClient()
-  if (client) {
-    try {
-      console.log("Querying Supabase for tradeposts...")
-      const { data, error } = await client.from("tradeposts").select("payload").order("created_at", { ascending: false })
-      if (error) {
-        console.error("Supabase read error:", error)
-      } else {
-        console.log("Supabase query returned", data?.length || 0, "posts")
-        const nextPosts = (data
-          .map((row: { payload?: TradepostEntry }) => row.payload)
-          .filter(Boolean) as TradepostEntry[])
-          .map(normalizeTradepost)
+function getMemoryTradeposts(): TradepostEntry[] {
+  return globalForTradeposts.__fnhTradepostsMemory ?? []
+}
 
-        setMemoryTradeposts(nextPosts)
-        return [...nextPosts]
-      }
-    } catch (error) {
-      console.error("Supabase tradeposts read failed; falling back to file store.", error)
-    }
-  }
+/* -------------------------------------------------------------------------- */
+/*  Local file fallback (dev only — the filesystem is read-only on Vercel)     */
+/* -------------------------------------------------------------------------- */
 
-  console.log("Reading from file store...")
+async function readFileTradeposts(): Promise<TradepostEntry[]> {
   try {
-    await ensureStoreFile()
     const raw = await fs.readFile(TRADEPOSTS_FILE, "utf8")
     const parsed = JSON.parse(raw) as unknown
-    const nextPosts = Array.isArray(parsed) ? (parsed as TradepostEntry[]).map(normalizeTradepost) : []
-    console.log("File store returned", nextPosts.length, "posts")
-    setMemoryTradeposts(nextPosts)
-    return [...nextPosts]
+    return Array.isArray(parsed) ? (parsed as TradepostEntry[]).map(normalizeTradepost) : []
   } catch {
-    const fallbackPosts: TradepostEntry[] = []
-    setMemoryTradeposts(fallbackPosts)
-    return fallbackPosts
+    return []
   }
 }
 
-export async function writeTradeposts(posts: TradepostEntry[]) {
-  setMemoryTradeposts(posts)
-
+async function writeFileTradeposts(posts: TradepostEntry[]) {
   try {
-    await ensureStoreFile()
+    await fs.mkdir(path.dirname(TRADEPOSTS_FILE), { recursive: true })
     await fs.writeFile(TRADEPOSTS_FILE, JSON.stringify(posts, null, 2), "utf8")
-  } catch (error) {
-    console.error("Tradeposts disk persistence failed; using in-memory fallback.", error)
+  } catch {
+    // Read-only filesystem (Vercel) — memory cache is the fallback instead.
   }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Supabase access                                                           */
+/* -------------------------------------------------------------------------- */
+
+interface TradepostRow {
+  id: string
+  payload: TradepostEntry | null
+}
+
+function rowsToPosts(rows: TradepostRow[] | null): TradepostEntry[] {
+  return (rows ?? [])
+    .map((row) => {
+      if (!row?.payload) return null
+      // `payload` can come back as a JSON string if the column was ever text-typed.
+      const payload =
+        typeof row.payload === "string" ? (JSON.parse(row.payload) as TradepostEntry) : row.payload
+      return normalizeTradepost({ ...payload, id: payload.id || row.id })
+    })
+    .filter((post): post is TradepostEntry => Boolean(post?.id))
+}
+
+export async function readTradeposts(): Promise<TradepostEntry[]> {
+  const { client, isPrivileged } = getSupabaseDataClient()
+
+  if (client) {
+    const { data, error } = await client
+      .from(TABLE)
+      .select("id, payload")
+      .order("created_at", { ascending: false })
+
+    if (error) {
+      console.error("[v0] tradeposts read failed:", error.code, error.message)
+    } else {
+      const posts = sortNewestFirst(rowsToPosts(data as TradepostRow[]))
+
+      if (posts.length > 0) {
+        setMemoryTradeposts(posts)
+        return [...posts]
+      }
+
+      if (isPrivileged) {
+        // Service role bypasses RLS, so an empty result really means an empty table.
+        setMemoryTradeposts(posts)
+        return []
+      }
+
+      // Anon key + RLS with no SELECT policy returns an empty array and NO error,
+      // which is exactly how a populated table looks like "0 tradeposts". Don't
+      // trust it — fall through to the local mirror instead of wiping the board.
+      console.warn(
+        "[v0] tradeposts read returned 0 rows using the public key. Row Level Security is likely hiding them. " +
+          "Set SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SECRET_KEY), or add a SELECT policy from supabase/schema.sql.",
+      )
+    }
+  } else {
+    console.warn("[v0] Supabase not configured for tradeposts:", describeSupabaseConfig())
+  }
+
+  // Supabase unavailable, errored, or untrustworthy — fall back without destroying anything.
+  const memory = getMemoryTradeposts()
+  if (memory.length > 0) return [...memory]
+
+  const filePosts = sortNewestFirst(await readFileTradeposts())
+  setMemoryTradeposts(filePosts)
+  return [...filePosts]
+}
+
+async function persistFallback(posts: TradepostEntry[]) {
+  const next = sortNewestFirst(posts)
+  setMemoryTradeposts(next)
+  await writeFileTradeposts(next)
+  return next
+}
+
+export async function writeTradeposts(posts: TradepostEntry[]) {
+  return persistFallback(posts.map(normalizeTradepost))
+}
+
+/**
+ * Writes a single post to Supabase. Returns true only when the row was actually saved.
+ */
+async function upsertToSupabase(post: TradepostEntry): Promise<boolean> {
+  const { client } = getSupabaseDataClient()
+  if (!client) return false
+
+  const { error } = await client
+    .from(TABLE)
+    .upsert({ id: post.id, payload: post }, { onConflict: "id" })
+    .select("id")
+
+  if (error) {
+    console.error("[v0] tradepost upsert failed:", error.code, error.message)
+    return false
+  }
+
+  return true
 }
 
 export async function createTradepost(post: TradepostEntry) {
   const normalizedPost = normalizeTradepost(post)
-  const client = getSupabaseServerClient()
+  const saved = await upsertToSupabase(normalizedPost)
+  const config = describeSupabaseConfig()
 
-  if (client) {
-    try {
-      console.log("Attempting to insert post to Supabase:", normalizedPost.id)
-      const { data, error } = await client.from("tradeposts").insert({ id: normalizedPost.id, payload: normalizedPost })
-      if (error) {
-        console.error("Supabase insert error:", error)
-      } else {
-        console.log("Successfully inserted to Supabase:", data)
-        const posts = await readTradeposts()
-        const nextPosts = [normalizedPost, ...posts.filter((existing) => existing.id !== normalizedPost.id)]
-        await writeTradeposts(nextPosts)
-        return normalizedPost
-      }
-    } catch (error) {
-      console.error("Supabase tradepost insert failed; falling back to file store.", error)
-    }
+  if (!saved && config.hasUrl && config.hasServiceKey) {
+    // Supabase is configured but rejected the write. Failing here is important:
+    // the file fallback does not survive on Vercel, so a "success" would lose the post.
+    throw new Error("Could not save your tradepost to the database. Please try again.")
   }
 
-  console.log("Using file-only fallback for post:", normalizedPost.id)
-  const posts = await readTradeposts()
-  const nextPosts = [normalizedPost, ...posts]
-  await writeTradeposts(nextPosts)
+  const existing = await readTradeposts()
+  const merged = existing.some((p) => p.id === normalizedPost.id)
+    ? existing
+    : [normalizedPost, ...existing]
+
+  await persistFallback(merged)
+
   return normalizedPost
 }
 
-export async function updateTradepost(postId: string, updates: Partial<TradepostEntry>) {
-  const client = getSupabaseServerClient()
+async function mutatePost(
+  postId: string,
+  mutate: (post: TradepostEntry) => TradepostEntry,
+): Promise<TradepostEntry | null> {
   const posts = await readTradeposts()
-  const nextPosts = posts.map((post) => {
-    if (post.id !== postId) return post
-    return normalizeTradepost({ ...post, ...updates })
-  })
+  const current = posts.find((post) => post.id === postId)
+  if (!current) return null
 
-  if (client) {
-    try {
-      const target = nextPosts.find((post) => post.id === postId)
-      if (target) {
-        const { error } = await client.from("tradeposts").upsert({ id: postId, payload: target })
-        if (!error) {
-          await writeTradeposts(nextPosts)
-          return target ?? null
-        }
-      }
-    } catch (error) {
-      console.error("Supabase tradepost update failed; falling back to file store.", error)
-    }
-  }
+  const updated = normalizeTradepost(mutate(current))
+  const nextPosts = posts.map((post) => (post.id === postId ? updated : post))
 
-  await writeTradeposts(nextPosts)
-  return nextPosts.find((post) => post.id === postId) ?? null
+  await upsertToSupabase(updated)
+  await persistFallback(nextPosts)
+
+  return updated
+}
+
+export async function updateTradepost(postId: string, updates: Partial<TradepostEntry>) {
+  return mutatePost(postId, (post) => ({ ...post, ...updates, id: post.id }))
 }
 
 export async function deleteTradepost(postId: string) {
-  const client = getSupabaseServerClient()
   const posts = await readTradeposts()
   const nextPosts = posts.filter((post) => post.id !== postId)
 
+  const { client } = getSupabaseDataClient()
   if (client) {
-    try {
-      const { error } = await client.from("tradeposts").delete().eq("id", postId)
-      if (!error) {
-        await writeTradeposts(nextPosts)
-        return nextPosts
-      }
-    } catch (error) {
-      console.error("Supabase tradepost delete failed; falling back to file store.", error)
-    }
+    const { error } = await client.from(TABLE).delete().eq("id", postId)
+    if (error) console.error("[v0] tradepost delete failed:", error.code, error.message)
   }
 
-  await writeTradeposts(nextPosts)
-  return nextPosts
+  return persistFallback(nextPosts)
 }
 
 export async function addCommentToTradepost(postId: string, comment: TradepostComment) {
-  const client = getSupabaseServerClient()
-  const posts = await readTradeposts()
-  const nextPosts = posts.map((post) => {
-    if (post.id !== postId) return post
-    return normalizeTradepost({
-      ...post,
-      comments: [...(post.comments || []), comment],
-    })
-  })
-
-  if (client) {
-    try {
-      const target = nextPosts.find((post) => post.id === postId)
-      if (target) {
-        const { error } = await client.from("tradeposts").upsert({ id: postId, payload: target })
-        if (!error) {
-          await writeTradeposts(nextPosts)
-          return target ?? null
-        }
-      }
-    } catch (error) {
-      console.error("Supabase comment add failed; falling back to file store.", error)
-    }
-  }
-
-  await writeTradeposts(nextPosts)
-  return nextPosts.find((post) => post.id === postId) ?? null
+  return mutatePost(postId, (post) => ({
+    ...post,
+    comments: [...(post.comments || []), comment],
+  }))
 }
 
 export async function deleteCommentFromTradepost(postId: string, commentId: string) {
-  const client = getSupabaseServerClient()
-  const posts = await readTradeposts()
-  const nextPosts = posts.map((post) => {
-    if (post.id !== postId) return post
-    return normalizeTradepost({
-      ...post,
-      comments: (post.comments || []).filter((comment) => comment.id !== commentId),
-    })
-  })
-
-  if (client) {
-    try {
-      const target = nextPosts.find((post) => post.id === postId)
-      if (target) {
-        const { error } = await client.from("tradeposts").upsert({ id: postId, payload: target })
-        if (!error) {
-          await writeTradeposts(nextPosts)
-          return target ?? null
-        }
-      }
-    } catch (error) {
-      console.error("Supabase comment delete failed; falling back to file store.", error)
-    }
-  }
-
-  await writeTradeposts(nextPosts)
-  return nextPosts.find((post) => post.id === postId) ?? null
+  return mutatePost(postId, (post) => ({
+    ...post,
+    comments: (post.comments || []).filter((comment) => comment.id !== commentId),
+  }))
 }
