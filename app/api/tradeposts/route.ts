@@ -5,17 +5,26 @@ export const dynamic = "force-dynamic"
 export const runtime = "nodejs"
 
 export async function GET() {
-  const posts = await readTradeposts()
-  const visiblePosts = posts.filter((post) => {
-    const isVerifierSeed =
-      post.author?.name === "Verifier" &&
-      post.title === "verify title" &&
-      post.note === "verify note"
+  try {
+    console.log("GET /api/tradeposts - Starting fetch")
+    const posts = await readTradeposts()
+    console.log("GET /api/tradeposts - readTradeposts returned:", posts.length, "posts")
+    
+    const visiblePosts = posts.filter((post) => {
+      const isVerifierSeed =
+        post.author?.name === "Verifier" &&
+        post.title === "verify title" &&
+        post.note === "verify note"
 
-    return !isVerifierSeed
-  })
-
-  return NextResponse.json(visiblePosts)
+      return !isVerifierSeed
+    })
+    
+    console.log("GET /api/tradeposts - After filtering, returning:", visiblePosts.length, "posts")
+    return NextResponse.json(visiblePosts)
+  } catch (error) {
+    console.error("GET /api/tradeposts - Error:", error)
+    return NextResponse.json({ error: "Failed to fetch tradeposts" }, { status: 500 })
+  }
 }
 
 export async function POST(request: Request) {
