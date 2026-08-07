@@ -256,14 +256,14 @@ export function SearchBar({ value, onChange, filters, onFiltersChange }: SearchB
   }
 
   const handleMinValueChange = (val: string) => {
-    const num = parseInt(val)
+    const num = parseInt(val, 10)
     if (val === "" || (num >= 1)) {
       onFiltersChange({ ...filters, minValue: val })
     }
   }
 
   const handleMaxValueChange = (val: string) => {
-    const num = parseInt(val)
+    const num = parseInt(val, 10)
     if (val === "" || (num >= 1)) {
       onFiltersChange({ ...filters, maxValue: val })
     }

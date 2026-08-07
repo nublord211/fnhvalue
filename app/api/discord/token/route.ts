@@ -8,9 +8,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing code or redirectUri' }, { status: 400 })
     }
 
+    const clientId = process.env.DISCORD_CLIENT_ID
+    const clientSecret = process.env.DISCORD_CLIENT_SECRET
+
+    if (!clientId || !clientSecret) {
+      console.error('Discord credentials not configured')
+      return NextResponse.json({ error: 'Discord authentication not configured' }, { status: 500 })
+    }
+
     const body = new URLSearchParams({
-      client_id: '1530289183715889204',
-      client_secret: 'XLC57DavMEaE3ssCMCM2YkvW01lvde7O',
+      client_id: clientId,
+      client_secret: clientSecret,
       grant_type: 'authorization_code',
       code,
       redirect_uri: redirectUri,

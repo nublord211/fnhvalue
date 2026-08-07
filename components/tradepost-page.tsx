@@ -7,6 +7,7 @@ import { ArrowLeft, Plus, X } from "lucide-react"
 import { Item, TIER_COLORS, SITE_COLORS, TIER_ORDER } from "@/lib/types"
 import { VALUES as SITE_ITEMS } from "@/lib/values"
 import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
+import { generateId } from "@/lib/utils"
 import { ItemPickerModal } from "@/components/item-picker-modal"
 import { runAutomod } from "@/lib/automod"
 
@@ -125,9 +126,7 @@ export function TradepostPage() {
 
     let authorId = window.localStorage.getItem("fnh-tradepost-user-id")
     if (!authorId) {
-      authorId = typeof crypto !== "undefined" && "randomUUID" in crypto
-        ? `anon-${crypto.randomUUID()}`
-        : `anon-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+      authorId = `anon-${generateId()}`
       window.localStorage.setItem("fnh-tradepost-user-id", authorId)
     }
 
@@ -142,7 +141,7 @@ export function TradepostPage() {
     }
 
     const newPost = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      id: generateId(),
       title,
       note,
       giveItems,

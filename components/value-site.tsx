@@ -37,10 +37,11 @@ export function ValueSite() {
     dateTo: "",
   })
   const [discordUser, setDiscordUser] = useState<DiscordUser | null>(null)
-  const [authError, setAuthError] = useState<string | null>(null)
 
+  const clientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || ''
+  const redirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI || 'https://fnhvalues.vercel.app/discord'
   const DISCORD_AUTH_URL =
-    "https://discord.com/oauth2/authorize?client_id=1530289183715889204&response_type=code&redirect_uri=https%3A%2F%2Ffnhvalues.vercel.app%2Fdiscord&scope=identify"
+    `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identify`
 
   useEffect(() => {
     const storedUser = window.localStorage.getItem("discordUser")
@@ -58,8 +59,8 @@ export function ValueSite() {
       const matchesTier = activeTier === "all" || item.tier === activeTier
       const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase())
 
-      const minVal = filters.minValue ? parseInt(filters.minValue) : null
-      const maxVal = filters.maxValue ? parseInt(filters.maxValue) : null
+      const minVal = filters.minValue ? parseInt(filters.minValue, 10) : null
+      const maxVal = filters.maxValue ? parseInt(filters.maxValue, 10) : null
       const matchesMinValue = minVal === null || item.value >= minVal
       const matchesMaxValue = maxVal === null || item.value <= maxVal
 

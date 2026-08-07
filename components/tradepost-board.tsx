@@ -3,11 +3,9 @@
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Plus, ArrowRight, Sparkles, Pencil, Trash2, MessageCircle } from "lucide-react"
-
-const DISCORD_AUTH_URL =
-  "https://discord.com/oauth2/authorize?client_id=1530289183715889204&response_type=code&redirect_uri=https%3A%2F%2Ffnhvalues.vercel.app%2Fdiscord&scope=identify"
 import { Item, TIER_COLORS, SITE_COLORS } from "@/lib/types"
 import { fmt, getItemValue } from "@/lib/calculator"
+import { generateId } from "@/lib/utils"
 
 interface TradepostItemEntry {
   item: Item
@@ -107,9 +105,7 @@ function getCurrentAuthor(): TradepostAuthor {
   let stableAuthorId = window.localStorage.getItem(AUTHOR_STORAGE_KEY)
 
   if (!stableAuthorId) {
-    stableAuthorId = typeof crypto !== "undefined" && "randomUUID" in crypto
-      ? `anon-${crypto.randomUUID()}`
-      : `anon-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+    stableAuthorId = `anon-${generateId()}`
     window.localStorage.setItem(AUTHOR_STORAGE_KEY, stableAuthorId)
   }
 
@@ -136,6 +132,10 @@ export function TradepostBoard() {
   const [editTitle, setEditTitle] = useState("")
   const [editNote, setEditNote] = useState("")
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({})
+
+  const clientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || ''
+  const redirectUri = process.env.NEXT_PUBLIC_DISCORD_REDIRECT_URI || 'https://fnhvalues.vercel.app/discord'
+  const DISCORD_AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=identify`
 
   useEffect(() => {
     const storedDiscord = getStoredDiscordUser()

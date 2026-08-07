@@ -70,7 +70,7 @@ export default function DiscordSignInPage() {
       .then((response) => {
         const user: DiscordUser = {
           id: response.id,
-          username: `${response.username}#${response.discriminator}`,
+          username: response.username,
           avatar: response.avatar,
         }
 
