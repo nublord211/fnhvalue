@@ -5,6 +5,7 @@ import { Item, TIER_COLORS, SITE_COLORS } from "@/lib/types"
 import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
 import { X, Plus } from "lucide-react"
 import Image from "next/image"
+import posthog from "posthog-js"
 
 interface CalculatorProps {
   items: Item[]
@@ -67,6 +68,11 @@ export function Calculator({ items, onClose }: CalculatorProps) {
     }
     setShowSkinPicker(false)
     setSearchQuery("")
+    posthog.capture("trade_calculator_item_added", {
+      item_id: item.id,
+      item_tier: item.tier,
+      trade_side: currentSide,
+    })
   }
 
   const removeItem = (side: "give" | "get", index: number) => {

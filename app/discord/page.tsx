@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import posthog from "posthog-js"
 
 interface DiscordUser {
   id: string
@@ -75,6 +76,8 @@ export default function DiscordSignInPage() {
         }
 
         window.localStorage.setItem("discordUser", JSON.stringify(user))
+        posthog.identify(user.id, { username: user.username })
+        posthog.capture("discord_sign_in_completed")
         redirectHome()
       })
       .catch((error) => {

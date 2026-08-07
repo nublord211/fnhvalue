@@ -9,6 +9,7 @@ import { SearchBar } from "./search-bar"
 import { TierTabs } from "./tier-tabs"
 import { ValueCard } from "./value-card"
 import { Calculator as CalcIcon, Package } from "lucide-react"
+import posthog from "posthog-js"
 
 interface FilterState {
   sortBy: SortOption
@@ -46,7 +47,9 @@ export function ValueSite() {
     const storedUser = window.localStorage.getItem("discordUser")
     if (storedUser) {
       try {
-        setDiscordUser(JSON.parse(storedUser))
+        const user = JSON.parse(storedUser) as DiscordUser
+        setDiscordUser(user)
+        posthog.identify(user.id, { username: user.username })
       } catch {
         window.localStorage.removeItem("discordUser")
       }

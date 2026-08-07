@@ -9,6 +9,7 @@ import { VALUES as SITE_ITEMS } from "@/lib/values"
 import { fmt, getItemValue, isSerialAffectedSkin } from "@/lib/calculator"
 import { ItemPickerModal } from "@/components/item-picker-modal"
 import { runAutomod } from "@/lib/automod"
+import posthog from "posthog-js"
 
 interface TradepostAuthor {
   id: string
@@ -166,6 +167,11 @@ export function TradepostPage() {
         throw new Error(errorPayload?.error || "Failed to post")
       }
 
+      posthog.capture("tradepost_created", {
+        give_item_count: giveItems.length,
+        get_item_count: getItems.length,
+        is_discord_linked: Boolean(discordAuthorId),
+      })
       router.push("/tradeposts")
     } catch (error) {
       setModerationMessage(error instanceof Error ? error.message : "Tradepost could not be posted.")

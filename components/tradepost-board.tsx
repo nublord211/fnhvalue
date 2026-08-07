@@ -8,6 +8,7 @@ const DISCORD_AUTH_URL =
   "https://discord.com/oauth2/authorize?client_id=1530289183715889204&response_type=code&redirect_uri=https%3A%2F%2Ffnhvalues.vercel.app%2Fdiscord&scope=identify"
 import { Item, TIER_COLORS, SITE_COLORS } from "@/lib/types"
 import { fmt, getItemValue } from "@/lib/calculator"
+import posthog from "posthog-js"
 
 interface TradepostItemEntry {
   item: Item
@@ -187,6 +188,7 @@ export function TradepostBoard() {
       if (!response.ok) return
       const data = await response.json()
       setPosts(Array.isArray(data) ? data : [])
+      posthog.capture("tradepost_deleted")
     } catch {
       setPosts((prev) => prev.filter((post) => post.id !== postId))
     }
@@ -227,6 +229,10 @@ export function TradepostBoard() {
       if (!response.ok) return
       const updated = await response.json()
       updatePost(postId, updated)
+      posthog.capture("tradepost_updated", {
+        has_title: Boolean(payload.title),
+        has_note: Boolean(payload.note),
+      })
     } catch {
       updatePost(postId, payload)
     } finally {
@@ -256,6 +262,7 @@ export function TradepostBoard() {
       const updated = await response.json()
       setPosts((prev) => prev.map((post) => (post.id === postId ? updated : post)))
       setCommentDrafts((prev) => ({ ...prev, [postId]: "" }))
+      posthog.capture("tradepost_comment_added")
     } catch {
       setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, comments: [...(post.comments || []), newComment] } : post)))
       setCommentDrafts((prev) => ({ ...prev, [postId]: "" }))
