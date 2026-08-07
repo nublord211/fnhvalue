@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing code or redirectUri' }, { status: 400 })
     }
 
-    const clientId = process.env.DISCORD_CLIENT_ID
+    const clientId = process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID
     const clientSecret = process.env.DISCORD_CLIENT_SECRET
 
     if (!clientId || !clientSecret) {
