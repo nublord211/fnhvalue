@@ -380,7 +380,6 @@ export function TradepostBoard() {
                         )}
                         <div>
                           <p className="text-sm font-medium">{post.author?.name || "Anonymous"}</p>
-                          <p className="text-[11px] text-muted-foreground">{post.author?.discordId ? "Discord linked" : "Anonymous post"}</p>
                         </div>
                       </div>
                       <p className="text-xs text-muted-foreground">{new Date(post.createdAt).toLocaleString()}</p>
